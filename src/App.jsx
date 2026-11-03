@@ -1,14 +1,37 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Shield, ShieldCheck, ShieldAlert, CheckCircle2, Bookmark, MapPin, 
   Search, SlidersHorizontal, ChevronLeft, Flag, Volume2, User, 
   LogOut, Check, ArrowRight, Lock, Bell, ChevronDown, CheckSquare, Square, X, Info, AlertTriangle, Sparkles, MessageSquare, Send, Wallet,
-  EyeOff, Sun, MoreVertical, BellOff, Ban
+  EyeOff, Sun, MoreVertical, BellOff, Ban, ClipboardList, ImagePlus, Link2, Trash2, Download, HeartHandshake, Plus
 } from 'lucide-react';
 
 // --- TRANSLATIONS DICTIONARY ---
 const DICT = {
   en: {
+    nav_shield_safety: "WorkShield & Safety",
+    sfs_banner_title: "Safety — if someone is harassing you",
+    sfs_banner_intro: "If a client sends messages that make you uncomfortable, check them here. Set your boundaries, get help to reply, and save proof.",
+    pr_title: "Your proof",
+    pr_count: "{n} proof items",
+    pr_chip_you: "Added by you",
+    pr_chip_freelancer: "Added by the freelancer",
+    pr_add_photo: "Add a photo",
+    pr_add_link: "Add a link",
+    pr_note_label: "Note (optional)",
+    pr_note_ph: "What is this work?",
+    pr_photo_err: "That photo could not be read. Try another one.",
+    pr_storage_err: "Storage is full on this device. Delete an old photo and try again.",
+    pr_link_label: "Portfolio link",
+    pr_link_err: "Please paste a full link, starting with http",
+    pr_none: "No proof added yet. Add a photo or a link of your work.",
+    pr_gallery_title: "Work samples",
+    pr_honesty: "Proof added by the freelancer. The badges show what has been checked.",
+    pdf_btn: "Download PDF",
+    pdf_skills_proof: "Skills and proof",
+    pdf_footer: "Badges show how each skill was checked. Proof photos and links were added by the freelancer.",
+    pdf_made_on: "Made on {date}",
     sf_title: "Stay safe in client chats",
     sf_intro: "If a client's message feels wrong, paste it here. We will show you what is wrong, what you can reply, and what to do next.",
     sf_three_title: "Three things to remember",
@@ -48,6 +71,22 @@ const DICT = {
     sf_proof_title: "Your saved proof",
     sf_proof_empty: "Nothing saved yet. If a message crosses a line, save it here as proof.",
     sf_proof_private: "Proof is saved only on this device.",
+    ev_title: "Evidence Vault",
+    ev_open: "Open Evidence Vault",
+    ev_private: "Only you can see this page. Nothing here is shared unless you export it yourself.",
+    ev_count: "{n} saved items",
+    ev_empty: "Nothing saved yet. When you check a message and tap \"Save as proof\", it will be kept here.",
+    ev_src_chat: "From chat: {jobTitle}",
+    ev_src_page: "From a safety check",
+    ev_src_none: "Saved earlier",
+    ev_hidden: "Message hidden in Shared Device Mode",
+    ev_pdf: "Download report (PDF)",
+    ev_copy: "Copy report as text",
+    ev_caution: "The report includes the full text of your saved messages. Share it only with people you trust.",
+    ev_rep_title: "Evidence Report",
+    ev_intro: "This report was made by {name} from messages saved in the Evidence Vault.",
+    ev_item: "Item {n}",
+    ev_foot: "These messages were saved by the user. WorkPassport did not check or change them.",
     sh_title: "Check a job or message",
     sh_intro: "Paste a job post or a client's message. WorkShield looks for warning signs and explains them in simple words.",
     sh_placeholder: "Paste the job post or message here…",
@@ -388,6 +427,32 @@ const DICT = {
     disc_proposal: "Written with AI help. Please read it and change it in your own words before sending. You are responsible for what you send to the client.",
     disc_price: "This price is only a suggestion from similar jobs. The final price is always your decision.",
     disc_ws: "WorkShield can miss things or be wrong sometimes. If anything feels unsafe, stop — do not send money, passwords, or personal details to anyone.",
+    tc_title: "About this client",
+    tc_facts: "Checked facts",
+    tc_since: "On this platform since {year}",
+    tc_pay_ok: "Payment method verified",
+    tc_pay_no: "Payment method not verified",
+    tc_jobs: "Jobs posted: {n}",
+    tc_hire: "Hire rate: {n}%",
+    tc_rating: "Client rating: {n} / 5",
+    tc_new: "New client — no hires yet",
+    tc_warn_h: "Warnings — check before you apply",
+    tc_warn_pay: "The payment method is not verified. Do not pay any fee to get this job, and ask for milestone payment before you start.",
+    tc_none: "No warnings from the automatic checks.",
+    disc_trust: "Facts come from the client's profile. Warnings come from automatic checks — they help you decide, but they are not proof that a client is good or bad.",
+    sm_title: "Your skills for this job",
+    sm_all: "You have every skill this job asks for.",
+    sm_some: "You have {x} of the {y} skills for this job.",
+    sm_have: "You have this",
+    sm_new: "New for you",
+    sm_apply: "You can still apply. Many clients accept beginners who are learning.",
+    oc_title: "Does this job fit your life?",
+    oc_meet: "Live meetings (Nepal time)",
+    oc_laptop: "Your own laptop needed",
+    oc_yes: "Yes",
+    oc_no: "No",
+    oc_net: "Internet needed",
+    oc_time: "Time to finish",
     disc_footer: "WorkPassport gives suggestions and safety warnings to help you decide. Final decisions — what you send, what price you accept, and which jobs you take — are yours.",
     chat_msg_client: "Message client",
     chat_check: "Check",
@@ -403,6 +468,23 @@ const DICT = {
     chat_danger_line: "Do not send money, photos or codes.",
     chat_calm_title: "No problems found in this message.",
     chat_calm_line: "If it still feels wrong, trust your feeling.",
+    sc_title: "Scope check",
+    sc_flag: "This may be extra work. It is not in your agreement for this job.",
+    sc_reason: "Words that ask for more work:",
+    sc_agreed: "What you agreed to:",
+    sc_ok: "This message looks like it is about the agreed work.",
+    sc_accept_h: "Reply: I can do it",
+    sc_accept_b: "Thank you, I can do this extra work as well. I will add it to my plan and let you know when it is ready.",
+    sc_ask_h: "Reply: ask first",
+    sc_ask_b: "Thank you for asking. This work is not in our agreement, so it is not included in the agreed price. I am happy to do it as an extra paid milestone. Shall I add it?",
+    sc_create: "Create an additional milestone",
+    sc_name: "Milestone name",
+    sc_price: "Price (USD)",
+    sc_save: "Save milestone",
+    sc_err: "Please write a name and a price above 0.",
+    sc_done: "Added to your Workroom. Open the Workroom to see it.",
+    sc_extra_default: "Extra work",
+    disc_scope: "This scope check is a suggestion to help you decide. Only you and the client know everything you agreed. The final decision is always yours.",
     chat_open_shield: "Open WorkShield",
     chat_open_safety: "Open Safety page",
     chat_thread_label: "Messages with this client",
@@ -443,8 +525,89 @@ const DICT = {
     ca_r_other: "Other",
     ca_send_report: "Send report",
     ca_report_toast: "Report sent. Thank you — please also save proof messages.",
+    wr_open: "Open workroom",
+    wr_title: "Workroom",
+    wr_sim_note: "Demo only: these payment states are simulated. In the real WorkPassport, a licensed payment partner moves the money — the app only shows the state.",
+    wr_agreement: "Your agreement",
+    wr_price: "Price",
+    wr_deadline: "Deadline",
+    wr_days: "{days} days",
+    wr_deliver: "You will deliver",
+    wr_provides: "The client provides",
+    wr_milestones: "Milestones and payment",
+    cl_entry: "Post a job — client demo",
+    cl_demo_note: "Demo: this is the client's side of WorkPassport. In the real product, clients sign up with their own accounts.",
+    cl_my_jobs: "My posted jobs",
+    cl_none: "No jobs posted yet.",
+    cl_f_name: "Your name or business",
+    cl_f_title: "Job title",
+    cl_f_category: "Category",
+    cl_f_desc: "Describe the work",
+    cl_f_deliv: "Deliverables — what will the freelancer give you?",
+    cl_add_one: "Add one more",
+    cl_f_skills: "Skills needed",
+    cl_f_budget: "Budget (USD)",
+    cl_f_deadline: "Deadline (days)",
+    cl_f_revisions: "Revisions included",
+    cl_req_head: "Requirements",
+    cl_f_laptop: "Freelancer needs their own laptop",
+    cl_f_internet: "Internet needed",
+    cl_f_meeting: "Meeting time (Nepal time)",
+    cl_f_beginners: "Beginners can apply",
+    cl_submit: "Post this job",
+    cl_error: "Please fill the title, at least one deliverable, at least one skill, a budget above 0, and a deadline of at least 1 day.",
+    cl_toast_posted: "Job posted.",
+    cl_posted_chip: "Posted by you",
+    cl_view_applicants: "View applicants",
+    cl_applicants: "Applicants",
+    cl_demo_applicants: "Demo applicants for this prototype.",
+    cl_asks: "Asks",
+    cl_availability: "Availability",
+    cl_completed: "Jobs completed",
+    cl_accept: "Accept",
+    ag_title: "Agreement",
+    ag_parties: "{client} and {name}",
+    ag_price: "Agreed price",
+    ag_revisions: "Revisions",
+    ag_confirm: "Confirm agreement",
+    ag_made: "Agreement made with {name}",
+    ag_full_product: "In the full product, the freelancer sees this agreement in her Workroom, and the milestones appear there.",
+    disc_agree: "This agreement is a simple summary for this demo. In the real product, both sides confirm it before work starts.",
+    wr_progress: "Milestones released: {done} of {total}",
+    wr_released_so_far: "Released so far: NPR {x} of NPR {y}",
+    wr_s_not_funded: "Not funded",
+    wr_s_funded: "Funded",
+    wr_s_submitted: "Submitted",
+    wr_s_released: "Released",
+    wr_demo_fund: "Demo: client funds this",
+    wr_submit: "Submit work",
+    wr_waiting: "Work submitted. Waiting for the client to confirm.",
+    wr_demo_release: "Demo: client confirms and releases",
+    wr_complete: "This job is complete. It has been added to your WorkPassport as client-confirmed work."
   },
   ne: {
+    nav_shield_safety: "WorkShield र सुरक्षा",
+    sfs_banner_title: "सुरक्षा — कसैले तपाईंलाई दुःख दिइरहेको छ भने",
+    sfs_banner_intro: "ग्राहकले तपाईंलाई असहज बनाउने सन्देश पठाए भने यहाँ जाँच्नुहोस्। आफ्ना सीमा तोक्नुहोस्, जवाफ दिन मद्दत लिनुहोस्, र प्रमाण सेभ गर्नुहोस्।",
+    pr_title: "तपाईंको प्रमाण",
+    pr_count: "{n} वटा प्रमाण",
+    pr_chip_you: "तपाईंले थप्नुभएको",
+    pr_chip_freelancer: "फ्रिलान्सरले थप्नुभएको",
+    pr_add_photo: "फोटो थप्नुहोस्",
+    pr_add_link: "लिङ्क थप्नुहोस्",
+    pr_note_label: "टिप्पणी (ऐच्छिक)",
+    pr_note_ph: "यो के काम हो?",
+    pr_photo_err: "त्यो फोटो पढ्न सकिएन। अर्को प्रयास गर्नुहोस्।",
+    pr_storage_err: "यो उपकरणमा ठाउँ भरिएको छ। पुरानो फोटो मेटाएर फेरि प्रयास गर्नुहोस्।",
+    pr_link_label: "पोर्टफोलियो लिङ्क",
+    pr_link_err: "कृपया http बाट सुरु हुने पूरा लिङ्क टाँस्नुहोस्।",
+    pr_none: "अहिलेसम्म प्रमाण थपिएको छैन। आफ्नो कामको फोटो वा लिङ्क थप्नुहोस्।",
+    pr_gallery_title: "कामका नमुनाहरू",
+    pr_honesty: "फ्रिलान्सरले थपेको प्रमाण। ब्याजहरूले के जाँच भएको छ भन्ने देखाउँछन्।",
+    pdf_btn: "PDF डाउनलोड गर्नुहोस्",
+    pdf_skills_proof: "सीप र प्रमाण",
+    pdf_footer: "ब्याजहरूले प्रत्येक सीप कसरी जाँच भयो भन्ने देखाउँछन्। प्रमाणका फोटो र लिङ्क फ्रिलान्सर आफैंले थपेका हुन्।",
+    pdf_made_on: "{date} मा बनाइएको",
     sf_title: "ग्राहकसँगको च्याटमा सुरक्षित रहनुहोस्",
     sf_intro: "ग्राहकको सन्देश गलत लाग्यो भने यहाँ टाँस्नुहोस्। के गलत छ, के जवाफ दिन सकिन्छ र अब के गर्ने, हामी देखाउँछौं।",
     sf_three_title: "तीन कुरा याद राख्नुहोस्",
@@ -484,6 +647,22 @@ const DICT = {
     sf_proof_title: "तपाईंले सेभ गरेको प्रमाण",
     sf_proof_empty: "अहिलेसम्म केही सेभ गरिएको छैन। कुनै सन्देशले सीमा नाघेमा, प्रमाणका रूपमा यहाँ सेभ गर्नुहोस्।",
     sf_proof_private: "प्रमाण यही डिभाइसमा मात्र सेभ हुन्छ।",
+    ev_title: "प्रमाण भल्ट",
+    ev_open: "प्रमाण भल्ट खोल्नुहोस्",
+    ev_private: "यो पृष्ठ तपाईं मात्र देख्न सक्नुहुन्छ। तपाईं आफैंले बाहिर नपठाएसम्म यहाँको केही पनि साझा हुँदैन।",
+    ev_count: "{n} वटा प्रमाण सेभ छन्",
+    ev_empty: "अहिलेसम्म केही सेभ गरिएको छैन। तपाईंले सन्देश जाँचेर \"प्रमाणका रूपमा सेभ गर्नुहोस्\" थिच्दा, त्यो यहाँ रहन्छ।",
+    ev_src_chat: "च्याटबाट: {jobTitle}",
+    ev_src_page: "सुरक्षा जाँचबाट",
+    ev_src_none: "पहिले सेभ गरिएको",
+    ev_hidden: "साझा उपकरण मोडमा सन्देश लुकाइएको छ",
+    ev_pdf: "प्रतिवेदन डाउनलोड गर्नुहोस् (PDF)",
+    ev_copy: "प्रतिवेदन पाठका रूपमा कपि गर्नुहोस्",
+    ev_caution: "प्रतिवेदनमा तपाईंले सेभ गरेका सन्देशहरूको पूरा पाठ हुन्छ। विश्वास लागेका मानिसहरूसँग मात्र साझा गर्नुहोस्।",
+    ev_rep_title: "प्रमाण प्रतिवेदन",
+    ev_intro: "यो प्रतिवेदन {name} ले प्रमाण भल्टमा सेभ गरेका सन्देशहरूबाट बनाएका हुन्।",
+    ev_item: "प्रमाण {n}",
+    ev_foot: "यी सन्देशहरू प्रयोगकर्ताले सेभ गरेका हुन्। WorkPassport ले तिनीहरूलाई जाँचेको वा बदलेको छैन।",
     sh_title: "काम वा सन्देश जाँच्नुहोस्",
     sh_intro: "कामको पोस्ट वा ग्राहकको सन्देश टाँस्नुहोस्। WorkShield ले चेतावनीका सङ्केत खोज्छ र सजिलो शब्दमा बुझाउँछ।",
     sh_placeholder: "कामको पोस्ट वा सन्देश यहाँ टाँस्नुहोस्…",
@@ -824,6 +1003,32 @@ const DICT = {
     disc_proposal: "यो AI को सहयोगमा तयार गरिएको हो। पठाउनुअघि राम्ररी पढ्नुहोस् र आफ्नै शब्दमा मिलाउनुहोस्। ग्राहकलाई पठाएको कुराको जिम्मेवारी तपाईंको हुनेछ।",
     disc_price: "यो मूल्य यस्तै कामहरू हेरेर दिइएको सुझाव मात्र हो। अन्तिम मूल्य सधैं तपाईं आफैंले तोक्नुहोस्।",
     disc_ws: "WorkShield ले कहिलेकाहीं छुटाउन वा गलत बताउन सक्छ। केही असुरक्षित लागेमा रोकिनुहोस् — कसैलाई पनि पैसा, पासवर्ड वा व्यक्तिगत जानकारी नदिनुहोस्।",
+    tc_title: "यस ग्राहकबारे",
+    tc_facts: "जाँच गरिएका तथ्यहरू",
+    tc_since: "यस प्लेटफर्ममा {year} देखि",
+    tc_pay_ok: "भुक्तानी तरिका प्रमाणित छ",
+    tc_pay_no: "भुक्तानी तरिका प्रमाणित छैन",
+    tc_jobs: "पोस्ट गरिएका काम: {n}",
+    tc_hire: "काम दिने दर: {n}%",
+    tc_rating: "ग्राहकको मूल्याङ्कन: {n} / ५",
+    tc_new: "नयाँ ग्राहक — अहिलेसम्म कसैलाई काम दिएका छैनन्",
+    tc_warn_h: "चेतावनीहरू — आवेदन दिनुअघि हेर्नुहोस्",
+    tc_warn_pay: "भुक्तानी तरिका प्रमाणित छैन। यो काम पाउन कुनै शुल्क नतिर्नुहोस्, र काम सुरु गर्नुअघि चरणबद्ध भुक्तानी माग्नुहोस्।",
+    tc_none: "स्वचालित जाँचबाट कुनै चेतावनी छैन।",
+    disc_trust: "तथ्यहरू ग्राहकको प्रोफाइलबाट आउँछन्। चेतावनीहरू स्वचालित जाँचबाट आउँछन् — तिनीहरूले निर्णय गर्न मद्दत गर्छन्, तर ग्राहक राम्रो वा नराम्रो छ भन्ने प्रमाण होइनन्।",
+    sm_title: "यस कामका लागि तपाईंका सीप",
+    sm_all: "यस कामले मागेका सबै सीप तपाईंसँग छन्।",
+    sm_some: "यस कामका लागि चाहिने {y} सीपमध्ये तपाईंसँग {x} वटा छन्।",
+    sm_have: "तपाईंसँग यो छ",
+    sm_new: "तपाईंका लागि नयाँ",
+    sm_apply: "तपाईं अझै आवेदन दिन सक्नुहुन्छ। धेरै ग्राहकहरूले सिक्दै गरेका नयाँ मान्छेलाई पनि मौका दिन्छन्।",
+    oc_title: "यो काम तपाईंको जीवनमा मिल्छ?",
+    oc_meet: "लाइभ बैठक (नेपालको समयमा)",
+    oc_laptop: "आफ्नै ल्यापटप चाहिन्छ",
+    oc_yes: "चाहिन्छ",
+    oc_no: "चाहिँदैन",
+    oc_net: "चाहिने इन्टरनेट",
+    oc_time: "सक्नुपर्ने समय",
     disc_footer: "WorkPassport ले तपाईंलाई निर्णय गर्न सघाउन सुझाव र सुरक्षा चेतावनी दिन्छ। अन्तिम निर्णय — के पठाउने, कति मूल्य लिने, कुन काम गर्ने — तपाईंको आफ्नै हो।",
     chat_msg_client: "ग्राहकलाई सन्देश पठाउनुहोस्",
     chat_check: "जाँच्नुहोस्",
@@ -839,6 +1044,23 @@ const DICT = {
     chat_danger_line: "पैसा, फोटो वा कोड नपठाउनुहोस्।",
     chat_calm_title: "यस सन्देशमा समस्या भेटिएन",
     chat_calm_line: "यदि तपाईंलाई अझै गलत लाग्छ भने, आफ्नो मनको कुरा पत्याउनुहोस्।",
+    sc_title: "कामको दायरा जाँच",
+    sc_flag: "यो थप काम हुन सक्छ। यो यस कामको सम्झौतामा छैन।",
+    sc_reason: "थप काम माग्ने शब्दहरू:",
+    sc_agreed: "तपाईंले सहमति गरेको काम:",
+    sc_ok: "यो सन्देश सहमति भएको कामकै बारेमा देखिन्छ।",
+    sc_accept_h: "जवाफ: म गर्न सक्छु",
+    sc_accept_b: "धन्यवाद, म यो थप काम पनि गर्न सक्छु। म यसलाई मेरो योजनामा थप्छु र तयार भएपछि तपाईंलाई खबर गर्छु।",
+    sc_ask_h: "जवाफ: पहिले सोध्छु",
+    sc_ask_b: "सोध्नुभएकोमा धन्यवाद। यो काम हाम्रो सम्झौतामा छैन, त्यसैले यो सहमत मूल्यमा पर्दैन। म यसलाई थप सशुल्क चरणका रूपमा गर्न खुसी छु। के म यसलाई थपूँ?",
+    sc_create: "थप चरण बनाउनुहोस्",
+    sc_name: "चरणको नाम",
+    sc_price: "मूल्य (डलरमा)",
+    sc_save: "चरण सेभ गर्नुहोस्",
+    sc_err: "कृपया नाम लेख्नुहोस् र ० भन्दा बढी मूल्य हाल्नुहोस्।",
+    sc_done: "तपाईंको वर्करूममा थपियो। हेर्न वर्करूम खोल्नुहोस्।",
+    sc_extra_default: "Extra work",
+    disc_scope: "यो दायरा जाँच तपाईंलाई निर्णय गर्न मद्दत गर्ने सुझाव हो। तपाईंहरूबीच के सहमति भयो भन्ने तपाईं र ग्राहकलाई मात्र थाहा हुन्छ। अन्तिम निर्णय सधैं तपाईंको हो।",
     chat_open_shield: "WorkShield खोल्नुहोस्",
     chat_open_safety: "सुरक्षा पेज खोल्नुहोस्",
     chat_thread_label: "यो ग्राहकसँगका सन्देशहरू",
@@ -879,6 +1101,65 @@ const DICT = {
     ca_r_other: "अन्य",
     ca_send_report: "उजुरी पठाउनुहोस्",
     ca_report_toast: "उजुरी पठाइयो। धन्यवाद — प्रमाणका सन्देश पनि सेभ गर्नुहोस्।",
+    wr_open: "वर्करूम खोल्नुहोस्",
+    wr_title: "वर्करूम",
+    wr_sim_note: "नमुना मात्र: यी भुक्तानी अवस्था नक्कली हुन्। वास्तविक WorkPassport मा इजाजतपत्र भएको भुक्तानी साझेदारले पैसा सार्छ — एपले अवस्था मात्र देखाउँछ।",
+    wr_agreement: "तपाईंको सम्झौता",
+    wr_price: "मूल्य",
+    wr_deadline: "अन्तिम मिति",
+    wr_days: "{days} दिन",
+    wr_deliver: "तपाईंले बुझाउने काम",
+    wr_provides: "ग्राहकले दिने कुरा",
+    wr_milestones: "चरणहरू र भुक्तानी",
+    cl_entry: "काम पोस्ट गर्नुहोस् — ग्राहक नमुना",
+    cl_demo_note: "नमुना: यो WorkPassport को ग्राहकतर्फको भाग हो। वास्तविक उत्पादनमा, ग्राहकहरूले आफ्नै खाताबाट साइन अप गर्छन्।",
+    cl_my_jobs: "मैले पोस्ट गरेका कामहरू",
+    cl_none: "अहिलेसम्म कुनै काम पोस्ट गरिएको छैन।",
+    cl_f_name: "तपाईंको नाम वा व्यवसाय",
+    cl_f_title: "कामको शीर्षक",
+    cl_f_category: "वर्ग",
+    cl_f_desc: "कामको वर्णन गर्नुहोस्",
+    cl_f_deliv: "बुझाउनुपर्ने काम — फ्रिलान्सरले तपाईंलाई के दिन्छन्?",
+    cl_add_one: "अर्को थप्नुहोस्",
+    cl_f_skills: "चाहिने सीप",
+    cl_f_budget: "बजेट (डलरमा)",
+    cl_f_deadline: "अन्तिम मिति (दिनमा)",
+    cl_f_revisions: "समावेश गरिएका संशोधन",
+    cl_req_head: "आवश्यकताहरू",
+    cl_f_laptop: "फ्रिलान्सरलाई आफ्नै ल्यापटप चाहिन्छ",
+    cl_f_internet: "चाहिने इन्टरनेट",
+    cl_f_meeting: "बैठकको समय (नेपालको समय)",
+    cl_f_beginners: "नयाँहरूले आवेदन दिन सक्छन्",
+    cl_submit: "यो काम पोस्ट गर्नुहोस्",
+    cl_error: "कृपया शीर्षक, कम्तीमा एउटा बुझाउने काम, कम्तीमा एउटा सीप, ० भन्दा बढी बजेट, र कम्तीमा १ दिनको मिति भर्नुहोस्।",
+    cl_toast_posted: "काम पोस्ट गरियो।",
+    cl_posted_chip: "तपाईंले पोस्ट गरेको",
+    cl_view_applicants: "आवेदकहरू हेर्नुहोस्",
+    cl_applicants: "आवेदकहरू",
+    cl_demo_applicants: "यस नमुनाका लागि बनाइएका आवेदकहरू।",
+    cl_asks: "मागेको मूल्य",
+    cl_availability: "उपलब्धता",
+    cl_completed: "सकाएका कामहरू",
+    cl_accept: "स्वीकार गर्नुहोस्",
+    ag_title: "सम्झौता",
+    ag_parties: "{client} र {name}",
+    ag_price: "सहमत मूल्य",
+    ag_revisions: "संशोधन",
+    ag_confirm: "सम्झौता पुष्टि गर्नुहोस्",
+    ag_made: "{name} सँग सम्झौता भयो",
+    ag_full_product: "पूर्ण उत्पादनमा, फ्रिलान्सरले यो सम्झौता उनको वर्करूममा देख्छिन्, र चरणहरू त्यहीँ देखिन्छन्।",
+    disc_agree: "यो सम्झौता यस नमुनाका लागि सरल सारांश हो। वास्तविक उत्पादनमा, काम सुरु हुनुअघि दुवै पक्षले यसलाई पुष्टि गर्छन्।",
+    wr_progress: "खुलेका चरण: {total} मध्ये {done}",
+    wr_released_so_far: "अहिलेसम्म खुलेको: NPR {y} मध्ये NPR {x}",
+    wr_s_not_funded: "रकम जम्मा भएको छैन",
+    wr_s_funded: "रकम जम्मा भयो",
+    wr_s_submitted: "काम बुझाइयो",
+    wr_s_released: "भुक्तानी खुल्यो",
+    wr_demo_fund: "नमुना: ग्राहकले रकम जम्मा गर्छन्",
+    wr_submit: "काम बुझाउनुहोस्",
+    wr_waiting: "काम बुझाइयो। ग्राहकको पुष्टिको प्रतीक्षामा।",
+    wr_demo_release: "नमुना: ग्राहकले पुष्टि गरी भुक्तानी खोल्छन्",
+    wr_complete: "यो काम सकियो। यो तपाईंको WorkPassport मा ग्राहकले पुष्टि गरेको कामका रूपमा थपिएको छ।"
   }
 };
 
@@ -987,6 +1268,8 @@ export default function App() {
   const [payChecklist, setPayChecklist] = useLocalStorage('wp_pay_checklist', [false, false, false, false]);
   const [shieldHistory, setShieldHistory] = useLocalStorage('wp_shield_history', []);
   const [evidence, setEvidence] = useLocalStorage('wp_evidence', []);
+  const [skillEvidenceRaw, setSkillEvidence] = useLocalStorage('wp_skill_evidence', {});
+  const skillEvidence = skillEvidenceRaw && typeof skillEvidenceRaw === 'object' && !Array.isArray(skillEvidenceRaw) ? skillEvidenceRaw : {};
   const [chatsRaw, setChats] = useLocalStorage('wp_chats', {});
   const chats = chatsRaw && typeof chatsRaw === 'object' && !Array.isArray(chatsRaw) ? chatsRaw : {};
   const chatsRef = useRef(chats);
@@ -1013,6 +1296,16 @@ export default function App() {
   const [chatDraftsRaw, setChatDrafts] = useLocalStorage('wp_chat_drafts', {});
   const chatDrafts = chatDraftsRaw && typeof chatDraftsRaw === 'object' && !Array.isArray(chatDraftsRaw) ? chatDraftsRaw : {};
   const [applyDraft, setApplyDraft] = useLocalStorage('wp_apply_draft', null);
+  const [workroomsRaw, setWorkrooms] = useLocalStorage('wp_workrooms', {});
+  const workrooms = workroomsRaw && typeof workroomsRaw === 'object' && !Array.isArray(workroomsRaw) ? workroomsRaw : {};
+  const [clientJobsRaw, setClientJobs] = useLocalStorage('wp_client_jobs', []);
+  const clientJobs = Array.isArray(clientJobsRaw) ? clientJobsRaw : [];
+  // ONE combined list: the user's posted jobs first, then the dummy jobs. Every job lookup uses this.
+  const allJobs = [...clientJobs, ...DUMMY_JOBS];
+  const confirmAgreement = (jobId, applicant) => {
+    setClientJobs(clientJobs.map(j => j.id === jobId ? { ...j, accepted: { applicantName: applicant.name, price: applicant.asks } } : j));
+    navTo('client', { scrollTo: 'mine' });
+  };
   const sharedOn = settings.shared && settings.pin.length === 4;
   const simpleOn = settings.simple;
   // Session unlock flag. It starts false on every page load, is cleared on logout / Lock now / Quick hide,
@@ -1036,6 +1329,12 @@ export default function App() {
     if (isLoggedIn && currentView === 'welcome') setCurrentView('firstwork');
   }, [isLoggedIn, currentView]);
 
+  // Demo seed: only for Maya, and only while wp_skill_evidence is completely empty (no skills at all).
+  useEffect(() => {
+    if (!isLoggedIn || !isDemoUser(userProfile)) return;
+    if (Object.keys(skillEvidence).length === 0) setSkillEvidence(makeEvidenceSeed());
+  }, [isLoggedIn, userProfile, skillEvidenceRaw]);
+
   const t = (key) => DICT[lang][key] || key;
 
   const toastTimer = useRef(null);
@@ -1047,6 +1346,9 @@ export default function App() {
   };
 
   const navTo = (view, params = {}) => {
+    // WorkShield and Safety are ONE page now. The old 'safety' view opens the merged page scrolled to #safety-section;
+    // the old 'shield' view opens it at the top. (n makes repeat taps re-run the scroll.)
+    if (view === 'safety') { view = 'shield'; params = { ...params, scrollTo: 'safety', n: Date.now() }; }
     setCurrentView(view);
     setViewParams(params);
     window.scrollTo(0, 0);
@@ -1101,7 +1403,7 @@ export default function App() {
                 </button>
               </div>
 
-              <button onClick={() => { if (userProfile && userProfile.name !== MAYA_PROFILE.name) { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); } setUserProfile(MAYA_PROFILE); setIsLoggedIn(true); navTo('firstwork'); showToast(t('welcome_toast')); }} className="text-sm text-[#8A8580] underline underline-offset-4 hover:text-[#1C1B1A] mb-14 min-h-[44px] flex items-center justify-center px-4">
+              <button onClick={() => { if (userProfile && userProfile.name !== MAYA_PROFILE.name) { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); setSkillEvidence({}); } setUserProfile(MAYA_PROFILE); setIsLoggedIn(true); navTo('firstwork'); showToast(t('welcome_toast')); }} className="text-sm text-[#8A8580] underline underline-offset-4 hover:text-[#1C1B1A] mb-14 min-h-[44px] flex items-center justify-center px-4">
                 {t('btn_demo')}
               </button>
 
@@ -1112,9 +1414,9 @@ export default function App() {
             </div>
 
           ) : currentView === 'login' ? (
-            <LoginFlow t={t} onBack={() => navTo('welcome')} onLogin={() => { if (userProfile && userProfile.name !== MAYA_PROFILE.name) { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); } setUserProfile(MAYA_PROFILE); setIsLoggedIn(true); navTo('firstwork'); showToast(t('welcome_toast')); }} />
+            <LoginFlow t={t} onBack={() => navTo('welcome')} onLogin={() => { if (userProfile && userProfile.name !== MAYA_PROFILE.name) { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); setSkillEvidence({}); } setUserProfile(MAYA_PROFILE); setIsLoggedIn(true); navTo('firstwork'); showToast(t('welcome_toast')); }} />
           ) : currentView === 'setup' ? (
-            <SetupFlow t={t} onBack={() => navTo('welcome')} onComplete={(profile) => { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); setUserProfile(profile); setIsLoggedIn(true); navTo('setup_success'); }} />
+            <SetupFlow t={t} onBack={() => navTo('welcome')} onComplete={(profile) => { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); setSkillEvidence({}); setUserProfile(profile); setIsLoggedIn(true); navTo('setup_success'); }} />
           ) : null}
         </div>
         
@@ -1145,10 +1447,9 @@ export default function App() {
               <span className="font-semibold text-lg tracking-tight hidden sm:block">WorkPassport</span>
             </button>
             <div className="hidden md:flex gap-6">
-              <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat'].includes(currentView)} onClick={() => navTo('firstwork')} />
+              <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement'].includes(currentView)} onClick={() => navTo('firstwork')} />
               <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
-              <NavLink label={t('nav_shield')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
-              <NavLink label={t('nav_safety')} active={currentView === 'safety'} onClick={() => navTo('safety')} />
+              <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
               <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
             </div>
           </div>
@@ -1165,10 +1466,9 @@ export default function App() {
         </div>
         <div className="md:hidden border-t border-[#EAE7E1] overflow-x-auto">
           <div className="flex gap-6 px-4 w-max min-w-full">
-            <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat'].includes(currentView)} onClick={() => navTo('firstwork')} />
+            <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement'].includes(currentView)} onClick={() => navTo('firstwork')} />
             <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
-            <NavLink label={t('nav_shield')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
-            <NavLink label={t('nav_safety')} active={currentView === 'safety'} onClick={() => navTo('safety')} />
+            <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
             <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
           </div>
         </div>
@@ -1184,17 +1484,23 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-[1200px] mx-auto w-full p-4 sm:p-6 pb-28">
-        {currentView === 'firstwork' && <FirstWorkFeed t={t} navTo={navTo} user={userProfile} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} />}
-        {currentView === 'job-detail' && <JobDetail t={t} navTo={navTo} job={DUMMY_JOBS.find(j => j.id === viewParams.id)} user={userProfile} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} showToast={showToast} hasDraft={simpleOn && !!applyDraft && applyDraft.jobId === viewParams.id} />}
-        {currentView === 'apply' && <ApplyWizard key={viewParams.id} t={t} navTo={navTo} job={DUMMY_JOBS.find(j => j.id === viewParams.id)} user={userProfile} setAppliedJobs={setAppliedJobs} lang={lang} simple={simpleOn} applyDraft={applyDraft} setApplyDraft={setApplyDraft} />}
-        {currentView === 'opportunities' && <MyOpportunities key={viewParams.tab || 'saved'} initialTab={viewParams.tab} t={t} navTo={navTo} savedJobs={savedJobs} setSavedJobs={setSavedJobs} appliedJobs={appliedJobs} confirmedJobs={confirmedJobs} hideMoney={sharedOn} draftJobId={simpleOn && applyDraft ? applyDraft.jobId : null} />}
-        {currentView === 'passport' && <PassportPage t={t} lang={lang} user={userProfile} setUser={setUserProfile} navTo={navTo} showToast={showToast} skillLevels={skillLevels} setSkillLevels={setSkillLevels} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} payChecklist={payChecklist} setPayChecklist={setPayChecklist} appliedJobs={appliedJobs} hideMoney={sharedOn} settings={settings} setSettings={setSettings} onSharedEnabled={() => setUnlocked(true)} />}
-        {currentView === 'shield' && <WorkShieldPage t={t} lang={lang} showToast={showToast} history={shieldHistory} setHistory={setShieldHistory} />}
-        {currentView === 'safety' && <SafetyPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} />}
+        {currentView === 'firstwork' && <FirstWorkFeed allJobs={allJobs} t={t} navTo={navTo} user={userProfile} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} />}
+        {currentView === 'job-detail' && <JobDetail t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} skillLevels={skillLevels} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} showToast={showToast} hasDraft={simpleOn && !!applyDraft && applyDraft.jobId === viewParams.id} />}
+        {currentView === 'apply' && <ApplyWizard key={viewParams.id} t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} setAppliedJobs={setAppliedJobs} lang={lang} simple={simpleOn} applyDraft={applyDraft} setApplyDraft={setApplyDraft} />}
+        {currentView === 'opportunities' && <MyOpportunities allJobs={allJobs} key={viewParams.tab || 'saved'} initialTab={viewParams.tab} t={t} navTo={navTo} savedJobs={savedJobs} setSavedJobs={setSavedJobs} appliedJobs={appliedJobs} confirmedJobs={confirmedJobs} hideMoney={sharedOn} draftJobId={simpleOn && applyDraft ? applyDraft.jobId : null} />}
+        {currentView === 'passport' && <PassportPage allJobs={allJobs} t={t} lang={lang} user={userProfile} setUser={setUserProfile} navTo={navTo} showToast={showToast} skillLevels={skillLevels} setSkillLevels={setSkillLevels} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} payChecklist={payChecklist} setPayChecklist={setPayChecklist} appliedJobs={appliedJobs} skillEvidence={skillEvidence} setSkillEvidence={setSkillEvidence} hideMoney={sharedOn} settings={settings} setSettings={setSettings} onSharedEnabled={() => setUnlocked(true)} evidence={evidence} />}
+        {currentView === 'shield' && <ShieldSafetyPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} history={shieldHistory} setHistory={setShieldHistory} evidence={evidence} setEvidence={setEvidence} scrollKey={viewParams.n} scrollTo={viewParams.scrollTo} />}
         {currentView === 'ext' && <ExtensionPage t={t} lang={lang} navTo={navTo} />}
-        {currentView === 'chat' && (appliedJobs.some(a => a.jobId === viewParams.id) && DUMMY_JOBS.find(j => j.id === viewParams.id)
-          ? <ChatView key={viewParams.id} t={t} lang={lang} job={DUMMY_JOBS.find(j => j.id === viewParams.id)} user={userProfile} navTo={navTo} showToast={showToast} chats={chats} updateChat={updateChat} setEvidence={setEvidence} simple={simpleOn} chatDrafts={chatDrafts} setChatDrafts={setChatDrafts} getClientAction={getClientAction} clientAction={getClientAction(viewParams.id)} setClientAction={setClientAction} />
+        {currentView === 'vault' && <EvidenceVaultPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} masked={sharedOn} />}
+        {currentView === 'chat' && (appliedJobs.some(a => a.jobId === viewParams.id) && allJobs.find(j => j.id === viewParams.id)
+          ? <ChatView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} navTo={navTo} showToast={showToast} chats={chats} updateChat={updateChat} setEvidence={setEvidence} workrooms={workrooms} setWorkrooms={setWorkrooms} simple={simpleOn} chatDrafts={chatDrafts} setChatDrafts={setChatDrafts} getClientAction={getClientAction} clientAction={getClientAction(viewParams.id)} setClientAction={setClientAction} />
           : <ChatMissing t={t} navTo={navTo} />)}
+        {currentView === 'workroom' && (appliedJobs.some(a => a.jobId === viewParams.id) && allJobs.find(j => j.id === viewParams.id)
+          ? <WorkroomView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} navTo={navTo} showToast={showToast} workrooms={workrooms} setWorkrooms={setWorkrooms} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} hideMoney={sharedOn} />
+          : <ChatMissing t={t} navTo={navTo} />)}
+      {currentView === 'client' && <ClientView t={t} lang={lang} navTo={navTo} showToast={showToast} clientJobs={clientJobs} setClientJobs={setClientJobs} scrollTo={viewParams.scrollTo} />}
+        {currentView === 'client-applicants' && <ClientApplicants t={t} lang={lang} navTo={navTo} job={clientJobs.find(j => j.id === viewParams.id)} />}
+        {currentView === 'client-agreement' && <ClientAgreement t={t} lang={lang} navTo={navTo} job={clientJobs.find(j => j.id === viewParams.id)} applicant={DEMO_APPLICANTS.find(x => x.id === viewParams.applicantId)} onConfirm={confirmAgreement} />}
       </main>
 
       {/* Footer */}
@@ -1418,6 +1724,13 @@ function UserDropdown({ user, onLogout, t, navTo, lang, setLang, showLock = fals
 
 // --- PRIVACY AND EASE: LOCK SCREEN, QUICK HIDE SCREEN, PIN INPUT ---
 const MASK = "••••";
+// Print target: tells the print CSS which hidden document to show ("passport" or "vault"), then clears it afterwards.
+function printDocument(target) {
+  document.body.dataset.print = target;
+  const clear = () => { delete document.body.dataset.print; window.removeEventListener('afterprint', clear); };
+  window.addEventListener('afterprint', clear);
+  window.print();
+}
 const PIN_INPUT_CLASS = "w-full min-h-[48px] border border-[#EAE7E1] bg-white rounded-[14px] px-4 text-base tracking-[0.3em] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30";
 const onlyDigits = (v) => String(v).replace(/\D/g, '').slice(0, 4);
 
@@ -1618,25 +1931,6 @@ const slugify = (name) => (name || 'freelancer').toLowerCase().replace(/[^a-z0-9
 const initialsOf = (name) => (name || '?').split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
 const o = (en, ne) => ({ en, ne: ne || en });
 
-const TEST_SETS = {
-  design: [
-    { en: "A poster has light yellow text on a white background. People cannot read it. What is the best fix?", ne: "एउटा पोस्टरमा सेतो पृष्ठभूमिमा हल्का पहेंलो अक्षर छन्। मान्छेले पढ्न सक्दैनन्। सबैभन्दा राम्रो समाधान के हो?", correct: 0, options: [o("Make the text darker", "अक्षर गाढा बनाउने"), o("Add more text", "अझ धेरै अक्षर थप्ने"), o("Make the poster bigger", "पोस्टर ठूलो बनाउने")] },
-    { en: "A client says: 'My logo looks bad on a phone.' What do you check first?", ne: "ग्राहकले भन्छन्: 'मेरो लोगो फोनमा राम्रो देखिँदैन।' तपाईं सबैभन्दा पहिले के जाँच्नुहुन्छ?", correct: 0, options: [o("If the logo is clear at a small size", "सानो आकारमा पनि लोगो स्पष्ट देखिन्छ कि"), o("The price", "मूल्य"), o("The client's name", "ग्राहकको नाम")] },
-    { en: "Which is better for a cafe menu?", ne: "क्याफेको मेनुका लागि कुन राम्रो हो?", correct: 0, options: [o("Few words, big prices, one clear photo", "थोरै शब्द, ठूला मूल्य, एउटा स्पष्ट फोटो"), o("Many decorations and small text", "धेरै सजावट र साना अक्षर"), o("All capital letters everywhere", "सबै ठाउँमा ठूला अक्षर मात्र")] },
-  ],
-  writing: [
-    { en: "Choose the correct sentence:", ne: "सही वाक्य छान्नुहोस्:", correct: 1, options: [o("I will sent the file tomorrow."), o("I will send the file tomorrow."), o("I will sends the file tomorrow.")] },
-    { en: "A client is angry about a late delivery. Choose the best reply:", ne: "ग्राहक ढिलो डेलिभरीले रिसाएका छन्। सबैभन्दा राम्रो जवाफ छान्नुहोस्:", correct: 1, options: [o("It is not my problem."), o("I am sorry for the delay. I will finish it today and send it by 6 PM."), o("Wait some more days.")] },
-    { en: "Choose the polite way to ask for the files you need:", ne: "आवश्यक फाइलहरू माग्ने नम्र तरिका छान्नुहोस्:", correct: 1, options: [o("Give me the files now."), o("Please send me the files when you can, so I can start today."), o("Files??")] },
-  ],
-  data: [
-    { en: "Look at the table. Which row has a mistake?", ne: "तलको तालिका हेर्नुहोस्। कुन लाइनमा गल्ती छ?", table: [["Ram", "9812345678"], ["Sita", "98123"], ["Hari", "9841234567"]], correct: 1, options: [o("Row 1", "पहिलो लाइन"), o("Row 2", "दोस्रो लाइन"), o("Row 3", "तेस्रो लाइन")], noShuffle: true },
-    { en: "You must copy this number exactly: 2081-045. Type it:", ne: "यो नम्बर ठ्याक्कै उतार्नुहोस्: 2081-045। यहाँ टाइप गर्नुहोस्:", input: true, answer: "2081-045" },
-    { en: "The same product name appears twice in a list with two different prices. What do you do?", ne: "एउटै सामानको नाम सूचीमा दुई पटक छ र दुई फरक मूल्य छन्। तपाईं के गर्नुहुन्छ?", correct: 2, options: [o("Delete one silently", "एउटा चुपचाप मेटाउने"), o("Keep both and say nothing", "दुवै राखेर केही नभन्ने"), o("Mark it and ask the client which price is right", "चिन्ह लगाएर ग्राहकलाई कुन मूल्य सही हो भनेर सोध्ने")] },
-  ],
-};
-const SKILL_SET = { "Canva": "design", "Photoshop": "design", "Logo Design": "design", "Social Media Posts": "design", "Video Editing": "design", "Basic English Writing": "writing", "English Writing": "writing", "Nepali Writing": "writing", "Translation": "writing", "Customer Chat Support": "writing", "Typing / Data Entry": "data", "Excel / Spreadsheets": "data" };
-
 function LevelBadge({ level, t }) {
   const style = level === 'self' ? 'bg-[#F0EEE9] text-[#4A4744] border border-[#F0EEE9]'
     : level === 'demonstrated' ? 'bg-[#FAF0EE] text-[#AE332A] border border-[#FAF0EE]'
@@ -1660,106 +1954,259 @@ function RuleToggle({ label, on, onClick }) {
   );
 }
 
-function MicroTest({ skill, t, lang, onPass, onBack }) {
-  const set = TEST_SETS[SKILL_SET[skill] || 'design'];
-  const [attempt, setAttempt] = useState(0);
-  const [qi, setQi] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [cur, setCur] = useState(null);
-  const [done, setDone] = useState(false);
-
-  // shuffle option order per attempt (stable within an attempt)
-  const orders = useMemo(() => set.map(q => {
-    if (!q.options) return [];
-    const idx = q.options.map((_, i) => i);
-    if (q.noShuffle) return idx;
-    for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
-    return idx;
-  }), [attempt, skill]);
-
-  const q = set[qi];
-  const score = (ans) => ans.filter((a, i) => set[i].input ? String(a).trim() === set[i].answer : a === set[i].correct).length;
-
-  const handleNext = () => {
-    const ans = [...answers, cur];
-    setAnswers(ans);
-    setCur(null);
-    if (qi === set.length - 1) {
-      setDone(true);
-      if (score(ans) >= 2) onPass(skill);
-    } else setQi(qi + 1);
+// --- PROOF OF WORK (wp_skill_evidence = { [skill]: [{ id, type: "photo" | "link", src, note, date }] }, max 6 per skill) ---
+const MAX_PROOF = 6;
+const EVIDENCE_KEY = 'wp_skill_evidence';
+const SEED_PHOTO = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRkJGQUY4Ii8+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI4MDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjQzczRTMzIi8+Cjx0ZXh0IHg9IjQwMCIgeT0iOTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI1MiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNGRkZGRkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkhJTUFMIENPRkZFRTwvdGV4dD4KPGNpcmNsZSBjeD0iNDAwIiBjeT0iMzMwIiByPSIxMDUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M3M0UzMyIgc3Ryb2tlLXdpZHRoPSIxMCIvPgo8cGF0aCBkPSJNIDUwNSAzMDAgQSA2MCA2MCAwIDEgMSA1MDUgMzYwIiBmaWxsPSJub25lIiBzdHJva2U9IiNDNzNFMzMiIHN0cm9rZS13aWR0aD0iMTAiLz4KPHJlY3QgeD0iMzMwIiB5PSI0NTUiIHdpZHRoPSIxNDAiIGhlaWdodD0iMTAiIHJ4PSI1IiBmaWxsPSIjQzczRTMzIi8+Cjx0ZXh0IHg9IjQwMCIgeT0iNTIwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGZpbGw9IiMxQzFCMUEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxvZ28gYW5kIE1lbnUgRGVzaWduPC90ZXh0Pgo8dGV4dCB4PSI0MDAiIHk9IjU2MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmaWxsPSIjOEE4NTgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TYW1wbGUgd29yayBieSBNYXlhPC90ZXh0Pgo8L3N2Zz4K";
+const makeEvidenceSeed = () => {
+  const d = new Date().toISOString();
+  return {
+    Photoshop: [
+      { id: 'seed-ps-photo', type: 'photo', src: SEED_PHOTO, note: "Logo and menu for Himal Coffee", date: d },
+      { id: 'seed-ps-link', type: 'link', src: "https://mayashrestha.myportfolio.com", note: "My logo designs", date: d },
+    ],
+    Canva: [
+      { id: 'seed-canva-link', type: 'link', src: "https://mayashrestha.myportfolio.com/instagram-posts", note: "Instagram posts for a clothing store", date: d },
+    ],
   };
-  const retry = () => { setAttempt(attempt + 1); setQi(0); setAnswers([]); setCur(null); setDone(false); };
+};
+const proofDomain = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; } };
+const safeHref = (u) => (/^https?:\/\//i.test(u || '') ? u : undefined);
+// Flat list of [skill, items[]] for every skill that has proof (the user's skills first, in their order).
+const evidenceGroups = (skills, ev) => {
+  const keys = [...skills.filter(s => ev[s] && ev[s].length), ...Object.keys(ev).filter(k => !skills.includes(k) && ev[k] && ev[k].length)];
+  return keys.map(k => [k, ev[k]]);
+};
+// Reads an image file, shrinks it so the longest side is at most 1000px, returns a JPEG (quality 0.82) data URL.
+function resizeImageToJpeg(file, maxSide = 1000, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('read'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('decode'));
+      img.onload = () => {
+        try {
+          const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+          const w = Math.max(1, Math.round(img.width * scale)), h = Math.max(1, Math.round(img.height * scale));
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h); // JPEG has no transparency
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        } catch (e) { reject(e); }
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
-  if (done) {
-    const sc = score(answers);
-    const passed = sc >= 2;
-    return (
-      <div className="max-w-[650px] mx-auto bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 text-center">
-        <div className="w-20 h-20 rounded-full border-2 border-[#1C1B1A] flex items-center justify-center mx-auto mb-6">
-          {passed ? <Check size={40} className="text-[#1C1B1A]" /> : <Info size={36} className="text-[#4A4744]" />}
-        </div>
-        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-8 leading-snug">{passed ? fmt(t('pp_pass'), { s: skill }) : fmt(t('pp_fail'), { n: lang === 'ne' ? String(sc).replace(/\d/g, d => '०१२३४५६७८९'[d]) : sc })}</h1>
-        <div className="space-y-4 max-w-sm mx-auto">
-          {passed ? (
-            <button onClick={onBack} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-lg rounded-full hover:bg-[#AE332A] min-h-[52px]">{t('pp_back_my')}</button>
-          ) : (
-            <>
-              <button onClick={retry} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-lg rounded-full hover:bg-[#AE332A] min-h-[52px]">{t('pp_try_again')}</button>
-              <button onClick={onBack} className="w-full py-3.5 border border-[#E3E0D9] font-semibold text-lg rounded-full hover:bg-[#F6F4EF] min-h-[52px] bg-white">{t('back')}</button>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
+const PROOF_INPUT = "w-full min-h-[48px] border border-[#EAE7E1] bg-white rounded-[14px] px-4 text-base outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30";
+const PROOF_BTN = "inline-flex items-center justify-center gap-2 border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-5 font-semibold text-base hover:border-[#DDD8CE] hover:bg-[#F6F4EF] min-h-[48px]";
 
-  const qText = lang === 'ne' ? q.ne : q.en;
-  const ready = q.input ? String(cur || '').trim().length > 0 : cur !== null;
+function ProofChip({ children }) {
+  return <span className="inline-flex items-center bg-[#F0EEE9] text-[#4A4744] px-2.5 py-0.5 rounded-full text-[13px] font-semibold">{children}</span>;
+}
+
+function ProofArea({ skill, items, t, digits, onAdd, onRemove }) {
+  const [mode, setMode] = useState(null); // null | 'photo' | 'link'
+  const [photo, setPhoto] = useState(null);
+  const [url, setUrl] = useState("");
+  const [note, setNote] = useState("");
+  const [err, setErr] = useState("");
+  const fileRef = useRef(null);
+  const full = items.length >= MAX_PROOF;
+  const close = () => { setMode(null); setPhoto(null); setUrl(""); setNote(""); setErr(""); };
+
+  const pickFile = async (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    setErr("");
+    try {
+      const dataUrl = await resizeImageToJpeg(file);
+      setPhoto(dataUrl); setMode('photo');
+    } catch (ex) { setPhoto(null); setMode('photo'); setErr(t('pr_photo_err')); }
+  };
+  const savePhoto = () => {
+    if (!photo) return;
+    const res = onAdd(skill, { type: 'photo', src: photo, note: note.trim() });
+    if (res === 'full') { setErr(t('pr_storage_err')); return; }
+    close();
+  };
+  const saveLink = () => {
+    const u = url.trim();
+    if (!/^https?:\/\/\S+$/i.test(u)) { setErr(t('pr_link_err')); return; }
+    const res = onAdd(skill, { type: 'link', src: u, note: note.trim() });
+    if (res === 'full') { setErr(t('pr_storage_err')); return; }
+    close();
+  };
+
   return (
-    <div className="max-w-[700px] mx-auto bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-      <div className="flex items-center justify-between mb-6">
-        <button onClick={onBack} className="flex items-center gap-2 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2"><ChevronLeft size={20} /> {t('back')}</button>
-        <div className="text-sm font-semibold bg-[#F0EEE9] px-4 py-2 rounded-full border border-[#EAE7E1]">{fmt(t('pp_q_of'), { n: lang === 'ne' ? String(qi + 1).replace(/\d/g, d => '०१२३४५६७८९'[d]) : qi + 1 })}</div>
+    <div className="mt-5 pt-5 border-t border-[#EAE7E1]">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 mb-3">
+        <h4 className="font-semibold text-base text-[#1C1B1A]">{t('pr_title')}</h4>
+        {items.length > 0 && <span className="text-sm text-[#6E6963]">{fmt(t('pr_count'), { n: digits(items.length) })}</span>}
       </div>
-      <h1 className="text-[28px] sm:text-[30px] font-semibold mb-2">{fmt(t('pp_test_title'), { s: skill })}</h1>
-      <p className="text-base text-[#4A4744] mb-8">{t('pp_test_sub')}</p>
-      <div className="h-2 bg-[#EAE7E1] rounded-full mb-8 overflow-hidden"><div className="h-full bg-[#C73E33] transition-all" style={{ width: `${((qi + 1) / set.length) * 100}%` }}></div></div>
-      <h2 className="text-xl font-semibold mb-5 leading-snug">{qText}</h2>
-      {q.table && (
-        <div className="border border-[#EAE7E1] rounded-[14px] overflow-hidden mb-5 text-base">
-          <div className="grid grid-cols-[1fr_1.5fr] bg-[#F6F4EF] font-semibold px-4 py-3"><span>{t('pp_col_name')}</span><span>{t('pp_col_phone')}</span></div>
-          {q.table.map((r, i) => <div key={i} className="grid grid-cols-[1fr_1.5fr] px-4 py-3 border-t border-[#EAE7E1]"><span>{r[0]}</span><span>{r[1]}</span></div>)}
-        </div>
-      )}
-      {q.input ? (
-        <input type="text" value={cur || ''} onChange={e => setCur(e.target.value)} aria-label={t('pp_type_here')} placeholder={t('pp_type_here')} className="w-full border border-[#EAE7E1] px-5 py-4 rounded-[14px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 text-xl font-semibold bg-white mb-8" />
-      ) : (
-        <div className="space-y-3 mb-8">
-          {orders[qi].map(oi => (
-            <button key={oi} onClick={() => setCur(oi)} className={`w-full text-left p-5 rounded-[14px] border text-lg font-medium min-h-[56px] transition-colors ${cur === oi ? 'border-[#C73E33] bg-[#FAF0EE] text-[#1C1B1A]' : 'border-[#EAE7E1] bg-white hover:border-[#DDD8CE]'}`}>
-              {lang === 'ne' ? q.options[oi].ne : q.options[oi].en}
-            </button>
+
+      {items.length === 0 && <p className="text-base text-[#6E6963] mb-4">{t('pr_none')}</p>}
+
+      {items.length > 0 && (
+        <div className="space-y-3 mb-4">
+          {items.map(it => (
+            <div key={it.id} className="flex items-start gap-3 bg-[#F6F4EF] border border-[#EAE7E1] rounded-[14px] p-3">
+              {it.type === 'photo'
+                ? <img src={it.src} alt={it.note || skill} className="w-16 h-16 rounded-[14px] object-cover shrink-0 border border-[#EAE7E1]" />
+                : <div className="w-16 h-16 rounded-[14px] bg-[#FAF0EE] flex items-center justify-center shrink-0"><Link2 size={24} className="text-[#C73E33]" /></div>}
+              <div className="min-w-0 flex-1">
+                {it.type === 'link' && (
+                  <a href={safeHref(it.src)} target="_blank" rel="noopener noreferrer" className="block min-h-[24px] break-all">
+                    <span className="block font-semibold text-base text-[#1C1B1A] underline underline-offset-4">{proofDomain(it.src)}</span>
+                    <span className="block text-sm text-[#6E6963]">{it.src}</span>
+                  </a>
+                )}
+                {it.note && <p className="text-base text-[#4A4744] break-words">{it.note}</p>}
+                <div className="mt-1.5"><ProofChip>{t('pr_chip_you')}</ProofChip></div>
+              </div>
+              <button onClick={() => onRemove(skill, it.id)} aria-label={t('sf_delete')} title={t('sf_delete')} className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-[#4A4744] hover:bg-[#F0EEE9] shrink-0 -mt-1 -mr-1"><Trash2 size={20} /></button>
+            </div>
           ))}
         </div>
       )}
-      <button onClick={handleNext} disabled={!ready} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-lg rounded-full hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
-        {qi === set.length - 1 ? t('pp_finish') : t('pp_next')}
-      </button>
+
+      {mode === 'photo' && (
+        <div className="border border-[#EAE7E1] rounded-[14px] p-4 mb-4 bg-white">
+          {photo && <img src={photo} alt="" className="w-24 h-24 rounded-[14px] object-cover border border-[#EAE7E1] mb-3" />}
+          {photo && (<>
+            <label className="block text-sm font-semibold text-[#4A4744] mb-1.5" htmlFor={'pn-' + skill}>{t('pr_note_label')}</label>
+            <input id={'pn-' + skill} value={note} onChange={e => setNote(e.target.value)} maxLength={140} placeholder={t('pr_note_ph')} className={PROOF_INPUT + " mb-3"} />
+          </>)}
+          {err && <p role="alert" className="text-[#AE332A] text-sm mb-3 flex items-start gap-2 bg-[#FAF0EE] p-3 rounded-[12px]"><AlertTriangle size={18} className="shrink-0 mt-0.5" /> <span>{err}</span></p>}
+          <div className="flex flex-wrap gap-3">
+            {photo && <button onClick={savePhoto} className="bg-[#C73E33] text-white rounded-full px-6 font-semibold text-base hover:bg-[#AE332A] min-h-[48px]">{t('save')}</button>}
+            <button onClick={close} className={PROOF_BTN}>{t('cancel')}</button>
+          </div>
+        </div>
+      )}
+
+      {mode === 'link' && (
+        <div className="border border-[#EAE7E1] rounded-[14px] p-4 mb-4 bg-white">
+          <label className="block text-sm font-semibold text-[#4A4744] mb-1.5" htmlFor={'pu-' + skill}>{t('pr_link_label')}</label>
+          <input id={'pu-' + skill} type="url" inputMode="url" value={url} onChange={e => { setUrl(e.target.value); setErr(""); }} placeholder="https://" className={PROOF_INPUT + " mb-3"} />
+          <label className="block text-sm font-semibold text-[#4A4744] mb-1.5" htmlFor={'pl-' + skill}>{t('pr_note_label')}</label>
+          <input id={'pl-' + skill} value={note} onChange={e => setNote(e.target.value)} maxLength={140} placeholder={t('pr_note_ph')} className={PROOF_INPUT + " mb-3"} />
+          {err && <p role="alert" className="text-[#AE332A] text-sm mb-3 flex items-start gap-2 bg-[#FAF0EE] p-3 rounded-[12px]"><AlertTriangle size={18} className="shrink-0 mt-0.5" /> <span>{err}</span></p>}
+          <div className="flex flex-wrap gap-3">
+            <button onClick={saveLink} className="bg-[#C73E33] text-white rounded-full px-6 font-semibold text-base hover:bg-[#AE332A] min-h-[48px]">{t('save')}</button>
+            <button onClick={close} className={PROOF_BTN}>{t('cancel')}</button>
+          </div>
+        </div>
+      )}
+
+      {!full && mode === null && (
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button onClick={() => { setErr(""); setNote(""); fileRef.current && fileRef.current.click(); }} className={PROOF_BTN}><ImagePlus size={20} /> {t('pr_add_photo')}</button>
+          <button onClick={() => { setErr(""); setNote(""); setUrl(""); setMode('link'); }} className={PROOF_BTN}><Link2 size={20} /> {t('pr_add_link')}</button>
+        </div>
+      )}
+      <input ref={fileRef} type="file" accept="image/*" onChange={pickFile} className="hidden" aria-label={t('pr_add_photo')} />
     </div>
   );
 }
 
-function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, setSkillLevels, confirmedJobs, setConfirmedJobs, payChecklist, setPayChecklist, appliedJobs, hideMoney = false, settings, setSettings, onSharedEnabled = () => {} }) {
-  const [view, setView] = useState('main'); // main | public | test
-  const [testSkill, setTestSkill] = useState(null);
+// Work samples shown first on the public view. Every item is chipped as added by the freelancer.
+function WorkSamples({ groups, t }) {
+  if (!groups.length) return null;
+  return (
+    <section className="mb-10">
+      <h2 className="font-semibold text-[22px] mb-4">{t('pr_gallery_title')}</h2>
+      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6 space-y-6">
+        {groups.map(([skill, items]) => (
+          <div key={skill}>
+            <h3 className="text-sm font-semibold text-[#6E6963] mb-3">{skill}</h3>
+            <div className="space-y-3">
+              {items.map(it => (
+                <div key={it.id} className="flex items-start gap-4">
+                  {it.type === 'photo'
+                    ? <img src={it.src} alt={it.note || skill} className="w-[120px] h-[120px] rounded-[14px] object-cover shrink-0 border border-[#EAE7E1]" />
+                    : null}
+                  <div className="min-w-0 flex-1">
+                    {it.type === 'link' && (
+                      <a href={safeHref(it.src)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 min-h-[48px] bg-[#F6F4EF] border border-[#EAE7E1] rounded-[14px] px-3 py-2 mb-1.5">
+                        <span className="w-10 h-10 rounded-[12px] bg-[#FAF0EE] flex items-center justify-center shrink-0"><Link2 size={20} className="text-[#C73E33]" /></span>
+                        <span className="min-w-0 font-semibold text-base text-[#1C1B1A] break-all">{proofDomain(it.src)}</span>
+                      </a>
+                    )}
+                    {it.note && <p className="text-base text-[#4A4744] break-words mb-1.5">{it.note}</p>}
+                    <ProofChip>{t('pr_chip_freelancer')}</ProofChip>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-sm text-[#6E6963] mt-3">{t('pr_honesty')}</p>
+    </section>
+  );
+}
+
+// PDF: print-only document, rendered straight into <body> so print CSS can hide the whole app (#root).
+function PassportPrint({ t, lang, user, levels, evidenceMap, confirmedList, provenCount, earned, hideMoney, digits }) {
+  const today = new Date().toLocaleDateString(lang === 'ne' ? 'ne-NP' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  const earnedTxt = hideMoney ? MASK : `NPR ${fmtMoney(earned)}`;
+  return createPortal(
+    <div className="passport-print">
+      <div className="pp-brand">WorkPassport</div>
+      <h1 className="pp-name">{user.name}</h1>
+      <div className="pp-stats">
+        <div><strong>{digits(provenCount)}</strong><span>{t('pp_stat_skills')}</span></div>
+        <div><strong>{digits(confirmedList.length)}</strong><span>{t('pp_stat_jobs')}</span></div>
+        <div><strong>{earnedTxt}</strong><span>{t('pp_stat_earned')}</span></div>
+      </div>
+
+      <h2>{t('pdf_skills_proof')}</h2>
+      {levels.map(({ skill, level }) => {
+        const items = evidenceMap[skill] || [];
+        return (
+          <div key={skill} className="pp-skill">
+            <div className="pp-skill-head"><strong>{skill}</strong> — {t('pp_lvl_' + level)} — {fmt(t('pr_count'), { n: digits(items.length) })}</div>
+            {items.map(it => (
+              <div key={it.id} className="pp-item">
+                {it.type === 'photo' && <img src={it.src} alt="" />}
+                <div>
+                  {it.type === 'link' && <div className="pp-url">{it.src}</div>}
+                  {it.note && <div>{it.note}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      })}
+
+      <h2>{t('pp_work_title')}</h2>
+      {confirmedList.length === 0 ? <p>{t('pp_public_empty')}</p> : confirmedList.map(j => (
+        <div key={j.id} className="pp-job"><strong>{j.title}</strong> — {j.clientName} — {hideMoney ? MASK : `NPR ${fmtMoney(j.budgetUSD * 133)}`}</div>
+      ))}
+
+      <p className="pp-foot">{t('pdf_footer')}</p>
+      <p className="pp-foot">{fmt(t('pdf_made_on'), { date: today })}</p>
+    </div>,
+    document.body
+  );
+}
+
+function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, navTo, showToast, skillLevels, setSkillLevels, confirmedJobs, setConfirmedJobs, payChecklist, setPayChecklist, appliedJobs, skillEvidence = {}, setSkillEvidence = () => {}, hideMoney = false, settings, setSettings, onSharedEnabled = () => {}, evidence = [] }) {
+  const [view, setView] = useState('main'); // main | public
   const [shareOpen, setShareOpen] = useState(false);
 
   const skills = user.skills || [];
   const levels = skills.map(sk => ({ skill: sk, level: getLevel(user, skillLevels, sk) }));
   const progress = levels.length ? Math.round(levels.reduce((a, l) => a + LEVEL_WEIGHT[l.level], 0) / levels.length) : 0;
   const provenCount = levels.filter(l => l.level !== 'self').length;
-  const confirmedList = confirmedJobs.map(id => DUMMY_JOBS.find(j => j.id === id)).filter(Boolean);
+  const confirmedList = confirmedJobs.map(id => allJobs.find(j => j.id === id)).filter(Boolean);
   const earned = confirmedList.reduce((a, j) => a + j.budgetUSD * 133, 0);
   const waiting = [];
   appliedJobs.forEach(a => { if (!confirmedJobs.includes(a.jobId) && !waiting.some(w => w.jobId === a.jobId)) waiting.push(a); });
@@ -1767,12 +2214,27 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
   const enc = progress <= 25 ? t('pp_enc1') : progress <= 60 ? t('pp_enc2') : t('pp_enc3');
   const link = `workpassport.app/p/${slugify(user.name)}`;
   const digits = (n) => lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(n);
+  const evidenceMap = skillEvidence && typeof skillEvidence === 'object' ? skillEvidence : {};
+  const groups = evidenceGroups(skills, evidenceMap);
+  // Evidence is a separate record. It must NEVER touch wp_skill_levels or any badge: uploads are proof added by her, not verification.
+  const addProof = (skill, item) => {
+    const cur = Array.isArray(evidenceMap[skill]) ? evidenceMap[skill] : [];
+    if (cur.length >= MAX_PROOF) return 'max';
+    const next = { ...evidenceMap, [skill]: [...cur, { id: 'ev-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7), date: new Date().toISOString(), ...item }] };
+    try { window.localStorage.setItem(EVIDENCE_KEY, JSON.stringify(next)); } catch (e) { return 'full'; } // storage full: keep the app working, save nothing
+    setSkillEvidence(next);
+    showToast(t('sf_saved_toast'));
+    return 'ok';
+  };
+  const removeProof = (skill, id) => {
+    // Same rule: deleting evidence never changes skill levels.
+    const next = { ...evidenceMap, [skill]: (evidenceMap[skill] || []).filter(x => x.id !== id) };
+    setSkillEvidence(next);
+    showToast(t('sf_deleted'));
+  };
+  const printDoc = <PassportPrint t={t} lang={lang} user={user} levels={levels} evidenceMap={evidenceMap} confirmedList={confirmedList} provenCount={provenCount} earned={earned} hideMoney={hideMoney} digits={digits} />;
   const instituteOf = (skill, level) => level === 'institution' ? (isDemoUser(user) ? DEMO_INSTITUTE : (user.institute || '')) : '';
 
-  const passTest = (skill) => {
-    setSkillLevels(prev => ({ ...prev, [skill]: 'demonstrated' }));
-    showToast(fmt(t('pp_pass_toast'), { s: skill }));
-  };
   const confirmJob = (id) => {
     setConfirmedJobs(prev => prev.includes(id) ? prev : [...prev, id]);
     showToast(t('pp_confirm_toast'));
@@ -1786,15 +2248,16 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
     showToast(t('pp_link_copied'));
   };
 
-  if (view === 'test' && testSkill) {
-    return <MicroTest skill={testSkill} t={t} lang={lang} onPass={passTest} onBack={() => { setView('main'); setTestSkill(null); window.scrollTo(0, 0); }} />;
-  }
-
   if (view === 'public') {
     return (
       <div className="max-w-[760px] mx-auto">
-        <button onClick={() => { setView('main'); window.scrollTo(0, 0); }} className="flex items-center gap-2 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] mb-2"><ChevronLeft size={20} /> {t('pp_back_my')}</button>
+        {printDoc}
+        <div className="flex flex-wrap items-center justify-between gap-x-4 mb-2">
+          <button onClick={() => { setView('main'); window.scrollTo(0, 0); }} className="flex items-center gap-2 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px]"><ChevronLeft size={20} /> {t('pp_back_my')}</button>
+          <button onClick={() => printDocument('passport')} className={PROOF_BTN}><Download size={20} /> {t('pdf_btn')}</button>
+        </div>
         <p className="text-sm text-[#8A8580] mb-4">{t('pp_preview_note')}</p>
+        <WorkSamples groups={groups} t={t} />
         <div className="bg-[#FAF0EE] text-[#AE332A] rounded-[14px] px-5 py-4 flex items-start gap-3 font-semibold mb-8"><ShieldCheck size={22} className="shrink-0 mt-0.5" /> <span>{t('pp_public_strip')}</span></div>
 
         <h2 className="font-semibold text-[22px] mb-4">{t('pp_work_title')}</h2>
@@ -1841,6 +2304,7 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
 
   return (
     <div className="max-w-[900px] mx-auto space-y-8">
+      {printDoc}
       {/* Section 1: header */}
       <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
         <div className="flex items-center gap-4 mb-6">
@@ -1867,9 +2331,10 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
           <button onClick={() => setShareOpen(true)} className="flex-1 bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-5">{t('pp_share')}</button>
           <button onClick={() => { setView('public'); window.scrollTo(0, 0); }} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5">{t('pp_see_clients')}</button>
+          <button onClick={() => printDocument('passport')} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5 inline-flex items-center justify-center gap-2"><Download size={20} /> {t('pdf_btn')}</button>
         </div>
       </div>
 
@@ -1878,7 +2343,8 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
         <h2 className="font-semibold text-[22px] mb-4">{t('pp_skills_title')}</h2>
         <div className="bg-white border border-[#EAE7E1] rounded-[20px] divide-y divide-[#EAE7E1] mb-6">
           {levels.map(({ skill, level }) => (
-            <div key={skill} className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div key={skill} className="p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-3 mb-2"><span className="font-semibold text-lg">{skill}</span><LevelBadge level={level} t={t} /></div>
                 <p className="text-base text-[#4A4744]">{t('pp_desc_' + level)}</p>
@@ -1886,11 +2352,12 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
                 {level === 'institution' && instituteOf(skill, level) && <p className="text-sm text-[#8A8580] mt-1">{t('pp_source')} {instituteOf(skill, level)}</p>}
               </div>
               <div className="sm:max-w-[220px] sm:text-right shrink-0">
-                {level === 'self' && <button onClick={() => { setTestSkill(skill); setView('test'); window.scrollTo(0, 0); }} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-5 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px]">{t('pp_take_test')}</button>}
                 {level === 'demonstrated' && <p className="text-sm text-[#8A8580]">{t('pp_next_demo')}</p>}
                 {level === 'institution' && <p className="text-sm text-[#8A8580]">{t('pp_next_inst')}</p>}
                 {(level === 'client' || level === 'platform') && <p className="text-sm text-[#8A8580] flex items-center gap-2 sm:justify-end"><Check size={16} className="text-[#1C1B1A]" /> {t('pp_top')}</p>}
               </div>
+            </div>
+            <ProofArea skill={skill} items={Array.isArray(evidenceMap[skill]) ? evidenceMap[skill] : []} t={t} digits={digits} onAdd={addProof} onRemove={removeProof} />
             </div>
           ))}
         </div>
@@ -1924,7 +2391,7 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
             <h3 className="font-semibold text-lg mb-3">{t('pp_applied_head')}</h3>
             <div className="space-y-4">
               {waiting.map(a => {
-                const j = DUMMY_JOBS.find(x => x.id === a.jobId);
+                const j = allJobs.find(x => x.id === a.jobId);
                 if (!j) return null;
                 return (
                   <div key={a.jobId} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
@@ -1956,6 +2423,16 @@ function PassportPage({ t, lang, user, setUser, navTo, showToast, skillLevels, s
           </div>
         )}
       </div>
+
+      {/* Evidence Vault link card */}
+      <button onClick={() => navTo('vault')} className="w-full text-left bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6 hover:border-[#DDD8CE] flex items-center gap-4 min-h-[64px]">
+        <Lock size={28} className="shrink-0 text-[#C73E33]" />
+        <span className="flex-1 min-w-0">
+          <span className="block font-semibold text-xl text-[#1C1B1A]">{t('ev_title')}</span>
+          <span className="block text-base text-[#4A4744]">{fmt(t('ev_count'), { n: digits(Array.isArray(evidence) ? evidence.length : 0) })}</span>
+        </span>
+        <ArrowRight size={22} className="shrink-0 text-[#8A8580]" />
+      </button>
 
       {/* Section 5: getting paid + safety rules */}
       <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
@@ -2093,6 +2570,17 @@ const SAFETY_TRIGGERS = {
 };
 // which of her safety rules (keys in profile.safetyRules) each category breaks; pressure has none
 const SAFETY_RULE_OF = { photo: "photo", call: "calls", night: "time", personal: "chat", meeting: "chat", flirty: "chat", pressure: null };
+
+// --- SCOPE CHECK (transparent phrase rules; the matched phrases are shown as the reason) ---
+const SCOPE_PHRASES = ["can you also", "could you also", "please also", "one more thing", "also make", "also create", "also write", "also design", "also add", "extra work", "for free", "quick favour", "quick favor", "while you're at it", "while you are at it", "not in our list", "not in the list", "not in the agreement", "add one more", "in addition to"];
+function checkScope(text) {
+  const low = String(text || '').toLowerCase();
+  const found = [];
+  SCOPE_PHRASES.forEach((p, order) => { const idx = low.indexOf(p); if (idx !== -1) found.push({ p, idx, order }); });
+  found.sort((a, b) => a.idx - b.idx || a.order - b.order);
+  const matched = found.slice(0, 3).map(f => f.p);
+  return { flagged: found.length > 0, matched };
+}
 
 function analyzeMessage(text) {
   const low = (text || "").toLowerCase();
@@ -2297,6 +2785,31 @@ function WorkShieldPage({ t, lang, showToast, history, setHistory }) {
 }
 
 
+// --- MERGED PAGE: WorkShield first, then a banner, then Safety (both pages are unchanged inside) ---
+function ShieldSafetyPage({ t, lang, user, navTo, showToast, history, setHistory, evidence, setEvidence, scrollTo, scrollKey }) {
+  useEffect(() => {
+    if (scrollTo === 'safety') {
+      const el = document.getElementById('safety-section');
+      if (el) el.scrollIntoView({ block: 'start' });
+    }
+  }, [scrollTo, scrollKey]);
+  return (
+    <div className="space-y-10">
+      <WorkShieldPage t={t} lang={lang} showToast={showToast} history={history} setHistory={setHistory} />
+      <div className="max-w-[800px] mx-auto">
+        <div id="safety-section" className="scroll-mt-[128px] md:scroll-mt-24 bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-6 flex items-start gap-4">
+          <HeartHandshake size={28} className="text-[#C73E33] shrink-0 mt-0.5" />
+          <div>
+            <h2 className="font-semibold text-[22px] text-[#1C1B1A] mb-2">{t('sfs_banner_title')}</h2>
+            <p className="text-base text-[#4A4744]">{t('sfs_banner_intro')}</p>
+          </div>
+        </div>
+      </div>
+      <SafetyPage t={t} lang={lang} user={user} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} />
+    </div>
+  );
+}
+
 // --- SAFETY PAGE ---
 function SafetyPage({ t, lang, user, navTo, showToast, evidence, setEvidence }) {
   const [text, setText] = useState("");
@@ -2319,7 +2832,7 @@ function SafetyPage({ t, lang, user, navTo, showToast, evidence, setEvidence }) 
   };
   const saveProof = () => {
     if (!result) return;
-    setEvidence(prev => [{ text: result.text.slice(0, 500), categories: result.cats, date: new Date().toISOString() }, ...(Array.isArray(prev) ? prev : [])].slice(0, 20));
+    setEvidence(prev => [{ text: result.text.slice(0, 500), categories: result.cats, date: new Date().toISOString(), source: 'page' }, ...(Array.isArray(prev) ? prev : [])].slice(0, 20));
     showToast(t('sf_saved_toast'));
   };
   const delProof = (i) => { setEvidence(prev => prev.filter((_, idx) => idx !== i)); showToast(t('sf_deleted')); };
@@ -2442,6 +2955,7 @@ function SafetyPage({ t, lang, user, navTo, showToast, evidence, setEvidence }) 
 
       <div>
         <h2 className="font-semibold text-[22px] mb-4">{t('sf_proof_title')}</h2>
+        <button onClick={() => navTo('vault')} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] mb-4 inline-flex items-center justify-center gap-2"><Lock size={18} /> {t('ev_open')}</button>
         {evidence.length === 0 ? (
           <p className="text-base text-[#8A8580] mb-3">{t('sf_proof_empty')}</p>
         ) : (
@@ -2464,6 +2978,133 @@ function SafetyPage({ t, lang, user, navTo, showToast, evidence, setEvidence }) 
         )}
         <p className="text-sm text-[#8A8580] flex items-center gap-1.5"><Lock size={14} className="shrink-0" /> {t('sf_proof_private')}</p>
       </div>
+    </div>
+  );
+}
+
+
+// --- EVIDENCE VAULT ---
+const VAULT_MASK = "••••••••";
+const evDigits = (lang, n) => lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(n);
+const evDateTime = (iso, lang) => {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleString(lang === 'ne' ? 'ne-NP' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+};
+const evSource = (e, t) => e.source === 'chat'
+  ? fmt(t('ev_src_chat'), { jobTitle: e.jobTitle || e.clientName || '' }).replace(/:\s*$/, '')
+  : e.source === 'page' ? t('ev_src_page') : t('ev_src_none');
+const evCats = (e, lang) => (Array.isArray(e.categories) ? e.categories : []).filter(id => SAFETY_DATA[id]).map(id => SAFETY_DATA[id].name[lang]);
+const evBody = (e, t, masked) => masked ? VAULT_MASK + '\n' + t('ev_hidden') : (e.text || '');
+const evToday = (lang) => new Date().toLocaleDateString(lang === 'ne' ? 'ne-NP' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// Plain-text version of the SAME report as the print document.
+function buildEvidenceText({ t, lang, name, items, masked }) {
+  const lines = ['WorkPassport', t('ev_rep_title'), fmt(t('pdf_made_on'), { date: evToday(lang) }), '', fmt(t('ev_intro'), { name }), ''];
+  items.forEach((e, i) => {
+    lines.push(fmt(t('ev_item'), { n: evDigits(lang, i + 1) }));
+    lines.push(evDateTime(e.date, lang));
+    const cats = evCats(e, lang);
+    if (cats.length) lines.push(cats.join(', '));
+    lines.push(evSource(e, t));
+    lines.push(evBody(e, t, masked));
+    lines.push('');
+  });
+  lines.push(t('ev_foot'));
+  return lines.join('\n');
+}
+
+// Print-only document (class vault-print). Shown only when document.body.dataset.print === "vault".
+function VaultPrint({ t, lang, name, items, masked }) {
+  return createPortal(
+    <div className="vault-print">
+      <div className="pp-brand">WorkPassport</div>
+      <h1 className="pp-name">{t('ev_rep_title')}</h1>
+      <p>{fmt(t('pdf_made_on'), { date: evToday(lang) })}</p>
+      <p>{fmt(t('ev_intro'), { name })}</p>
+      {items.map((e, i) => {
+        const cats = evCats(e, lang);
+        return (
+          <div key={i} className="vp-item">
+            <h2>{fmt(t('ev_item'), { n: evDigits(lang, i + 1) })}</h2>
+            <div>{evDateTime(e.date, lang)}</div>
+            {cats.length > 0 && <div>{cats.join(', ')}</div>}
+            <div>{evSource(e, t)}</div>
+            <p className="vp-text">{masked ? <>{VAULT_MASK}<br />{t('ev_hidden')}</> : e.text}</p>
+          </div>
+        );
+      })}
+      <p className="pp-foot">{t('ev_foot')}</p>
+    </div>,
+    document.body
+  );
+}
+
+function EvidenceVaultPage({ t, lang, user, navTo, showToast, evidence, setEvidence, masked }) {
+  const list = Array.isArray(evidence) ? evidence : [];
+  // newest first, keeping each item's index in the stored array for deletion
+  const items = list.map((e, idx) => ({ e, idx })).filter(x => x.e && typeof x.e === 'object')
+    .sort((a, b) => (new Date(b.e.date).getTime() || 0) - (new Date(a.e.date).getTime() || 0));
+  const plain = items.map(x => x.e);
+  const name = (user && user.name) || 'WorkPassport user';
+  const del = (idx) => { setEvidence(prev => (Array.isArray(prev) ? prev : []).filter((_, i) => i !== idx)); showToast(t('sf_deleted')); };
+  const copyReport = async () => {
+    const str = buildEvidenceText({ t, lang, name, items: plain, masked });
+    try { await navigator.clipboard.writeText(str); } catch (err) {
+      try { const ta = document.createElement('textarea'); ta.value = str; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch (e2) { /* ignore */ }
+    }
+    showToast(t('sh_copied'));
+  };
+  return (
+    <div className="max-w-[800px] mx-auto space-y-6">
+      {plain.length > 0 && <VaultPrint t={t} lang={lang} name={name} items={plain} masked={masked} />}
+      <button onClick={() => navTo('shield', { scrollTo: 'safety', n: Date.now() })} className="flex items-center gap-2 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] -ml-2 px-2"><ChevronLeft size={20} /> {t('sf_title')}</button>
+      <div>
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{t('ev_title')}</h1>
+        <p className="text-base text-[#4A4744] flex items-start gap-2 mb-2"><Lock size={18} className="shrink-0 mt-1 text-[#C73E33]" /> <span>{t('ev_private')}</span></p>
+        <p className="text-base font-semibold text-[#1C1B1A]">{fmt(t('ev_count'), { n: evDigits(lang, plain.length) })}</p>
+      </div>
+
+      {plain.length === 0 ? (
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 text-lg text-[#4A4744]">{t('ev_empty')}</div>
+      ) : (
+        <>
+          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button onClick={() => printDocument('vault')} className="flex-1 bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-5 inline-flex items-center justify-center gap-2"><Download size={20} /> {t('ev_pdf')}</button>
+              <button onClick={copyReport} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5">{t('ev_copy')}</button>
+            </div>
+            <p className="text-sm text-[#6E6963] mt-4 flex items-start gap-1.5"><Info size={14} className="mt-[3px] shrink-0" /> <span>{t('ev_caution')}</span></p>
+          </div>
+          <div className="space-y-4">
+            {items.map(({ e, idx }) => {
+              const cats = evCats(e, lang);
+              return (
+                <div key={idx} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <span className="text-sm font-semibold text-[#6E6963]">{evDateTime(e.date, lang)}</span>
+                    <button onClick={() => del(idx)} aria-label={t('sf_delete')} className="shrink-0 min-h-[44px] min-w-[44px] -mt-2 -mr-2 flex items-center justify-center rounded-full text-[#4A4744] hover:bg-[#F6F4EF]"><Trash2 size={20} /></button>
+                  </div>
+                  {cats.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {cats.map(c => <span key={c} className="bg-[#FAF0EE] text-[#AE332A] px-3 py-1 rounded-full text-[13px] font-semibold">{c}</span>)}
+                    </div>
+                  )}
+                  {masked ? (
+                    <div className="mb-3">
+                      <p className="text-base text-[#1C1B1A] tracking-widest">{VAULT_MASK}</p>
+                      <p className="text-sm text-[#6E6963] mt-1">{t('ev_hidden')}</p>
+                    </div>
+                  ) : (
+                    <p className="text-base text-[#1C1B1A] break-words whitespace-pre-wrap mb-3">{e.text}</p>
+                  )}
+                  <p className="text-sm text-[#6E6963] break-words">{evSource(e, t)}</p>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -2807,7 +3448,7 @@ function SetupFlow({ t, onBack, onComplete }) {
 
 
 // --- FIRSTWORK MODULE ---
-function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang }) {
+function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs = DUMMY_JOBS }) {
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState("All");
   const [skillsFilter, setSkillsFilter] = useState([]);
@@ -2819,7 +3460,7 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang }) {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const filtered = useMemo(() => {
-    let res = [...DUMMY_JOBS];
+    let res = [...allJobs];
     if (search) {
       const q = search.toLowerCase();
       res = res.filter(j => j.title.toLowerCase().includes(q) || j.clientName.toLowerCase().includes(q) || j.skillsRequired.some(s => s.toLowerCase().includes(q)));
@@ -2843,7 +3484,7 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang }) {
       return 0;
     });
     return res;
-  }, [search, cat, skillsFilter, budgetType, togBeginner, togVerified, togMatch, sort, user]);
+  }, [search, cat, skillsFilter, budgetType, togBeginner, togVerified, togMatch, sort, user, allJobs]);
 
   const clearFilters = () => {
     setSearch(""); setCat("All"); setSkillsFilter([]); setBudgetType("All"); setTogBeginner(false); setTogVerified(false); setTogMatch(false); setSort("Newest");
@@ -2945,6 +3586,12 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang }) {
           </div>
         </div>
 
+        <div className="mb-6">
+          <button onClick={() => navTo('client')} className="min-h-[48px] px-6 rounded-full bg-white border border-[#E3E0D9] text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] flex items-center justify-center gap-2 w-full sm:w-auto">
+            <Plus size={20} /> {t('cl_entry')}
+          </button>
+        </div>
+
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-1">
             <Search size={20} className="absolute left-4 top-3.5 text-[#8A8580]" />
@@ -3002,6 +3649,9 @@ function JobCard({ job, t, navTo, saved, onToggleSave, lang }) {
           {job.beginnerFriendly && (
             <span className="bg-[#FAF0EE] text-[#AE332A] border border-[#FAF0EE] px-3 py-1 rounded-full text-[13px] font-semibold flex items-center gap-1.5"><ShieldCheck size={16} /> {t('beginner_friendly')}</span>
           )}
+          {String(job.id).startsWith('c') && (
+            <span className="bg-[#F0EEE9] text-[#1C1B1A] px-3 py-1 rounded-full text-[13px] font-semibold flex items-center gap-1.5"><User size={16} /> {t('cl_posted_chip')}</span>
+          )}
           <span className="text-[#8A8580] font-medium">{job.postedHoursAgo}h ago</span>
         </div>
         
@@ -3048,10 +3698,11 @@ function JobCard({ job, t, navTo, saved, onToggleSave, lang }) {
 }
 
 // --- JOB DETAIL MODULE ---
-function JobDetail({ job, t, navTo, user, savedJobs, setSavedJobs, lang, showToast, hasDraft = false }) {
+function JobDetail({ job, t, navTo, user, savedJobs, setSavedJobs, lang, showToast, hasDraft = false, skillLevels = {} }) {
   const isEn = lang === 'en';
   const saved = savedJobs.includes(job.id);
-  const matchCount = job.skillsRequired.filter(s => user.skills.includes(s)).length;
+  const digits = (n) => lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(n);
+  const haveCount = job.skillsRequired.filter(sk => user.skills.includes(sk)).length;
   const [reportOpen, setReportOpen] = useState(false);
 
   const handleListen = () => {
@@ -3100,6 +3751,91 @@ function JobDetail({ job, t, navTo, user, savedJobs, setSavedJobs, lang, showToa
 
         <div className="mb-10 -mt-4"><NetPayPreview usd={job.budgetUSD} t={t} /></div>
 
+        {/* Card 1: Client Trust Card. Checked facts are kept apart from automatic warnings. */}
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 mb-6">
+          <h3 className="font-semibold text-xl mb-5 flex items-center gap-3"><ShieldCheck size={24} className="text-[#C73E33] shrink-0" /> {t('tc_title')}</h3>
+          <div className="mb-5">
+            <h4 className="text-sm font-semibold text-[#6E6963] mb-3">{t('tc_facts')}</h4>
+            <ul className="space-y-3 text-base text-[#1C1B1A]">
+              <li>
+                <div className="font-semibold">{job.clientType} · {job.clientCountry}</div>
+                <p className="text-[#4A4744] mt-1">{job.aboutClient}</p>
+              </li>
+              <li>{fmt(t('tc_since'), { year: digits(job.memberSince) })}</li>
+              <li className="flex items-start gap-2">
+                {job.paymentVerified && <Check size={20} className="mt-0.5 shrink-0 text-[#1C1B1A]" />}
+                <span>{job.paymentVerified ? t('tc_pay_ok') : t('tc_pay_no')}</span>
+              </li>
+              <li>{fmt(t('tc_jobs'), { n: digits(job.jobsPostedByClient) })}</li>
+              {job.hireRate > 0 ? (
+                <>
+                  <li>{fmt(t('tc_hire'), { n: digits(job.hireRate) })}</li>
+                  {job.clientRating > 0 && <li>{fmt(t('tc_rating'), { n: digits(job.clientRating.toFixed(1)) })}</li>}
+                </>
+              ) : (
+                <li>{t('tc_new')}</li>
+              )}
+            </ul>
+          </div>
+          {(!job.paymentVerified || job.caution) ? (
+            <div className="bg-[#FAF0EE] rounded-[14px] p-4">
+              <h4 className="font-semibold text-base text-[#AE332A] flex items-start gap-2 mb-3"><AlertTriangle size={20} className="mt-0.5 shrink-0" /> <span>{t('tc_warn_h')}</span></h4>
+              <div className="space-y-3 text-base text-[#1C1B1A]">
+                {!job.paymentVerified && <p>{t('tc_warn_pay')}</p>}
+                {job.caution && <p>{job.caution}</p>}
+              </div>
+            </div>
+          ) : (
+            <p className="text-base text-[#4A4744]">{t('tc_none')}</p>
+          )}
+          <Disclaimer t={t} k="disc_trust" className="mt-4" />
+        </div>
+
+        {/* Card 2: Skill Match against her own WorkPassport */}
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 mb-6">
+          <h3 className="font-semibold text-xl mb-4 flex items-center gap-3"><CheckSquare size={24} className="text-[#C73E33] shrink-0" /> {t('sm_title')}</h3>
+          <p className="text-base text-[#1C1B1A] font-medium mb-4">
+            {haveCount === job.skillsRequired.length ? t('sm_all') : fmt(t('sm_some'), { x: digits(haveCount), y: digits(job.skillsRequired.length) })}
+          </p>
+          <ul className="divide-y divide-[#EAE7E1]">
+            {job.skillsRequired.map(sk => {
+              const has = user.skills.includes(sk);
+              return (
+                <li key={sk} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-3 min-h-[44px]">
+                  <span className="flex items-start gap-2 min-w-0 text-base">
+                    {has && <Check size={20} className="mt-0.5 shrink-0 text-[#1C1B1A]" />}
+                    <span className="min-w-0 break-words"><span className="font-semibold text-[#1C1B1A]">{sk}</span>{has && <span className="text-[#6E6963]"> — {t('pp_lvl_' + getLevel(user, skillLevels, sk))}</span>}</span>
+                  </span>
+                  {has ? (
+                    <span className="shrink-0 bg-[#F0EEE9] text-[#4A4744] px-3 py-1 rounded-full text-[13px] font-semibold">{t('sm_have')}</span>
+                  ) : (
+                    <span className="shrink-0 bg-[#FAF0EE] text-[#AE332A] px-3 py-1 rounded-full text-[13px] font-semibold">{t('sm_new')}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          {haveCount < job.skillsRequired.length && <p className="text-base text-[#4A4744] mt-4">{t('sm_apply')}</p>}
+        </div>
+
+        {/* Card 3: Opportunity Compatibility */}
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 mb-10">
+          <h3 className="font-semibold text-xl mb-4 flex items-center gap-3"><ClipboardList size={24} className="text-[#C73E33] shrink-0" /> {t('oc_title')}</h3>
+          <dl className="divide-y divide-[#EAE7E1] text-base">
+            {[
+              [t('oc_meet'), job.meetingTimeNepal],
+              [t('oc_laptop'), job.needsOwnLaptop ? t('oc_yes') : t('oc_no')],
+              [t('oc_net'), job.internetNeed],
+              [t('oc_time'), fmt(t('wr_days'), { days: digits(job.deadlineDays) })],
+            ].map(([k, v]) => (
+              <div key={k} className="py-3 flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4">
+                <dt className="text-[#6E6963]">{k}</dt>
+                <dd className="font-semibold text-[#1C1B1A] sm:text-right">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
         <div className="mb-10">
           <h3 className="font-semibold text-2xl mb-4">{t('about_job')}</h3>
           <p className="text-lg text-[#1C1B1A] whitespace-pre-wrap leading-relaxed bg-white">{job.description}</p>
@@ -3119,66 +3855,15 @@ function JobDetail({ job, t, navTo, user, savedJobs, setSavedJobs, lang, showToa
           </div>
         </div>
 
-        <div className="mb-10">
-          <h3 className="font-semibold text-2xl mb-4">{t('skills_needed')}</h3>
-          <div className="flex flex-col gap-4 mb-4">
-            {job.skillsRequired.map(s => {
-              const has = user.skills.includes(s);
-              return (
-                <div key={s} className="flex items-center justify-between border-b border-[#EAE7E1] pb-4">
-                  <span className="text-lg font-semibold">{s}</span>
-                  {has ? (
-                    <span className="flex items-center gap-2 text-base bg-[#F6F4EF] border border-[#EAE7E1] px-4 py-2 rounded-[12px] font-semibold"><Check size={20} className="text-[#1C1B1A]"/> {t('skill_has')}</span>
-                  ) : (
-                    <span className="text-[#AE332A] text-base font-semibold border border-[#C73E33] px-4 py-2 rounded-[12px]">{t('skill_lacks')}</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <div className="text-base font-semibold bg-[#F6F4EF] p-4 rounded-[12px] border border-[#EAE7E1] inline-flex items-center gap-3">
-            <CheckSquare size={20} className="text-[#1C1B1A]" />
-            {t('match_count').replace('{m}', matchCount).replace('{t}', job.skillsRequired.length)}
-          </div>
-        </div>
-
         <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 mb-10">
           <h3 className="font-semibold text-xl mb-6 flex items-center gap-3"><ShieldCheck size={28} className="text-[#C73E33]" /> {t('ws_checked')}</h3>
           <div className="space-y-4 text-base font-medium">
             <div className="flex items-start gap-3"><CheckCircle2 size={20} className="mt-0.5 text-[#1C1B1A]" /> <span>{t('ws_ok_scam')}</span></div>
             <div className="flex items-start gap-3"><CheckCircle2 size={20} className="mt-0.5 text-[#1C1B1A]" /> <span>{t('ws_ok_pay')}</span></div>
-            {job.paymentVerified ? (
-              <div className="flex items-start gap-3"><CheckCircle2 size={20} className="mt-0.5 text-[#1C1B1A]" /> <span>{t('ws_ok_id')}</span></div>
-            ) : (
-              <div className="flex items-start gap-3 text-[#AE332A] font-semibold bg-[#FAF0EE] p-3 rounded-[12px]"><ShieldAlert size={20} className="mt-0.5" /> <span>{t('ws_warn_id')}</span></div>
-            )}
+            {job.paymentVerified && <div className="flex items-start gap-3"><CheckCircle2 size={20} className="mt-0.5 text-[#1C1B1A]" /> <span>{t('ws_ok_id')}</span></div>}
             <div className="flex items-start gap-3"><CheckCircle2 size={20} className="mt-0.5 text-[#1C1B1A]" /> <span>{t('ws_ok_scope')}</span></div>
           </div>
           <Disclaimer t={t} k="disc_ws" className="mt-6" />
-        </div>
-
-        <div className="border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 mb-10 bg-white">
-          <h3 className="font-semibold text-xl mb-6 flex items-center gap-3"><User size={24} className="text-[#8A8580]"/> {t('client_trust')}</h3>
-          <div className="grid grid-cols-2 gap-y-6 gap-x-4 text-base mb-6 bg-[#F6F4EF] p-6 rounded-[14px] border border-[#EAE7E1]">
-            <div><span className="text-[#8A8580] block text-sm font-semibold mb-1">{t('member_since')}</span><span className="font-semibold text-lg">{job.memberSince}</span></div>
-            <div><span className="text-[#8A8580] block text-sm font-semibold mb-1">{t('jobs_posted')}</span><span className="font-semibold text-lg">{job.jobsPostedByClient}</span></div>
-            <div><span className="text-[#8A8580] block text-sm font-semibold mb-1">{t('hire_rate')}</span><span className="font-semibold text-lg">{job.hireRate}%</span></div>
-            <div><span className="text-[#8A8580] block text-sm font-semibold mb-1">{t('rating')}</span><span className="font-semibold text-lg flex items-center gap-1">{job.clientRating} <span className="text-[#8A8580] text-sm">/ 5</span></span></div>
-          </div>
-          <div className="text-base text-[#1C1B1A] leading-relaxed">
-            <span className="font-semibold block mb-1">{t('about_client')}</span> 
-            {job.aboutClient} <span className="text-[#8A8580] font-medium">({job.clientType})</span>
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <h3 className="font-semibold text-xl mb-6">{t('before_apply')}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-base font-medium">
-            <div className="flex items-center gap-3 border border-[#EAE7E1] p-4 rounded-[14px] bg-[#F6F4EF]"><CheckCircle2 size={20} className="text-[#1C1B1A]" /> {job.needsOwnLaptop ? t('needs_laptop') : t('no_laptop')}</div>
-            <div className="flex items-center gap-3 border border-[#EAE7E1] p-4 rounded-[14px] bg-[#F6F4EF]"><CheckCircle2 size={20} className="text-[#1C1B1A]" /> {job.internetNeed} internet</div>
-            <div className="flex items-center gap-3 border border-[#EAE7E1] p-4 rounded-[14px] bg-[#F6F4EF]"><CheckCircle2 size={20} className="text-[#1C1B1A]" /> {job.meetingTimeNepal}</div>
-            <div className="flex items-center gap-3 border border-[#EAE7E1] p-4 rounded-[14px] bg-[#F6F4EF]"><CheckCircle2 size={20} className="text-[#1C1B1A]" /> Deliver in {job.deadlineDays || "flexible"} days</div>
-          </div>
         </div>
 
       </div>
@@ -3441,7 +4126,12 @@ const CHAT_CANNED = [
 // Deterministic seed threads. Job j3 is the demo thread; every other job gets two messages built from its own title.
 function seedThread(job) {
   const now = Date.now();
-  const texts = job.id === 'j3'
+  const texts = job.id === 'j2'
+    ? [
+        "Hello, thank you for starting. The photos for the first posts are in the folder I shared.",
+        "One more thing — can you also make 3 short videos for TikTok? That was not in our list, but it should be quick.",
+      ]
+    : job.id === 'j3'
     ? [
         "Hi Maya, thank you for applying. I will send you the product file today.",
         "The file has 500 rows. Please copy name, price and SKU carefully.",
@@ -3465,13 +4155,18 @@ function checkChatText(text) {
   return { cats, red: f.red, yellow, verdict };
 }
 
-function ChatCheckModal({ t, lang, user, navTo, showToast, setEvidence, initialText = "", autoRun = false, onClose, clientApi = null }) {
+function ChatCheckModal({ t, lang, user, navTo, showToast, setEvidence, initialText = "", autoRun = false, onClose, clientApi = null, job = null, workrooms = {}, setWorkrooms = () => {} }) {
   const other = lang === 'ne' ? 'en' : 'ne';
   const rules = (user && user.safetyRules) || DEFAULT_RULES;
   const [text, setText] = useState(initialText);
   const [checked, setChecked] = useState(autoRun && initialText.trim() ? initialText.trim() : null);
   const [emptyErr, setEmptyErr] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [scopeForm, setScopeForm] = useState(false);
+  const [scopeName, setScopeName] = useState("");
+  const [scopePrice, setScopePrice] = useState("10");
+  const [scopeErr, setScopeErr] = useState(false);
+  const [scopeDone, setScopeDone] = useState(false);
   const resultRef = useRef(null);
   const textRef = useRef(null);
   const closeRef = useRef(null);
@@ -3494,7 +4189,7 @@ function ChatCheckModal({ t, lang, user, navTo, showToast, setEvidence, initialT
 
   const run = () => {
     if (!text.trim()) { setEmptyErr(true); return; }
-    setEmptyErr(false); setSaved(false); setChecked(text.trim());
+    setEmptyErr(false); setSaved(false); setScopeForm(false); setScopeErr(false); setScopeDone(false); setChecked(text.trim());
   };
   const fill = (str) => { setText(str); setEmptyErr(false); };
   const copy = async (str) => {
@@ -3505,9 +4200,24 @@ function ChatCheckModal({ t, lang, user, navTo, showToast, setEvidence, initialT
   };
   const saveProof = () => {
     if (!res || saved) return;
-    setEvidence(prev => [{ text: checked.slice(0, 500), categories: res.cats, date: new Date().toISOString() }, ...(Array.isArray(prev) ? prev : [])].slice(0, 20));
+    setEvidence(prev => [{ text: checked.slice(0, 500), categories: res.cats, date: new Date().toISOString(), source: 'chat', jobTitle: job ? job.title : '', clientName: job ? job.clientName : '' }, ...(Array.isArray(prev) ? prev : [])].slice(0, 20));
     setSaved(true);
     showToast(t('sf_saved_toast'));
+  };
+
+  const scope = useMemo(() => (checked === null ? null : checkScope(checked)), [checked]);
+  const wrStored = job ? workrooms[job.id] : null;
+  const agreed = job
+    ? ((wrStored && Array.isArray(wrStored.milestones) && wrStored.milestones.length) ? wrStored.milestones.map(m => m.title) : (job.deliverables || []))
+    : [];
+  const openScopeForm = () => { setScopeName(t('sc_extra_default')); setScopePrice("10"); setScopeErr(false); setScopeForm(true); };
+  const saveMilestone = () => {
+    const price = Number(scopePrice);
+    if (!scopeName.trim() || scopePrice === "" || !Number.isFinite(price) || !(price > 0)) { setScopeErr(true); return; }
+    const base = (wrStored && Array.isArray(wrStored.milestones) && wrStored.milestones.length) ? wrStored.milestones : buildWorkroomMilestones(job);
+    const extra = { id: job.id + "-x" + Date.now(), title: scopeName.trim(), amountUSD: price, state: 'not_funded' };
+    setWorkrooms({ ...workrooms, [job.id]: { milestones: [...base, extra] } });
+    setScopeErr(false); setScopeForm(false); setScopeDone(true);
   };
 
   const hasSafety = !!res && res.cats.length > 0;
@@ -3624,6 +4334,58 @@ function ChatCheckModal({ t, lang, user, navTo, showToast, setEvidence, initialT
                 </div>
               )}
 
+              {job && scope && (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2"><ClipboardList size={22} className="shrink-0 text-[#C73E33]" /> <span>{t('sc_title')}</span></h3>
+                  {scope.flagged ? (
+                    <div className="bg-[#FAF0EE] border border-[#C73E33] rounded-[20px] p-4 space-y-2">
+                      <p className="text-base font-semibold text-[#1C1B1A]">{t('sc_flag')}</p>
+                      <p className="text-base text-[#4A4744]">{t('sc_reason')} {scope.matched.map((p, i) => <span key={p}>{i > 0 ? ', ' : ''}<span className="font-semibold text-[#1C1B1A]">“{p}”</span></span>)}</p>
+                    </div>
+                  ) : (
+                    <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-4">
+                      <p className="text-base text-[#4A4744]">{t('sc_ok')}</p>
+                    </div>
+                  )}
+                  <div className="bg-white border border-[#EAE7E1] rounded-[14px] p-4">
+                    <div className="text-sm font-semibold text-[#6E6963] mb-2">{t('sc_agreed')}</div>
+                    <ul className="space-y-1.5">
+                      {agreed.map((x, i) => <li key={i} className="flex items-start gap-2 text-base text-[#4A4744]"><span className="mt-[9px] w-1.5 h-1.5 rounded-full bg-[#8A8580] shrink-0" /><span>{x}</span></li>)}
+                    </ul>
+                  </div>
+                  {scope.flagged && (
+                    <div className="space-y-3">
+                      {[{ id: 'accept', h: t('sc_accept_h'), b: t('sc_accept_b') }, { id: 'ask', h: t('sc_ask_h'), b: t('sc_ask_b') }].map(r => (
+                        <div key={r.id} className="bg-white border border-[#EAE7E1] rounded-[14px] p-4">
+                          <div className="text-sm font-semibold text-[#8A8580] mb-2">{r.h}</div>
+                          <p className="text-base text-[#1C1B1A] mb-3">{r.b}</p>
+                          <button onClick={() => copy(r.b)} className="border border-[#E3E0D9] bg-white rounded-full px-6 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px]">{t('sh_copy')}</button>
+                        </div>
+                      ))}
+                      {scopeDone ? (
+                        <p role="status" className="flex items-start gap-2 text-base text-[#1C1B1A] bg-[#F0EEE9] rounded-[14px] p-4"><Check size={20} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sc_done')}</span></p>
+                      ) : scopeForm ? (
+                        <div className="bg-white border border-[#EAE7E1] rounded-[14px] p-4 space-y-3">
+                          <div>
+                            <label htmlFor="sc-name" className="block text-sm font-semibold text-[#6E6963] mb-1">{t('sc_name')}</label>
+                            <input id="sc-name" type="text" value={scopeName} onChange={e => { setScopeName(e.target.value); setScopeErr(false); }} className="w-full border border-[#EAE7E1] bg-white rounded-[14px] px-4 text-base min-h-[48px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30" />
+                          </div>
+                          <div>
+                            <label htmlFor="sc-price" className="block text-sm font-semibold text-[#6E6963] mb-1">{t('sc_price')}</label>
+                            <input id="sc-price" type="number" inputMode="decimal" min="0" step="any" value={scopePrice} onChange={e => { setScopePrice(e.target.value); setScopeErr(false); }} className="w-full border border-[#EAE7E1] bg-white rounded-[14px] px-4 text-base min-h-[48px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30" />
+                          </div>
+                          {scopeErr && <p role="alert" className="text-[#AE332A] text-sm flex items-start gap-2 bg-[#FAF0EE] p-3 rounded-[12px]"><ShieldAlert size={18} className="shrink-0 mt-0.5" /> <span>{t('sc_err')}</span></p>}
+                          <button onClick={saveMilestone} className="w-full bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-6">{t('sc_save')}</button>
+                        </div>
+                      ) : (
+                        <button onClick={openScopeForm} className="w-full border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:border-[#DDD8CE] min-h-[52px] flex items-center justify-center gap-2"><ClipboardList size={18} /> {t('sc_create')}</button>
+                      )}
+                    </div>
+                  )}
+                  <Disclaimer t={t} k="disc_scope" />
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-x-5 gap-y-1">
                 {(hasShield || calm) && <button onClick={() => navTo('shield')} className="text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px]">{t('chat_open_shield')}</button>}
                 {(hasSafety || calm) && <button onClick={() => navTo('safety')} className="text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px]">{t('chat_open_safety')}</button>}
@@ -3650,7 +4412,7 @@ function ChatMissing({ t, navTo }) {
   return null;
 }
 
-function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, setEvidence, simple = false, chatDrafts = {}, setChatDrafts = () => {}, getClientAction, clientAction = {}, setClientAction = () => {} }) {
+function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, setEvidence, workrooms = {}, setWorkrooms = () => {}, simple = false, chatDrafts = {}, setChatDrafts = () => {}, getClientAction, clientAction = {}, setClientAction = () => {} }) {
   const [draft, setDraft] = useState(() => (simple && typeof chatDrafts[job.id] === 'string' ? chatDrafts[job.id] : ""));
   const [menuOpen, setMenuOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
@@ -3785,14 +4547,141 @@ function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, set
         </div>
       )}
 
-      {checker && <ChatCheckModal key={checker.n} t={t} lang={lang} user={user} navTo={navTo} showToast={showToast} setEvidence={setEvidence} initialText={checker.text} autoRun={checker.auto} onClose={() => setChecker(null)} clientApi={clientApi} />}
+      {checker && <ChatCheckModal key={checker.n} t={t} lang={lang} user={user} navTo={navTo} showToast={showToast} setEvidence={setEvidence} initialText={checker.text} autoRun={checker.auto} onClose={() => setChecker(null)} clientApi={clientApi} job={job} workrooms={workrooms} setWorkrooms={setWorkrooms} />}
       {reportOpen && <ReportClientModal t={t} initial={report ? report.reason : null} onSend={sendReport} onClose={() => setReportOpen(false)} />}
     </div>
   );
 }
 
+// --- WORKROOM MODULE ---
+// One milestone per deliverable. Whole-dollar split; the LAST milestone takes the remainder so the sum equals the budget.
+function buildWorkroomMilestones(job) {
+  const items = (job.deliverables && job.deliverables.length) ? job.deliverables : [job.title];
+  const n = items.length;
+  const base = Math.floor(job.budgetUSD / n);
+  const extra = job.budgetUSD - base * n; // leftover whole dollars go to the first milestones, one each
+  let left = job.budgetUSD;
+  return items.map((title, i) => {
+    const amt = i === n - 1 ? left : base + (i < extra ? 1 : 0); // the last milestone takes whatever remains
+    left -= amt;
+    return { id: `${job.id}-m${i + 1}`, title, amountUSD: amt, state: 'not_funded' };
+  });
+}
+
+function WorkroomView({ t, lang, job, navTo, showToast, workrooms, setWorkrooms, confirmedJobs, setConfirmedJobs, hideMoney = false }) {
+  const stored = workrooms[job.id];
+  const hasEntry = !!(stored && Array.isArray(stored.milestones) && stored.milestones.length);
+  const milestones = hasEntry ? stored.milestones : buildWorkroomMilestones(job);
+
+  // Create the workroom the first time it is opened (only reachable for applied jobs).
+  useEffect(() => {
+    if (!hasEntry) setWorkrooms({ ...workrooms, [job.id]: { milestones } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const money = (usd) => hideMoney ? MASK : `$${fmtMoney(usd)}`;
+  const nprOf = (usd) => hideMoney ? MASK : fmtMoney(usd * 133);
+  const total = milestones.length;
+  const done = milestones.filter(m => m.state === 'released').length;
+  const totalUSD = milestones.reduce((a, m) => a + m.amountUSD, 0);
+  const releasedUSD = milestones.filter(m => m.state === 'released').reduce((a, m) => a + m.amountUSD, 0);
+  const pct = totalUSD > 0 ? Math.round((releasedUSD / totalUSD) * 100) : 0;
+  const complete = total > 0 && done === total;
+
+  const setState = (id, state) => {
+    const next = milestones.map(m => m.id === id ? { ...m, state } : m);
+    setWorkrooms({ ...workrooms, [job.id]: { milestones: next } });
+    if (state === 'released' && next.every(m => m.state === 'released')) {
+      // Same mechanism as the Passport demo client-confirm: idempotent add to wp_confirmed.
+      if (!confirmedJobs.includes(job.id)) {
+        setConfirmedJobs(prev => (Array.isArray(prev) ? (prev.includes(job.id) ? prev : [...prev, job.id]) : [job.id]));
+        showToast(t('pp_confirm_toast'));
+      }
+    }
+  };
+
+  const pill = (state) => (
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold border ${state === 'released' ? 'bg-[#FAF0EE] border-[#F3E1DD] text-[#AE332A]' : 'bg-[#F0EEE9] border-[#EAE7E1] text-[#1C1B1A]'}`}>{state === 'released' && <Check size={14} />}{t('wr_s_' + state)}</span>
+  );
+  const bullets = (arr) => (
+    <ul className="space-y-1.5">
+      {(arr || []).map((x, i) => <li key={i} className="flex items-start gap-2 text-base text-[#4A4744]"><span className="mt-[9px] w-1.5 h-1.5 rounded-full bg-[#8A8580] shrink-0" /><span>{x}</span></li>)}
+    </ul>
+  );
+  const label = "text-sm font-semibold text-[#6E6963] mb-1";
+  const demoBtn = "w-full sm:w-auto border-2 border-dashed border-[#D8D4CC] text-[#4A4744] rounded-full px-5 font-semibold text-base hover:border-[#8A8580] min-h-[48px] bg-white";
+
+  return (
+    <div className="max-w-[800px] mx-auto space-y-5">
+      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-4 sm:p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <button onClick={() => navTo('opportunities', { tab: 'applied' })} aria-label={t('back')} className="shrink-0 flex items-center gap-1 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] -ml-1 pr-1"><ChevronLeft size={20} /><span>{t('back')}</span></button>
+        </div>
+        <h1 className="text-[28px] sm:text-[30px] font-semibold leading-tight mb-2">{t('wr_title')}</h1>
+        <div className="text-lg font-semibold text-[#1C1B1A]">{job.title}</div>
+        <div className="text-base text-[#4A4744] flex items-center gap-2 mb-4"><User size={18} /> {job.clientName}</div>
+        <button onClick={() => navTo('chat', { id: job.id })} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px] flex items-center justify-center gap-2"><MessageSquare size={18} /> {t('chat_msg_client')}</button>
+      </div>
+
+      <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-4 flex items-start gap-3">
+        <Info size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
+        <p className="text-base text-[#1C1B1A]">{t('wr_sim_note')}</p>
+      </div>
+
+      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+        <h2 className="text-xl font-semibold mb-4">{t('wr_agreement')}</h2>
+        <div className="space-y-4">
+          <div><div className={label}>{job.clientName}</div><div className="text-base font-semibold text-[#1C1B1A]">{job.title}</div></div>
+          <div><div className={label}>{t('wr_price')}</div><div className="text-base text-[#1C1B1A]">{hideMoney ? `${MASK} (NPR ${MASK})` : `$${fmtMoney(job.budgetUSD)} (NPR ${fmtMoney(job.budgetUSD * 133)})`}</div></div>
+          <div><div className={label}>{t('wr_deadline')}</div><div className="text-base text-[#1C1B1A]">{fmt(t('wr_days'), { days: job.deadlineDays })}</div></div>
+          <div><div className={label}>{t('wr_deliver')}</div>{bullets(job.deliverables)}</div>
+          <div><div className={label}>{t('wr_provides')}</div>{bullets(job.clientProvides)}</div>
+        </div>
+      </div>
+
+      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+        {complete && (
+          <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[14px] p-4 flex items-start gap-3 mb-5">
+            <CheckCircle2 size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
+            <p className="text-base font-semibold text-[#1C1B1A]">{t('wr_complete')}</p>
+          </div>
+        )}
+        <h2 className="text-xl font-semibold mb-4">{t('wr_milestones')}</h2>
+        <div className="text-base font-semibold text-[#1C1B1A] mb-2">{fmt(t('wr_progress'), { done, total })}</div>
+        <div className="h-2.5 rounded-full bg-[#F0EEE9] overflow-hidden mb-2" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
+          <div className="h-full rounded-full bg-[#C73E33] transition-all" style={{ width: `${pct}%` }} />
+        </div>
+        <div className="text-sm text-[#6E6963] mb-5">{fmt(t('wr_released_so_far'), { x: nprOf(releasedUSD), y: nprOf(totalUSD) })}</div>
+
+        <div className="space-y-3">
+          {milestones.map(m => (
+            <div key={m.id} className="border border-[#EAE7E1] rounded-[14px] p-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                <div className="min-w-0">
+                  <div className="text-base font-semibold text-[#1C1B1A]">{m.title}</div>
+                  <div className="text-sm text-[#6E6963]">{money(m.amountUSD)} · NPR {nprOf(m.amountUSD)}</div>
+                </div>
+                <div className="shrink-0">{pill(m.state)}</div>
+              </div>
+              {m.state === 'not_funded' && <button onClick={() => setState(m.id, 'funded')} className={demoBtn}>{t('wr_demo_fund')}</button>}
+              {m.state === 'funded' && <button onClick={() => setState(m.id, 'submitted')} className="w-full sm:w-auto bg-[#C73E33] text-white rounded-full px-6 font-semibold text-base hover:bg-[#AE332A] min-h-[48px]">{t('wr_submit')}</button>}
+              {m.state === 'submitted' && (
+                <div className="space-y-3">
+                  <p className="text-base text-[#4A4744]">{t('wr_waiting')}</p>
+                  <button onClick={() => setState(m.id, 'released')} className={demoBtn}>{t('wr_demo_release')}</button>
+                </div>
+              )}
+              {m.state === 'released' && <div className="flex items-center gap-2 text-base font-semibold text-[#AE332A]"><Check size={18} /> {t('wr_s_released')}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // --- MY OPPORTUNITIES MODULE ---
-function MyOpportunities({ t, navTo, savedJobs, setSavedJobs, appliedJobs, initialTab, confirmedJobs = [], hideMoney = false, draftJobId = null }) {
+function MyOpportunities({ allJobs = DUMMY_JOBS, t, navTo, savedJobs, setSavedJobs, appliedJobs, initialTab, confirmedJobs = [], hideMoney = false, draftJobId = null }) {
   const [tab, setTab] = useState(initialTab === 'applied' ? 'applied' : 'saved');
 
   return (
@@ -3813,7 +4702,7 @@ function MyOpportunities({ t, navTo, savedJobs, setSavedJobs, appliedJobs, initi
             </div>
           ) : (
             savedJobs.map(id => {
-              const job = DUMMY_JOBS.find(j => j.id === id);
+              const job = allJobs.find(j => j.id === id);
               if (!job) return null;
               return (
                 <div key={id} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 hover:border-[#DDD8CE] transition-colors">
@@ -3842,7 +4731,7 @@ function MyOpportunities({ t, navTo, savedJobs, setSavedJobs, appliedJobs, initi
             </div>
           ) : (
             appliedJobs.map((app, idx) => {
-              const job = DUMMY_JOBS.find(j => j.id === app.jobId);
+              const job = allJobs.find(j => j.id === app.jobId);
               return (
                 <div key={idx} className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 hover:border-[#DDD8CE] transition-colors cursor-pointer" onClick={() => navTo('job-detail', {id: app.jobId})}>
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
@@ -3859,8 +4748,9 @@ function MyOpportunities({ t, navTo, savedJobs, setSavedJobs, appliedJobs, initi
                     <span className="bg-[#F0EEE9] border border-[#EAE7E1] px-4 py-2 rounded-[12px] text-[#1C1B1A] font-semibold text-sm flex items-center gap-2"><CheckCircle2 size={16}/> {confirmedJobs.includes(app.jobId) ? t('pp_completed_status') : t('applied_status')}</span>
                     <span className="text-base font-semibold text-[#8A8580]">{fmtDate(app.date)}</span>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-4 flex flex-col sm:flex-row gap-3">
                     <button onClick={(e) => { e.stopPropagation(); navTo('chat', { id: app.jobId }); }} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px] flex items-center justify-center gap-2"><MessageSquare size={18} /> {t('chat_msg_client')}</button>
+                    <button onClick={(e) => { e.stopPropagation(); navTo('workroom', { id: app.jobId }); }} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px] flex items-center justify-center gap-2"><ClipboardList size={18} /> {t('wr_open')}</button>
                   </div>
                 </div>
               );
@@ -3868,6 +4758,321 @@ function MyOpportunities({ t, navTo, savedJobs, setSavedJobs, appliedJobs, initi
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+
+// --- CLIENT DEMO FLOW ---
+const DEMO_APPLICANTS = [
+  { id: 'a1', name: 'Sunita Rai', place: 'Kathmandu', skills: [{ name: 'Canva', level: 'demonstrated' }, { name: 'Social Media Posts', level: 'self' }], proofs: 2, asks: 55, availability: 'Available now', completed: 0 },
+  { id: 'a2', name: 'Prerana Shrestha', place: 'Pokhara', skills: [{ name: 'Photoshop', level: 'institution' }, { name: 'Logo Design', level: 'demonstrated' }], proofs: 4, asks: 70, availability: 'Available from Monday', completed: 1 },
+  { id: 'a3', name: 'Anisha Tamang', place: 'Dharan', skills: [{ name: 'Typing / Data Entry', level: 'demonstrated' }, { name: 'Excel / Spreadsheets', level: 'self' }], proofs: 1, asks: 45, availability: 'Available now', completed: 0 },
+];
+const toDigits = (n, lang) => lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(n);
+const CL_CARD = "bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6";
+const CL_INPUT = "w-full border border-[#EAE7E1] rounded-[14px] px-4 py-3 text-base min-h-[48px] bg-white outline-none focus:border-[#C73E33]";
+const CL_LABEL = "block text-base font-semibold text-[#1C1B1A] mb-2";
+
+function ClientToggle({ label, on, onChange }) {
+  return (
+    <button type="button" role="switch" aria-checked={on} onClick={() => onChange(!on)} className="w-full flex items-center justify-between gap-4 min-h-[48px] text-left">
+      <span className="text-base text-[#1C1B1A] font-medium">{label}</span>
+      <span className={`shrink-0 w-12 h-7 rounded-full p-1 flex transition-colors ${on ? 'bg-[#C73E33] justify-end' : 'bg-[#F0EEE9] border border-[#EAE7E1] justify-start'}`}>
+        <span className="w-5 h-5 rounded-full bg-white" />
+      </span>
+    </button>
+  );
+}
+
+function ClientView({ t, lang, navTo, showToast, clientJobs, setClientJobs, scrollTo }) {
+  const digits = (n) => toDigits(n, lang);
+  const skillOptions = useMemo(() => [...new Set(DUMMY_JOBS.flatMap(j => j.skillsRequired))], []);
+  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState(ALL_CATEGORIES[0]);
+  const [desc, setDesc] = useState('');
+  const [deliverables, setDeliverables] = useState(['', '']);
+  const [skills, setSkills] = useState([]);
+  const [budget, setBudget] = useState('');
+  const [deadline, setDeadline] = useState('');
+  const [revisions, setRevisions] = useState('1');
+  const [laptop, setLaptop] = useState(false);
+  const [internet, setInternet] = useState('Basic');
+  const [meeting, setMeeting] = useState('Flexible — no meetings');
+  const [beginners, setBeginners] = useState(true);
+  const [error, setError] = useState(false);
+  const mineRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollTo === 'mine' && mineRef.current) mineRef.current.scrollIntoView({ block: 'start' });
+  }, [scrollTo]);
+
+  const submit = () => {
+    const dl = deliverables.map(d => d.trim()).filter(Boolean);
+    const b = Number(budget);
+    const d = Number(deadline);
+    if (!title.trim() || dl.length < 1 || skills.length < 1 || !(Math.round(b) >= 1) || !(d >= 1)) { setError(true); return; }
+    const r = Number(revisions);
+    const job = {
+      id: 'c' + Date.now(),
+      title: title.trim(),
+      category,
+      clientName: name.trim() || 'Client (demo)',
+      clientCountry: 'Nepal',
+      clientType: 'Client (demo)',
+      paymentVerified: false,
+      beginnerFriendly: beginners,
+      description: desc.trim(),
+      skillsRequired: skillOptions.filter(x => skills.includes(x)),
+      budgetUSD: Math.round(b),
+      budgetType: 'fixed',
+      postedHoursAgo: 0,
+      applicants: 3,
+      jobsPostedByClient: 1,
+      hireRate: 0,
+      memberSince: 2026,
+      clientRating: 0,
+      aboutClient: 'Posted from the client demo.',
+      needsOwnLaptop: laptop,
+      internetNeed: internet,
+      meetingTimeNepal: meeting.trim() || 'Flexible — no meetings',
+      deadlineDays: Math.round(d),
+      caution: null,
+      deliverables: dl,
+      clientProvides: [],
+      revisionsIncluded: revisions !== '' && r >= 0 ? Math.floor(r) : 1,
+      accepted: null,
+    };
+    setClientJobs([job, ...clientJobs]);
+    setError(false);
+    setName(''); setTitle(''); setCategory(ALL_CATEGORIES[0]); setDesc(''); setDeliverables(['', '']); setSkills([]);
+    setBudget(''); setDeadline(''); setRevisions('1'); setLaptop(false); setInternet('Basic'); setMeeting('Flexible — no meetings'); setBeginners(true);
+    showToast(t('cl_toast_posted'));
+    setTimeout(() => { if (mineRef.current) mineRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-6">
+      <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-4 flex items-start gap-3">
+        <Info size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
+        <p className="text-base text-[#1C1B1A]">{t('cl_demo_note')}</p>
+      </div>
+
+      <div className={`${CL_CARD} space-y-5`}>
+        <div>
+          <label htmlFor="cl-name" className={CL_LABEL}>{t('cl_f_name')}</label>
+          <input id="cl-name" type="text" value={name} onChange={e => setName(e.target.value)} className={CL_INPUT} />
+        </div>
+        <div>
+          <label htmlFor="cl-title" className={CL_LABEL}>{t('cl_f_title')}</label>
+          <input id="cl-title" type="text" value={title} onChange={e => setTitle(e.target.value)} className={CL_INPUT} />
+        </div>
+        <div>
+          <label htmlFor="cl-cat" className={CL_LABEL}>{t('cl_f_category')}</label>
+          <select id="cl-cat" value={category} onChange={e => setCategory(e.target.value)} className={CL_INPUT}>
+            {ALL_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="cl-desc" className={CL_LABEL}>{t('cl_f_desc')}</label>
+          <textarea id="cl-desc" rows={4} value={desc} onChange={e => setDesc(e.target.value)} className={CL_INPUT} />
+        </div>
+      </div>
+
+      <div className={`${CL_CARD} space-y-3`}>
+        <div className={CL_LABEL}>{t('cl_f_deliv')}</div>
+        {deliverables.map((d, i) => (
+          <input key={i} type="text" aria-label={`${t('cl_f_deliv')} ${digits(i + 1)}`} value={d} onChange={e => setDeliverables(prev => prev.map((x, k) => k === i ? e.target.value : x))} className={CL_INPUT} />
+        ))}
+        {deliverables.length < 5 && (
+          <button type="button" onClick={() => setDeliverables(prev => [...prev, ''])} className="min-h-[48px] px-5 rounded-full bg-white border border-[#E3E0D9] text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] flex items-center gap-2">
+            <Plus size={20} /> {t('cl_add_one')}
+          </button>
+        )}
+      </div>
+
+      <div className={CL_CARD}>
+        <div className={CL_LABEL}>{t('cl_f_skills')}</div>
+        <div className="flex flex-wrap gap-2">
+          {skillOptions.map(sk => {
+            const on = skills.includes(sk);
+            return (
+              <button key={sk} type="button" aria-pressed={on} onClick={() => setSkills(prev => prev.includes(sk) ? prev.filter(x => x !== sk) : [...prev, sk])}
+                className={`min-h-[44px] px-4 rounded-full border text-base font-medium ${on ? 'bg-[#FAF0EE] border-[#C73E33] text-[#AE332A]' : 'bg-white border-[#EAE7E1] text-[#4A4744] hover:bg-[#F6F4EF]'}`}>
+                {sk}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className={`${CL_CARD} space-y-5`}>
+        <div>
+          <label htmlFor="cl-budget" className={CL_LABEL}>{t('cl_f_budget')}</label>
+          <input id="cl-budget" type="number" inputMode="numeric" min="1" value={budget} onChange={e => setBudget(e.target.value)} className={CL_INPUT} />
+        </div>
+        <div>
+          <label htmlFor="cl-deadline" className={CL_LABEL}>{t('cl_f_deadline')}</label>
+          <input id="cl-deadline" type="number" inputMode="numeric" min="1" value={deadline} onChange={e => setDeadline(e.target.value)} className={CL_INPUT} />
+        </div>
+        <div>
+          <label htmlFor="cl-rev" className={CL_LABEL}>{t('cl_f_revisions')}</label>
+          <input id="cl-rev" type="number" inputMode="numeric" min="0" value={revisions} onChange={e => setRevisions(e.target.value)} className={CL_INPUT} />
+        </div>
+      </div>
+
+      <div className={`${CL_CARD} space-y-4`}>
+        <h2 className="text-xl font-semibold">{t('cl_req_head')}</h2>
+        <ClientToggle label={t('cl_f_laptop')} on={laptop} onChange={setLaptop} />
+        <div>
+          <label htmlFor="cl-net" className={CL_LABEL}>{t('cl_f_internet')}</label>
+          <select id="cl-net" value={internet} onChange={e => setInternet(e.target.value)} className={CL_INPUT}>
+            <option value="Basic">Basic</option>
+            <option value="Good">Good</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="cl-meet" className={CL_LABEL}>{t('cl_f_meeting')}</label>
+          <input id="cl-meet" type="text" value={meeting} onChange={e => setMeeting(e.target.value)} className={CL_INPUT} />
+        </div>
+        <ClientToggle label={t('cl_f_beginners')} on={beginners} onChange={setBeginners} />
+      </div>
+
+      {error && (
+        <div role="alert" className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[14px] p-4 flex items-start gap-3">
+          <AlertTriangle size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
+          <p className="text-base text-[#1C1B1A]">{t('cl_error')}</p>
+        </div>
+      )}
+      <button type="button" onClick={submit} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] min-h-[52px]">
+        {t('cl_submit')}
+      </button>
+
+      <div ref={mineRef} className="pt-4 scroll-mt-24">
+        <h2 className="text-[22px] font-semibold mb-4">{t('cl_my_jobs')}</h2>
+        {clientJobs.length === 0 ? (
+          <p className="text-base text-[#4A4744]">{t('cl_none')}</p>
+        ) : (
+          <div className="space-y-4">
+            {clientJobs.map(j => (
+              <div key={j.id} className={CL_CARD}>
+                <div className="font-semibold text-xl mb-1 break-words">{j.title}</div>
+                <div className="text-base text-[#4A4744] mb-4">{j.clientName} · ${fmtMoney(j.budgetUSD)} (NPR {fmtMoney(j.budgetUSD * 133)}) · {fmt(t('wr_days'), { days: digits(j.deadlineDays) })}</div>
+                {j.accepted && (
+                  <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[14px] p-4 mb-4 space-y-2">
+                    <div className="flex items-start gap-2 text-base font-semibold text-[#1C1B1A]"><CheckCircle2 size={20} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{fmt(t('ag_made'), { name: j.accepted.applicantName })}</span></div>
+                    <p className="text-base text-[#4A4744]">{t('ag_full_product')}</p>
+                  </div>
+                )}
+                <button onClick={() => navTo('client-applicants', { id: j.id })} className="w-full sm:w-auto bg-[#C73E33] text-white px-6 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px]">
+                  {t('cl_view_applicants')}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ClientApplicants({ t, lang, navTo, job }) {
+  const digits = (n) => toDigits(n, lang);
+  const back = (
+    <button onClick={() => navTo('client', { scrollTo: 'mine' })} className="flex items-center gap-2 text-base text-[#4A4744] mb-6 hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2 font-medium">
+      <ChevronLeft size={20} /> {t('back')}
+    </button>
+  );
+  if (!job) return <div className="max-w-2xl mx-auto">{back}<p className="text-base text-[#4A4744]">{t('cl_none')}</p></div>;
+  return (
+    <div className="max-w-2xl mx-auto space-y-5">
+      <div>
+        {back}
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-1">{t('cl_applicants')}</h1>
+        <div className="text-lg font-semibold text-[#1C1B1A] break-words">{job.title}</div>
+        <p className="text-base text-[#4A4744] mt-1">{t('cl_demo_applicants')}</p>
+      </div>
+      {job.accepted && (
+        <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-4 flex items-start gap-3">
+          <CheckCircle2 size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
+          <p className="text-base font-semibold text-[#1C1B1A]">{fmt(t('ag_made'), { name: job.accepted.applicantName })}</p>
+        </div>
+      )}
+      {DEMO_APPLICANTS.map(a => (
+        <div key={a.id} className={CL_CARD}>
+          <div className="font-semibold text-xl break-words">{a.name}</div>
+          <div className="text-base text-[#4A4744] flex items-center gap-1.5 mb-4"><MapPin size={18} className="text-[#8A8580]" /> {a.place}</div>
+          <ul className="space-y-1 mb-3 text-base text-[#1C1B1A]">
+            {a.skills.map(sk => (
+              <li key={sk.name}><strong>{sk.name}</strong> — {t('pp_lvl_' + sk.level)}</li>
+            ))}
+          </ul>
+          <div className="text-sm text-[#6E6963] mb-4">{fmt(t('pr_count'), { n: digits(a.proofs) })}</div>
+          <dl className="space-y-3 mb-5">
+            <div><dt className="text-sm text-[#6E6963]">{t('cl_asks')}</dt><dd className="text-base font-semibold text-[#1C1B1A]">${fmtMoney(a.asks)} (NPR {fmtMoney(a.asks * 133)})</dd></div>
+            <div><dt className="text-sm text-[#6E6963]">{t('cl_availability')}</dt><dd className="text-base text-[#1C1B1A]">{a.availability}</dd></div>
+            <div><dt className="text-sm text-[#6E6963]">{t('cl_completed')}</dt><dd className="text-base text-[#1C1B1A]">{digits(a.completed)}</dd></div>
+          </dl>
+          {!job.accepted && (
+            <button onClick={() => navTo('client-agreement', { id: job.id, applicantId: a.id })} className="w-full bg-[#C73E33] text-white py-3 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px]">
+              {t('cl_accept')}
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ClientAgreement({ t, lang, navTo, job, applicant, onConfirm }) {
+  const digits = (n) => toDigits(n, lang);
+  if (!job || !applicant) return null;
+  const milestones = buildWorkroomMilestones({ id: job.id, title: job.title, deliverables: job.deliverables, budgetUSD: applicant.asks });
+  const labelCls = "text-sm text-[#6E6963]";
+  return (
+    <div className="max-w-2xl mx-auto space-y-5">
+      <div>
+        <button onClick={() => navTo('client-applicants', { id: job.id })} className="flex items-center gap-2 text-base text-[#4A4744] mb-6 hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2 font-medium">
+          <ChevronLeft size={20} /> {t('back')}
+        </button>
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-1">{t('ag_title')}</h1>
+        <p className="text-base text-[#4A4744] break-words">{fmt(t('ag_parties'), { client: job.clientName, name: applicant.name })}</p>
+      </div>
+
+      <div className={`${CL_CARD} space-y-4`}>
+        <div className="text-lg font-semibold text-[#1C1B1A] break-words">{job.title}</div>
+        <div>
+          <div className={labelCls}>{t('wr_deliver')}</div>
+          <ul className="list-disc pl-5 text-base text-[#1C1B1A] space-y-1">
+            {job.deliverables.map((d, i) => <li key={i}>{d}</li>)}
+          </ul>
+        </div>
+        <div><div className={labelCls}>{t('ag_price')}</div><div className="text-base font-semibold text-[#1C1B1A]">${fmtMoney(applicant.asks)} (NPR {fmtMoney(applicant.asks * 133)})</div></div>
+        <div><div className={labelCls}>{t('wr_deadline')}</div><div className="text-base text-[#1C1B1A]">{fmt(t('wr_days'), { days: digits(job.deadlineDays) })}</div></div>
+        <div><div className={labelCls}>{t('ag_revisions')}</div><div className="text-base text-[#1C1B1A]">{digits(job.revisionsIncluded ?? 1)}</div></div>
+      </div>
+
+      <div className={CL_CARD}>
+        <h2 className="text-xl font-semibold mb-4">{t('wr_milestones')}</h2>
+        <div className="space-y-3">
+          {milestones.map(m => (
+            <div key={m.id} className="border border-[#EAE7E1] rounded-[14px] p-4">
+              <div className="text-base font-semibold text-[#1C1B1A] break-words">{m.title}</div>
+              <div className="text-sm text-[#6E6963]">${fmtMoney(m.amountUSD)} · NPR {fmtMoney(m.amountUSD * 133)}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-4 flex items-start gap-3">
+        <Info size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
+        <p className="text-base text-[#1C1B1A]">{t('wr_sim_note')}</p>
+      </div>
+      <Disclaimer t={t} k="disc_agree" />
+      <button onClick={() => onConfirm(job.id, applicant)} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] min-h-[52px]">
+        {t('ag_confirm')}
+      </button>
     </div>
   );
 }

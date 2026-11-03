@@ -5,14 +5,18 @@ WorkPassport helps first-time freelancers (mostly young women in Nepal) get a fi
 ## What is inside
 
 1. **FirstWork** — 18 curated beginner jobs with search, filters, job detail, a 4-step Guided Apply and My Opportunities.
-2. **My WorkPassport** — a proof record with evidence levels, micro-task skill tests, a share link, a public proof-first view, client confirmation (demo) and a Getting Paid checklist.
-3. **WorkShield** — paste a job post and get a rule-based scam check with explained findings.
-4. **Safety** — paste a client chat message and get a rule-based boundary check, ready-made replies and saved proof.
+2. **My WorkPassport** — a proof record with evidence levels, per-skill proof of work (photos and portfolio links), a share link, a public proof-first view, client confirmation (demo) and a Getting Paid checklist.
+3. **WorkShield & Safety** — ONE page. WorkShield (paste a job post, get a rule-based scam check with explained findings) comes first; below it a banner (`#safety-section`) introduces Safety (paste a client chat message, get a rule-based boundary check, ready-made replies, saved proof, emergency contacts). In-app buttons that used to open Safety open this page scrolled to the banner.
+4. **Proof of work and PDF** — on My WorkPassport each skill has a "Your proof" area: up to 6 photos (downscaled to 1000px JPEG) and portfolio links, stored in `wp_skill_evidence`. Proof is labelled "Added by you" and never changes a badge. The public view shows a "Work samples" gallery first. "Download PDF" prints a clean print-only document (`.passport-print`, styled in `src/index.css`) via the browser's Save as PDF.
 5. **Client chat** — in My Opportunities → Applied, tap *Message client*. Inside the chat, a shield button (or *Check this message* under any client bubble) opens a pop-up that runs both WorkShield and Safety checks, shows ready replies to copy, and can save a message as proof. Threads are stored in `wp_chats`.
 6. **Extension** — a practice page that uses the real checkers, plus the real Chrome extension in `extension/`.
 
 7. **Privacy and ease** — on My WorkPassport, after the safety rules. *Shared Device Mode* (PIN lock on load, hidden earnings, private notifications, Quick hide, "Lock now" in the user menu) and *Low-Data / Simple Mode* (112.5% text, chat and application drafts kept on the device). Stored in `wp_settings`, `wp_chat_drafts`, `wp_apply_draft`.
 8. **Client options** — in a chat, mute, block or report the client (also inside the check pop-up). Stored in `wp_client_actions`.
+
+9. **Workroom** — in My Opportunities → Applied, tap *Open workroom* on any applied job. It shows the agreement, a milestone checklist (one milestone per deliverable) with payment states Not funded → Funded → Submitted → Released, and a link to the existing chat. Payment states are **simulated** with clearly-labelled demo buttons. When every milestone is released, the job is added to the Passport as client-confirmed work (same effect as the Passport demo button, never counted twice). Stored in `wp_workrooms`.
+
+10. **Scope check** — inside the chat's check pop-up (a third section after Safety and WorkShield). It compares a client message with the agreed work (the Workroom milestones if one exists, otherwise the job's deliverables) using a transparent phrase list (`checkScope` in `src/App.jsx`) and shows the exact words that triggered it. If flagged, she can copy an *I can do it* reply, copy an *ask first* reply, or create an additional milestone that is added to the job's Workroom (`wp_workrooms`, same shape, no new keys). Demo: apply to "30 Instagram posts for clothing store", open its chat and tap *Check this message* on the second message.
 
 ## Run the web app
 
@@ -48,3 +52,14 @@ and as a small calculator in My WorkPassport > Getting paid. Fees are sample est
 - Build command `npm run build`, output folder `dist`. No environment variables and no backend.
 - Shared Device Mode is prototype-level privacy only: the PIN is stored as plain text in the browser's localStorage and is not real security.
 - The Chrome extension opens `http://localhost:5173/` (`APP_URL` at the top of `extension/popup.js`). Once the hosted address is known, update that one line and reload the extension. The extension folder was intentionally left unchanged.
+
+
+## Client demo (post a job, applicants, agreement)
+
+On the FirstWork page, tap "Post a job — client demo". This opens a clearly-labelled client side of WorkPassport:
+
+1. Fill the guided form and tap "Post this job". The job is saved in the browser (localStorage key `wp_client_jobs`) and appears at the top of the FirstWork feed with a "Posted by you" chip. Its detail page, apply wizard, chat and workroom work like any other job.
+2. In "My posted jobs", tap "View applicants" to see three demo applicants as Passport-style cards (same three for every job).
+3. Tap "Accept" to open a simple agreement (deliverables, agreed price, deadline, revisions, milestones). "Confirm agreement" saves it on the job.
+
+A fresh demo job is deliberately marked "Payment method not verified". The `extension/` folder is unchanged.

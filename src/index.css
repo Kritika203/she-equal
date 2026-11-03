@@ -45,3 +45,35 @@ html.wp-simple-on .wp-app [class*="text-[28px]"] { font-size: 31.5px; }
 @media (min-width: 640px) {
   html.wp-simple-on .wp-app [class*="sm:text-[30px]"] { font-size: 33.75px; }
 }
+
+/* PDF: the passport document is hidden on screen; when printing, only it is shown. */
+.passport-print, .vault-print { display: none; }
+@media print {
+  @page { margin: 16mm; }
+  html, body { background: #fff !important; color: #000 !important; }
+  #root { display: none !important; }
+  /* Print target: body[data-print] says which document to print. No target = passport (default). */
+  body:not([data-print="vault"]) .passport-print { display: block !important; }
+  body[data-print="vault"] .passport-print { display: none !important; }
+  body[data-print="vault"] .vault-print, body:not([data-print]):not(:has(.passport-print)) .vault-print { display: block !important; }
+  .passport-print, .vault-print { color: #000; background: #fff; font-family: 'Inter', Arial, sans-serif; font-size: 12pt; line-height: 1.45; }
+  .passport-print .pp-brand { font-size: 11pt; font-weight: 700; letter-spacing: 0.04em; border-bottom: 1px solid #000; padding-bottom: 6pt; margin-bottom: 12pt; }
+  .passport-print .pp-name { font-size: 24pt; font-weight: 700; margin: 0 0 10pt; }
+  .passport-print h2 { font-size: 14pt; font-weight: 700; margin: 18pt 0 8pt; border-bottom: 1px solid #999; padding-bottom: 3pt; break-after: avoid; }
+  .passport-print .pp-stats { display: flex; gap: 12pt; margin-bottom: 6pt; }
+  .passport-print .pp-stats > div { flex: 1; border: 1px solid #000; padding: 6pt 8pt; }
+  .passport-print .pp-stats strong { display: block; font-size: 15pt; }
+  .passport-print .pp-stats span { font-size: 10pt; }
+  .passport-print .pp-skill { margin-bottom: 10pt; break-inside: avoid; }
+  .passport-print .pp-item { display: flex; gap: 8pt; align-items: flex-start; margin: 5pt 0 0 10pt; break-inside: avoid; }
+  .passport-print .pp-item img { width: 90pt; height: 90pt; object-fit: cover; border: 1px solid #999; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .passport-print .pp-url { word-break: break-all; font-size: 10.5pt; }
+  .passport-print .pp-job { margin-bottom: 5pt; break-inside: avoid; }
+  .passport-print .pp-foot { font-size: 10pt; margin-top: 14pt; }
+  .vault-print .pp-brand { font-size: 11pt; font-weight: 700; letter-spacing: 0.04em; border-bottom: 1px solid #000; padding-bottom: 6pt; margin-bottom: 12pt; }
+  .vault-print .pp-name { font-size: 24pt; font-weight: 700; margin: 0 0 10pt; }
+  .vault-print h2 { font-size: 14pt; font-weight: 700; margin: 16pt 0 4pt; border-bottom: 1px solid #999; padding-bottom: 3pt; break-after: avoid; }
+  .vault-print .vp-item { break-inside: avoid; margin-bottom: 8pt; }
+  .vault-print .vp-text { white-space: pre-wrap; word-break: break-word; margin: 6pt 0 0; padding: 6pt 8pt; border: 1px solid #999; }
+  .vault-print .pp-foot { font-size: 10pt; margin-top: 14pt; }
+}
