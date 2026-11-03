@@ -4,12 +4,29 @@ import {
   Shield, ShieldCheck, ShieldAlert, CheckCircle2, Bookmark, MapPin, 
   Search, SlidersHorizontal, ChevronLeft, Flag, Volume2, User, 
   LogOut, Check, ArrowRight, Lock, Bell, ChevronDown, CheckSquare, Square, X, Info, AlertTriangle, Sparkles, MessageSquare, Send, Wallet,
-  EyeOff, Sun, MoreVertical, BellOff, Ban, ClipboardList, ImagePlus, Link2, Trash2, Download, HeartHandshake, Plus
+  EyeOff, Sun, MoreVertical, BellOff, Ban, ClipboardList, ImagePlus, Link2, Trash2, Download, HeartHandshake, Plus, TrendingUp, ExternalLink
 } from 'lucide-react';
 
 // --- TRANSLATIONS DICTIONARY ---
 const DICT = {
   en: {
+    sb_title: "SkillBridge",
+    sb_card_line: "See which skills jobs ask for",
+    sb_link: "See all skill gaps in SkillBridge",
+    sb_headline: "Your skills match {matched} of the {total} sample jobs",
+    sb_top: "Learning {skill} would match {n} more.",
+    sb_sample: "Counted from the {total} sample jobs in this app.",
+    disc_bridge: "SkillBridge counts the jobs in this app's sample list. Real job sites ask for more skills — use this as a guide, not a promise.",
+    sb_gaps_title: "Skills jobs ask for that you do not have yet",
+    sb_asked: "Asked for in {demand} of the {total} sample jobs",
+    sb_unlock: "Learning this would match {n} more sample jobs",
+    sb_together: "Asked together with {other}. Learning both would match {joint} more.",
+    sb_free: "Free place to learn",
+    sb_practice: "Small practice task",
+    sb_proof: "When you finish, add a photo or link of your work in your WorkPassport. It will show as 'Added by you'.",
+    sb_open_wp: "Open my WorkPassport",
+    sb_bundles_title: "Skills often asked together",
+    sb_bundle_line: "{a} + {b} — together in {n} sample jobs",
     nav_shield_safety: "WorkShield & Safety",
     sfs_banner_title: "Safety — if someone is harassing you",
     sfs_banner_intro: "If a client sends messages that make you uncomfortable, check them here. Set your boundaries, get help to reply, and save proof.",
@@ -583,9 +600,59 @@ const DICT = {
     wr_submit: "Submit work",
     wr_waiting: "Work submitted. Waiting for the client to confirm.",
     wr_demo_release: "Demo: client confirms and releases",
-    wr_complete: "This job is complete. It has been added to your WorkPassport as client-confirmed work."
+    wr_complete: "This job is complete. It has been added to your WorkPassport as client-confirmed work.",
+    br_entry: "Bring an Opportunity",
+    br_entry_sub: "For partners and Nepalis abroad: share a job or what employers ask for",
+    br_title: "Bring an Opportunity",
+    br_intro: "Know a job, or a skill that employers are asking for? Share it here. Our team checks every submission before anything is listed.",
+    br_queue_link: "Team demo: curation queue",
+    br_type_opp: "An opportunity (a job)",
+    br_type_ins: "An insight (what employers ask for)",
+    disc_bring: "Submissions are checked by our team before anything is listed. Please only share opportunities you know are real.",
+    br_f_name: "Your name",
+    br_f_org: "Organisation",
+    br_f_country: "Your country",
+    br_f_email: "Email",
+    br_f_budget: "Budget (USD)",
+    br_from: "From",
+    br_to: "To",
+    br_f_pay: "How will the freelancer be paid?",
+    br_pay_other: "Other",
+    br_f_insight: "What are employers asking for?",
+    br_submit: "Send for checking",
+    br_error_opp: "Please fill your name, organisation, country and email, the job title and description, at least one task, at least one skill, a budget range above 0, and a deadline of at least 1 day.",
+    br_error_ins: "Please fill your name, organisation, country and email, and what employers are asking for.",
+    br_thanks: "Thank you. Your submission is in the checking queue. Nothing is listed until our team checks the source, the organisation and the payment method.",
+    br_q_title: "Curation queue",
+    br_q_line: "Nothing reaches FirstWork or SkillBridge until a person on our team checks it.",
+    br_q_opp: "Opportunity",
+    br_q_ins: "Insight",
+    br_q_waiting: "Waiting for checking",
+    br_approve: "Approve — checked, list it",
+    br_reject: "Reject",
+    br_q_empty: "Nothing waiting. New submissions will appear here.",
+    br_tasks: "Main tasks",
+    br_chip: "Brought by a partner",
+    br_signals: "Signals from partners"
   },
   ne: {
+    sb_title: "SkillBridge",
+    sb_card_line: "कामहरूले कुन सीप माग्छन् हेर्नुहोस्",
+    sb_link: "SkillBridge मा सबै सीप अन्तर हेर्नुहोस्",
+    sb_headline: "तपाईंका सीप {total} वटा नमुना काममध्ये {matched} वटासँग मिल्छन्",
+    sb_top: "{skill} सिकेमा थप {n} वटा काम मिल्नेछ।",
+    sb_sample: "यस एपका {total} वटा नमुना कामहरूबाट गनिएको।",
+    disc_bridge: "SkillBridge ले यस एपको नमुना सूचीका कामहरू गन्छ। वास्तविक कामका साइटहरूमा अरू सीपहरू पनि मागिन्छन् — यसलाई प्रतिज्ञा होइन, मार्गदर्शनका रूपमा लिनुहोस्।",
+    sb_gaps_title: "कामहरूले माग्ने तर तपाईंसँग अहिल्यै नभएका सीपहरू",
+    sb_asked: "{total} वटा नमुना काममध्ये {demand} वटामा मागिएको",
+    sb_unlock: "यो सिकेमा थप {n} वटा नमुना काम मिल्नेछ",
+    sb_together: "{other} सँगै मागिन्छ। दुवै सिकेमा थप {joint} वटा काम मिल्नेछ।",
+    sb_free: "सिक्ने निःशुल्क ठाउँ",
+    sb_practice: "सानो अभ्यास कार्य",
+    sb_proof: "सकिएपछि, आफ्नो कामको फोटो वा लिङ्क आफ्नो WorkPassport मा थप्नुहोस्। यो \"तपाईंले थप्नुभएको\" भनेर देखिनेछ।",
+    sb_open_wp: "मेरो WorkPassport खोल्नुहोस्",
+    sb_bundles_title: "सँगै मागिने सीपहरू",
+    sb_bundle_line: "{a} + {b} — {n} वटा नमुना काममा सँगै",
     nav_shield_safety: "WorkShield र सुरक्षा",
     sfs_banner_title: "सुरक्षा — कसैले तपाईंलाई दुःख दिइरहेको छ भने",
     sfs_banner_intro: "ग्राहकले तपाईंलाई असहज बनाउने सन्देश पठाए भने यहाँ जाँच्नुहोस्। आफ्ना सीमा तोक्नुहोस्, जवाफ दिन मद्दत लिनुहोस्, र प्रमाण सेभ गर्नुहोस्।",
@@ -1159,7 +1226,40 @@ const DICT = {
     wr_submit: "काम बुझाउनुहोस्",
     wr_waiting: "काम बुझाइयो। ग्राहकको पुष्टिको प्रतीक्षामा।",
     wr_demo_release: "नमुना: ग्राहकले पुष्टि गरी भुक्तानी खोल्छन्",
-    wr_complete: "यो काम सकियो। यो तपाईंको WorkPassport मा ग्राहकले पुष्टि गरेको कामका रूपमा थपिएको छ।"
+    wr_complete: "यो काम सकियो। यो तपाईंको WorkPassport मा ग्राहकले पुष्टि गरेको कामका रूपमा थपिएको छ।",
+    br_entry: "अवसर ल्याउनुहोस्",
+    br_entry_sub: "साझेदार र विदेशमा रहेका नेपालीहरूका लागि: काम वा रोजगारदाताहरूले माग्ने कुरा साझा गर्नुहोस्",
+    br_title: "अवसर ल्याउनुहोस्",
+    br_intro: "काम, वा रोजगारदाताहरूले मागिरहेको सीप थाहा छ? यहाँ साझा गर्नुहोस्। केही पनि सूचीमा राख्नुअघि हाम्रो टोलीले हरेक पेश्की जाँच्छ।",
+    br_queue_link: "टोली डेमो: जाँच सूची",
+    br_type_opp: "एउटा अवसर (काम)",
+    br_type_ins: "एउटा जानकारी (रोजगारदाताहरू के माग्छन्)",
+    disc_bring: "केही पनि सूचीमा राख्नुअघि हाम्रो टोलीले पेश्कीहरू जाँच्छ। कृपया तपाईंलाई वास्तविक लागेका अवसरहरू मात्र साझा गर्नुहोस्।",
+    br_f_name: "तपाईंको नाम",
+    br_f_org: "संस्था",
+    br_f_country: "तपाईंको देश",
+    br_f_email: "इमेल",
+    br_f_budget: "बजेट (USD)",
+    br_from: "देखि",
+    br_to: "सम्म",
+    br_f_pay: "फ्रिलान्सरलाई कसरी भुक्तानी हुन्छ?",
+    br_pay_other: "अन्य",
+    br_f_insight: "रोजगारदाताहरू के मागिरहेका छन्?",
+    br_submit: "जाँचका लागि पठाउनुहोस्",
+    br_error_opp: "कृपया तपाईंको नाम, संस्था, देश र इमेल, कामको शीर्षक र वर्णन, कम्तीमा एउटा काम, कम्तीमा एउटा सीप, ० भन्दा बढी बजेट सीमा, र कम्तीमा १ दिनको मिति भर्नुहोस्।",
+    br_error_ins: "कृपया तपाईंको नाम, संस्था, देश र इमेल, र रोजगारदाताहरू के मागिरहेका छन् भर्नुहोस्।",
+    br_thanks: "धन्यवाद। तपाईंको पेश्की जाँच सूचीमा छ। हाम्रो टोलीले स्रोत, संस्था र भुक्तानी विधि नजाँचेसम्म केही पनि सूचीमा राखिँदैन।",
+    br_q_title: "जाँच सूची",
+    br_q_line: "हाम्रो टोलीका कसैले नजाँचेसम्म केही पनि FirstWork वा SkillBridge मा पुग्दैन।",
+    br_q_opp: "अवसर",
+    br_q_ins: "जानकारी",
+    br_q_waiting: "जाँच बाँकी छ",
+    br_approve: "स्वीकृत गर्नुहोस् — जाँचियो, सूचीमा राख्नुहोस्",
+    br_reject: "अस्वीकार गर्नुहोस्",
+    br_q_empty: "केही बाँकी छैन। नयाँ पेश्कीहरू यहाँ देखिनेछन्।",
+    br_tasks: "मुख्य कामहरू",
+    br_chip: "साझेदारले ल्याएको",
+    br_signals: "साझेदारहरूबाट संकेतहरू"
   }
 };
 
@@ -1301,7 +1401,56 @@ export default function App() {
   const [clientJobsRaw, setClientJobs] = useLocalStorage('wp_client_jobs', []);
   const clientJobs = Array.isArray(clientJobsRaw) ? clientJobsRaw : [];
   // ONE combined list: the user's posted jobs first, then the dummy jobs. Every job lookup uses this.
-  const allJobs = [...clientJobs, ...DUMMY_JOBS];
+  // Third source (Bring Opportunity): jobs the team approved from the curation queue.
+  const [curatedJobsRaw, setCuratedJobs] = useLocalStorage('wp_curated_jobs', []);
+  const curatedJobs = Array.isArray(curatedJobsRaw) ? curatedJobsRaw : [];
+  const [bringRaw, setBringSubmissions] = useLocalStorage('wp_bring_submissions', null);
+  const bringSubmissions = Array.isArray(bringRaw) ? bringRaw : [];
+  const allJobs = [...clientJobs, ...curatedJobs, ...DUMMY_JOBS];
+  const approvedInsights = bringSubmissions.filter(x => x.type === 'insight' && x.status === 'approved');
+  const submitBring = (sub) => setBringSubmissions([...bringSubmissions, sub]);
+  const decideBring = (id, action) => {
+    const sub = bringSubmissions.find(x => x.id === id);
+    if (!sub || sub.status !== 'pending') return;
+    if (action === 'approve' && sub.type === 'opportunity') {
+      if (!curatedJobs.some(j => j.id === 'bj-' + sub.id)) {
+        const job = {
+          id: 'bj-' + sub.id,
+          title: sub.title,
+          category: sub.category,
+          clientName: sub.organisation,
+          clientCountry: sub.country,
+          clientType: 'Partner organisation',
+          paymentVerified: true,
+          beginnerFriendly: !!sub.beginnerFriendly,
+          description: sub.description,
+          skillsRequired: sub.skillsRequired,
+          budgetUSD: sub.budgetMax,
+          budgetType: 'fixed',
+          postedHoursAgo: 0,
+          applicants: 0,
+          jobsPostedByClient: 0,
+          hireRate: 0,
+          memberSince: 2026,
+          clientRating: null,
+          aboutClient: 'Brought through Bring Opportunity by ' + sub.organisation + '. Checked by the WorkPassport team before listing.',
+          needsOwnLaptop: !!sub.needsOwnLaptop,
+          internetNeed: sub.internetNeed,
+          meetingTimeNepal: 'Flexible — no meetings',
+          deadlineDays: sub.deadlineDays,
+          caution: null,
+          deliverables: sub.deliverables,
+          clientProvides: [],
+        };
+        setCuratedJobs([...curatedJobs, job]);
+      }
+      setBringSubmissions(bringSubmissions.map(x => x.id === id ? { ...x, status: 'listed' } : x));
+    } else if (action === 'approve') {
+      setBringSubmissions(bringSubmissions.map(x => x.id === id ? { ...x, status: 'approved' } : x));
+    } else {
+      setBringSubmissions(bringSubmissions.map(x => x.id === id ? { ...x, status: 'rejected' } : x));
+    }
+  };
   const confirmAgreement = (jobId, applicant) => {
     setClientJobs(clientJobs.map(j => j.id === jobId ? { ...j, accepted: { applicantName: applicant.name, price: applicant.asks } } : j));
     navTo('client', { scrollTo: 'mine' });
@@ -1353,6 +1502,14 @@ export default function App() {
     setViewParams(params);
     window.scrollTo(0, 0);
   };
+
+  // Seed the two demo submissions the FIRST time the Bring page or the queue opens (only if the key is absent).
+  useEffect(() => {
+    if (currentView !== 'bring' && currentView !== 'bring-queue') return;
+    try {
+      if (window.localStorage.getItem('wp_bring_submissions') === null) setBringSubmissions(buildBringSeeds());
+    } catch (e) { /* storage unavailable */ }
+  }, [currentView]);
 
   const handleLogout = () => {
     setUnlocked(false);
@@ -1447,7 +1604,7 @@ export default function App() {
               <span className="font-semibold text-lg tracking-tight hidden sm:block">WorkPassport</span>
             </button>
             <div className="hidden md:flex gap-6">
-              <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement'].includes(currentView)} onClick={() => navTo('firstwork')} />
+              <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue'].includes(currentView)} onClick={() => navTo('firstwork')} />
               <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
               <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
               <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
@@ -1466,7 +1623,7 @@ export default function App() {
         </div>
         <div className="md:hidden border-t border-[#EAE7E1] overflow-x-auto">
           <div className="flex gap-6 px-4 w-max min-w-full">
-            <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement'].includes(currentView)} onClick={() => navTo('firstwork')} />
+            <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue'].includes(currentView)} onClick={() => navTo('firstwork')} />
             <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
             <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
             <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
@@ -1491,6 +1648,9 @@ export default function App() {
         {currentView === 'passport' && <PassportPage allJobs={allJobs} t={t} lang={lang} user={userProfile} setUser={setUserProfile} navTo={navTo} showToast={showToast} skillLevels={skillLevels} setSkillLevels={setSkillLevels} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} payChecklist={payChecklist} setPayChecklist={setPayChecklist} appliedJobs={appliedJobs} skillEvidence={skillEvidence} setSkillEvidence={setSkillEvidence} hideMoney={sharedOn} settings={settings} setSettings={setSettings} onSharedEnabled={() => setUnlocked(true)} evidence={evidence} />}
         {currentView === 'shield' && <ShieldSafetyPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} history={shieldHistory} setHistory={setShieldHistory} evidence={evidence} setEvidence={setEvidence} scrollKey={viewParams.n} scrollTo={viewParams.scrollTo} />}
         {currentView === 'ext' && <ExtensionPage t={t} lang={lang} navTo={navTo} />}
+        {currentView === 'skillbridge' && <SkillBridgePage allJobs={allJobs} t={t} lang={lang} user={userProfile} navTo={navTo} insights={approvedInsights} />}
+        {currentView === 'bring' && <BringView t={t} lang={lang} navTo={navTo} onSubmit={submitBring} />}
+        {currentView === 'bring-queue' && <BringQueue t={t} lang={lang} navTo={navTo} submissions={bringSubmissions} onDecide={decideBring} />}
         {currentView === 'vault' && <EvidenceVaultPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} masked={sharedOn} />}
         {currentView === 'chat' && (appliedJobs.some(a => a.jobId === viewParams.id) && allJobs.find(j => j.id === viewParams.id)
           ? <ChatView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} navTo={navTo} showToast={showToast} chats={chats} updateChat={updateChat} setEvidence={setEvidence} workrooms={workrooms} setWorkrooms={setWorkrooms} simple={simpleOn} chatDrafts={chatDrafts} setChatDrafts={setChatDrafts} getClientAction={getClientAction} clientAction={getClientAction(viewParams.id)} setClientAction={setClientAction} />
@@ -2198,6 +2358,129 @@ function PassportPrint({ t, lang, user, levels, evidenceMap, confirmedList, prov
   );
 }
 
+// --- SKILLBRIDGE: compares the user's skills with every job in the combined list. Nothing is stored. ---
+const GAP_GUIDE = {
+  "Excel / Spreadsheets": { name: "GCFGlobal — Excel basics (free)", url: "https://edu.gcfglobal.org/en/excel/", task: "Make a price list for 10 products: name, price and SKU — the same work as real data-entry jobs." },
+  "Customer Chat Support": { name: "HubSpot Academy — free customer service courses", url: "https://academy.hubspot.com/", task: "Write kind replies to 3 common customer questions: the price, the delivery time, and a late order." },
+  "Video Editing": { name: "CapCut — free video editor", url: "https://www.capcut.com/", task: "Cut one 30-second video for a local shop: add text, music and the shop's name." },
+  "Nepali Writing": { name: "YouTube — Nepali typing practice videos (free)", url: "https://www.youtube.com/results?search_query=nepali+typing+practice", task: "Write a 5-line product description in Nepali for something sold near your home." },
+  "Translation": { name: "YouTube — Nepali typing practice videos (free)", url: "https://www.youtube.com/results?search_query=nepali+typing+practice", task: "Translate a short English notice (about 10 lines) into Nepali. Ask a friend to read it and tell you if it is clear." },
+};
+const GAP_FALLBACK = { name: "GCFGlobal — free lessons", url: "https://edu.gcfglobal.org/", task: "Practise with one small real task, then save your work as proof." };
+
+function computeSkillBridge(jobs, userSkills) {
+  const mine = new Set(userSkills || []);
+  const reqs = jobs.map(j => [...new Set(j.skillsRequired || [])]);
+  const total = reqs.length;
+  const matched = reqs.filter(r => r.every(s => mine.has(s))).length;
+  const demand = {}, unlock = {}, pair = {}, joint = {};
+  const key = (a, b) => (a < b ? a + '\u0000' + b : b + '\u0000' + a);
+  reqs.forEach(r => {
+    const missing = r.filter(s => !mine.has(s));
+    r.forEach(s => { demand[s] = (demand[s] || 0) + 1; });
+    if (missing.length === 1) unlock[missing[0]] = (unlock[missing[0]] || 0) + 1;
+    for (let i = 0; i < r.length; i++) for (let k = i + 1; k < r.length; k++) {
+      const kk = key(r[i], r[k]);
+      pair[kk] = (pair[kk] || 0) + 1;
+      // joint unlock: both are gap skills and they are the ONLY missing skills in this job
+      if (missing.length === 2 && missing.includes(r[i]) && missing.includes(r[k])) joint[kk] = (joint[kk] || 0) + 1;
+    }
+  });
+  const gaps = Object.keys(demand).filter(s => !mine.has(s)).map(s => ({ skill: s, demand: demand[s], unlock: unlock[s] || 0 }))
+    .sort((a, b) => b.unlock - a.unlock || b.demand - a.demand || a.skill.localeCompare(b.skill));
+  const gapNames = gaps.map(g => g.skill);
+  gaps.forEach(g => {
+    g.partner = null;
+    if (g.unlock === 0) {
+      gapNames.filter(o => o !== g.skill && (pair[key(g.skill, o)] || 0) >= 2 && (joint[key(g.skill, o)] || 0) > 0)
+        .map(o => ({ other: o, joint: joint[key(g.skill, o)] }))
+        .sort((a, b) => b.joint - a.joint || a.other.localeCompare(b.other))
+        .slice(0, 1).forEach(x => { g.partner = x; });
+    }
+  });
+  const bundles = Object.keys(pair).filter(k => pair[k] >= 2).map(k => { const [a, b] = k.split('\u0000'); return { a, b, n: pair[k] }; })
+    .sort((x, y) => y.n - x.n || x.a.localeCompare(y.a) || x.b.localeCompare(y.b)).slice(0, 5);
+  return { total, matched, gaps, bundles };
+}
+
+function SkillBridgePage({ allJobs = DUMMY_JOBS, t, lang, user, navTo, insights = [] }) {
+  const digits = (n) => lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(n);
+  const { total, matched, gaps, bundles } = computeSkillBridge(allJobs, user.skills);
+  const top = gaps[0];
+  return (
+    <div className="max-w-[800px] mx-auto space-y-8">
+      <div>
+        <button onClick={() => navTo('passport')} className="flex items-center gap-2 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] mb-2"><ChevronLeft size={20} /> {t('pp_back_my')}</button>
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-4">{t('sb_title')}</h1>
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6">
+          <h2 className="font-semibold text-[22px] mb-3">{fmt(t('sb_headline'), { matched: digits(matched), total: digits(total) })}</h2>
+          {top && top.unlock > 0 && (
+            <p className="flex items-start gap-2 text-base font-medium text-[#1C1B1A] mb-3"><TrendingUp size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{fmt(t('sb_top'), { skill: top.skill, n: digits(top.unlock) })}</span></p>
+          )}
+          <p className="text-sm text-[#6E6963] mb-3">{fmt(t('sb_sample'), { total: digits(total) })}</p>
+          <Disclaimer t={t} k="disc_bridge" />
+        </div>
+      </div>
+
+      {gaps.length > 0 && (
+        <div>
+          <h2 className="font-semibold text-[22px] mb-4">{t('sb_gaps_title')}</h2>
+          <div className="space-y-4">
+            {gaps.map(g => {
+              const guide = GAP_GUIDE[g.skill] || GAP_FALLBACK;
+              return (
+                <div key={g.skill} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+                  <div className="font-semibold text-xl mb-2 break-words">{g.skill}</div>
+                  <p className="text-base text-[#4A4744]">{fmt(t('sb_asked'), { demand: digits(g.demand), total: digits(total) })}</p>
+                  {g.unlock > 0 && <p className="text-base font-medium text-[#1C1B1A] mt-1">{fmt(t('sb_unlock'), { n: digits(g.unlock) })}</p>}
+                  {g.unlock === 0 && g.partner && <p className="text-base font-medium text-[#1C1B1A] mt-1">{fmt(t('sb_together'), { other: g.partner.other, joint: digits(g.partner.joint) })}</p>}
+                  <div className="mt-4 pt-4 border-t border-[#EAE7E1] space-y-4">
+                    <div>
+                      <div className="text-sm font-semibold text-[#6E6963] mb-1">{t('sb_free')}</div>
+                      <a href={guide.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-base font-semibold text-[#1C1B1A] underline underline-offset-4 min-h-[44px]"><span className="break-words">{guide.name}</span><ExternalLink size={16} className="shrink-0" /></a>
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-[#6E6963] mb-1">{t('sb_practice')}</div>
+                      <p className="text-base text-[#4A4744]">{guide.task}</p>
+                    </div>
+                    <div>
+                      <p className="text-base text-[#4A4744] mb-3">{t('sb_proof')}</p>
+                      <button onClick={() => navTo('passport')} className="border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-5 font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px]">{t('sb_open_wp')}</button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {bundles.length > 0 && (
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6">
+          <h2 className="font-semibold text-[22px] mb-4">{t('sb_bundles_title')}</h2>
+          <ul className="divide-y divide-[#EAE7E1]">
+            {bundles.map(b => <li key={b.a + b.b} className="py-3 text-base text-[#1C1B1A] break-words">{fmt(t('sb_bundle_line'), { a: b.a, b: b.b, n: digits(b.n) })}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {insights.length > 0 && (
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6">
+          <h2 className="font-semibold text-[22px] mb-4">{t('br_signals')}</h2>
+          <ul className="divide-y divide-[#EAE7E1]">
+            {insights.map(x => (
+              <li key={x.id} className="py-3">
+                <p className="text-base text-[#1C1B1A] break-words">{x.text}</p>
+                <p className="text-sm text-[#6E6963] mt-1 break-words">{x.organisation}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, navTo, showToast, skillLevels, setSkillLevels, confirmedJobs, setConfirmedJobs, payChecklist, setPayChecklist, appliedJobs, skillEvidence = {}, setSkillEvidence = () => {}, hideMoney = false, settings, setSettings, onSharedEnabled = () => {}, evidence = [] }) {
   const [view, setView] = useState('main'); // main | public
   const [shareOpen, setShareOpen] = useState(false);
@@ -2430,6 +2713,16 @@ function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, navTo, sho
         <span className="flex-1 min-w-0">
           <span className="block font-semibold text-xl text-[#1C1B1A]">{t('ev_title')}</span>
           <span className="block text-base text-[#4A4744]">{fmt(t('ev_count'), { n: digits(Array.isArray(evidence) ? evidence.length : 0) })}</span>
+        </span>
+        <ArrowRight size={22} className="shrink-0 text-[#8A8580]" />
+      </button>
+
+      {/* SkillBridge link card */}
+      <button onClick={() => navTo('skillbridge')} className="w-full text-left bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6 hover:border-[#DDD8CE] flex items-center gap-4 min-h-[64px]">
+        <TrendingUp size={28} className="shrink-0 text-[#C73E33]" />
+        <span className="flex-1 min-w-0">
+          <span className="block font-semibold text-xl text-[#1C1B1A]">{t('sb_title')}</span>
+          <span className="block text-base text-[#4A4744]">{t('sb_card_line')}</span>
         </span>
         <ArrowRight size={22} className="shrink-0 text-[#8A8580]" />
       </button>
@@ -3586,9 +3879,16 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
           </div>
         </div>
 
-        <div className="mb-6">
-          <button onClick={() => navTo('client')} className="min-h-[48px] px-6 rounded-full bg-white border border-[#E3E0D9] text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] flex items-center justify-center gap-2 w-full sm:w-auto">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-stretch gap-3">
+          <button onClick={() => navTo('client')} className="min-h-[48px] px-6 rounded-full bg-white border border-[#E3E0D9] text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] flex items-center justify-center gap-2 w-full sm:w-auto sm:self-start">
             <Plus size={20} /> {t('cl_entry')}
+          </button>
+          <button onClick={() => navTo('bring')} className="min-h-[48px] px-5 py-3 rounded-[20px] bg-white border border-[#EAE7E1] text-left hover:bg-[#F6F4EF] flex items-start gap-3 w-full sm:max-w-md">
+            <HeartHandshake size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
+            <span>
+              <span className="block font-semibold text-base text-[#1C1B1A]">{t('br_entry')}</span>
+              <span className="block text-sm text-[#6E6963] mt-0.5">{t('br_entry_sub')}</span>
+            </span>
           </button>
         </div>
 
@@ -3651,6 +3951,9 @@ function JobCard({ job, t, navTo, saved, onToggleSave, lang }) {
           )}
           {String(job.id).startsWith('c') && (
             <span className="bg-[#F0EEE9] text-[#1C1B1A] px-3 py-1 rounded-full text-[13px] font-semibold flex items-center gap-1.5"><User size={16} /> {t('cl_posted_chip')}</span>
+          )}
+          {String(job.id).startsWith('bj-') && (
+            <span className="bg-[#F0EEE9] text-[#1C1B1A] px-3 py-1 rounded-full text-[13px] font-semibold flex items-center gap-1.5"><HeartHandshake size={16} /> {t('br_chip')}</span>
           )}
           <span className="text-[#8A8580] font-medium">{job.postedHoursAgo}h ago</span>
         </div>
@@ -3722,6 +4025,9 @@ function JobDetail({ job, t, navTo, user, savedJobs, setSavedJobs, lang, showToa
         <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
           <div className="flex-1">
             <h1 className="text-[28px] sm:text-[30px] font-semibold mb-4 leading-tight">{job.title}</h1>
+            {String(job.id).startsWith('bj-') && (
+              <div className="mb-4"><span className="bg-[#F0EEE9] text-[#1C1B1A] px-3 py-1 rounded-full text-[13px] font-semibold inline-flex items-center gap-1.5"><HeartHandshake size={16} /> {t('br_chip')}</span></div>
+            )}
             <div className="flex flex-wrap items-center gap-4 text-base text-[#4A4744] font-medium">
               <span className="flex items-center gap-2 bg-[#F6F4EF] px-3 py-1.5 rounded-[12px] border border-[#EAE7E1]"><User size={20} className="text-[#8A8580]"/> {job.clientName}</span>
               <span className="flex items-center gap-2 bg-[#F6F4EF] px-3 py-1.5 rounded-[12px] border border-[#EAE7E1]"><MapPin size={20} className="text-[#8A8580]"/> {job.clientCountry}</span>
@@ -3816,6 +4122,7 @@ function JobDetail({ job, t, navTo, user, savedJobs, setSavedJobs, lang, showToa
             })}
           </ul>
           {haveCount < job.skillsRequired.length && <p className="text-base text-[#4A4744] mt-4">{t('sm_apply')}</p>}
+          <button onClick={() => navTo('skillbridge')} className="mt-3 text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px] text-left">{t('sb_link')}</button>
         </div>
 
         {/* Card 3: Opportunity Compatibility */}
@@ -4973,6 +5280,309 @@ function ClientView({ t, lang, navTo, showToast, clientJobs, setClientJobs, scro
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+// --- BRING OPPORTUNITY ---
+const BRING_PAY_METHODS = ['Bank transfer', 'Payoneer', 'Wise', 'Other'];
+function buildBringSeeds() {
+  const date = new Date().toISOString().slice(0, 10);
+  return [
+    {
+      id: 'seed-opp-1', type: 'opportunity', status: 'pending', date,
+      name: 'Sujan Karki', organisation: 'Nepali Tech Circle — Sydney', country: 'Australia', email: 'sujan@example.com',
+      title: 'Chat support for an online store (Nepali + English)', category: 'Virtual Assistant',
+      description: 'An online store run by Nepali owners in Sydney needs help answering customer chats. You will answer simple questions about prices, delivery and orders.',
+      deliverables: ['Answer customer chats in English and Nepali', 'Reply within the same day'],
+      skillsRequired: ['English Writing', 'Customer Chat Support'],
+      budgetMin: 40, budgetMax: 60, deadlineDays: 7, paymentMethod: 'Bank transfer',
+      needsOwnLaptop: true, internetNeed: 'Basic', beginnerFriendly: true,
+    },
+    {
+      id: 'seed-insight-1', type: 'insight', status: 'pending', date,
+      name: 'Anita Shrestha', organisation: 'Himalaya Tourism Partners', country: 'Australia', email: 'anita@example.com',
+      text: 'Hotels here are asking for short booking videos. Video editing is asked for more every month.',
+    },
+  ];
+}
+
+function BringView({ t, lang, navTo, onSubmit }) {
+  const digits = (n) => toDigits(n, lang);
+  const skillOptions = useMemo(() => [...new Set(DUMMY_JOBS.flatMap(j => j.skillsRequired))], []);
+  const [type, setType] = useState('opportunity');
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState(false);
+  const [name, setName] = useState('');
+  const [org, setOrg] = useState('');
+  const [country, setCountry] = useState('');
+  const [email, setEmail] = useState('');
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState(ALL_CATEGORIES[0]);
+  const [desc, setDesc] = useState('');
+  const [deliverables, setDeliverables] = useState(['', '']);
+  const [skills, setSkills] = useState([]);
+  const [bMin, setBMin] = useState('');
+  const [bMax, setBMax] = useState('');
+  const [deadline, setDeadline] = useState('');
+  const [pay, setPay] = useState('Bank transfer');
+  const [laptop, setLaptop] = useState(false);
+  const [internet, setInternet] = useState('Basic');
+  const [beginners, setBeginners] = useState(true);
+  const [insight, setInsight] = useState('');
+
+  const payLabel = (m) => m === 'Bank transfer' ? t('np_bank') : m === 'Other' ? t('br_pay_other') : m;
+  const pickType = (v) => { setType(v); setError(false); };
+
+  const submit = () => {
+    const base = { name: name.trim(), organisation: org.trim(), country: country.trim(), email: email.trim() };
+    const baseOk = base.name && base.organisation && base.country && base.email.includes('@');
+    const id = 'b' + Date.now();
+    const date = new Date().toISOString().slice(0, 10);
+    if (type === 'insight') {
+      if (!baseOk || !insight.trim()) { setError(true); return; }
+      onSubmit({ id, type: 'insight', status: 'pending', date, ...base, text: insight.trim() });
+    } else {
+      const dl = deliverables.map(d => d.trim()).filter(Boolean);
+      const lo = Math.round(Number(bMin));
+      const hi = Math.round(Number(bMax));
+      const d = Number(deadline);
+      if (!baseOk || !title.trim() || !desc.trim() || dl.length < 1 || skills.length < 1 || !(lo >= 1) || !(hi >= lo) || !(d >= 1)) { setError(true); return; }
+      onSubmit({
+        id, type: 'opportunity', status: 'pending', date, ...base,
+        title: title.trim(), category, description: desc.trim(), deliverables: dl,
+        skillsRequired: skillOptions.filter(x => skills.includes(x)),
+        budgetMin: lo, budgetMax: hi, deadlineDays: Math.round(d), paymentMethod: pay,
+        needsOwnLaptop: laptop, internetNeed: internet, beginnerFriendly: beginners,
+      });
+    }
+    setError(false);
+    setDone(true);
+    window.scrollTo(0, 0);
+  };
+
+  if (done) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div className={`${CL_CARD} space-y-5`}>
+          <div className="flex items-start gap-3">
+            <CheckCircle2 size={24} className="shrink-0 mt-0.5 text-[#C73E33]" />
+            <p className="text-base text-[#1C1B1A]">{t('br_thanks')}</p>
+          </div>
+          <button type="button" onClick={() => navTo('firstwork')} className="w-full sm:w-auto bg-[#C73E33] text-white px-8 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px]">
+            {t('back_to_jobs')}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const pill = (on) => `min-h-[48px] px-5 py-2 rounded-full border text-base font-semibold text-left ${on ? 'bg-[#FAF0EE] border-[#C73E33] text-[#AE332A]' : 'bg-white border-[#EAE7E1] text-[#4A4744] hover:bg-[#F6F4EF]'}`;
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-6">
+      <div>
+        <button onClick={() => navTo('firstwork')} className="flex items-center gap-2 text-base text-[#4A4744] mb-4 hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2 font-medium">
+          <ChevronLeft size={20} /> {t('back_to_jobs')}
+        </button>
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-2">{t('br_title')}</h1>
+        <p className="text-base text-[#4A4744] mb-3">{t('br_intro')}</p>
+        <button type="button" onClick={() => navTo('bring-queue')} className="inline-flex items-center gap-2 text-base font-semibold text-[#1C1B1A] underline underline-offset-4 min-h-[44px]">
+          <ClipboardList size={20} className="shrink-0" /> {t('br_queue_link')}
+        </button>
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3" role="group">
+        <button type="button" aria-pressed={type === 'opportunity'} onClick={() => pickType('opportunity')} className={pill(type === 'opportunity')}>{t('br_type_opp')}</button>
+        <button type="button" aria-pressed={type === 'insight'} onClick={() => pickType('insight')} className={pill(type === 'insight')}>{t('br_type_ins')}</button>
+      </div>
+
+      <Disclaimer t={t} k="disc_bring" />
+
+      <div className={`${CL_CARD} space-y-5`}>
+        <div>
+          <label htmlFor="br-name" className={CL_LABEL}>{t('br_f_name')}</label>
+          <input id="br-name" type="text" value={name} onChange={e => setName(e.target.value)} className={CL_INPUT} />
+        </div>
+        <div>
+          <label htmlFor="br-org" className={CL_LABEL}>{t('br_f_org')}</label>
+          <input id="br-org" type="text" value={org} onChange={e => setOrg(e.target.value)} className={CL_INPUT} />
+        </div>
+        <div>
+          <label htmlFor="br-country" className={CL_LABEL}>{t('br_f_country')}</label>
+          <input id="br-country" type="text" value={country} onChange={e => setCountry(e.target.value)} className={CL_INPUT} />
+        </div>
+        <div>
+          <label htmlFor="br-email" className={CL_LABEL}>{t('br_f_email')}</label>
+          <input id="br-email" type="email" value={email} onChange={e => setEmail(e.target.value)} className={CL_INPUT} />
+        </div>
+      </div>
+
+      {type === 'insight' ? (
+        <div className={CL_CARD}>
+          <label htmlFor="br-insight" className={CL_LABEL}>{t('br_f_insight')}</label>
+          <textarea id="br-insight" rows={5} value={insight} onChange={e => setInsight(e.target.value)} className={CL_INPUT} />
+        </div>
+      ) : (
+        <>
+          <div className={`${CL_CARD} space-y-5`}>
+            <div>
+              <label htmlFor="br-title" className={CL_LABEL}>{t('cl_f_title')}</label>
+              <input id="br-title" type="text" value={title} onChange={e => setTitle(e.target.value)} className={CL_INPUT} />
+            </div>
+            <div>
+              <label htmlFor="br-cat" className={CL_LABEL}>{t('cl_f_category')}</label>
+              <select id="br-cat" value={category} onChange={e => setCategory(e.target.value)} className={CL_INPUT}>
+                {ALL_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="br-desc" className={CL_LABEL}>{t('cl_f_desc')}</label>
+              <textarea id="br-desc" rows={4} value={desc} onChange={e => setDesc(e.target.value)} className={CL_INPUT} />
+            </div>
+          </div>
+
+          <div className={`${CL_CARD} space-y-3`}>
+            <div className={CL_LABEL}>{t('cl_f_deliv')}</div>
+            {deliverables.map((d, i) => (
+              <input key={i} type="text" aria-label={`${t('cl_f_deliv')} ${digits(i + 1)}`} value={d} onChange={e => setDeliverables(prev => prev.map((x, k) => k === i ? e.target.value : x))} className={CL_INPUT} />
+            ))}
+            {deliverables.length < 3 && (
+              <button type="button" onClick={() => setDeliverables(prev => [...prev, ''])} className="min-h-[48px] px-5 rounded-full bg-white border border-[#E3E0D9] text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] flex items-center gap-2">
+                <Plus size={20} /> {t('cl_add_one')}
+              </button>
+            )}
+          </div>
+
+          <div className={CL_CARD}>
+            <div className={CL_LABEL}>{t('cl_f_skills')}</div>
+            <div className="flex flex-wrap gap-2">
+              {skillOptions.map(sk => {
+                const on = skills.includes(sk);
+                return (
+                  <button key={sk} type="button" aria-pressed={on} onClick={() => setSkills(prev => prev.includes(sk) ? prev.filter(x => x !== sk) : [...prev, sk])}
+                    className={`min-h-[44px] px-4 rounded-full border text-base font-medium ${on ? 'bg-[#FAF0EE] border-[#C73E33] text-[#AE332A]' : 'bg-white border-[#EAE7E1] text-[#4A4744] hover:bg-[#F6F4EF]'}`}>
+                    {sk}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={`${CL_CARD} space-y-5`}>
+            <div>
+              <div className={CL_LABEL}>{t('br_f_budget')}</div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label htmlFor="br-bmin" className="block text-sm text-[#6E6963] mb-1">{t('br_from')}</label>
+                  <input id="br-bmin" type="number" inputMode="numeric" min="1" value={bMin} onChange={e => setBMin(e.target.value)} className={CL_INPUT} />
+                </div>
+                <div>
+                  <label htmlFor="br-bmax" className="block text-sm text-[#6E6963] mb-1">{t('br_to')}</label>
+                  <input id="br-bmax" type="number" inputMode="numeric" min="1" value={bMax} onChange={e => setBMax(e.target.value)} className={CL_INPUT} />
+                </div>
+              </div>
+            </div>
+            <div>
+              <label htmlFor="br-deadline" className={CL_LABEL}>{t('cl_f_deadline')}</label>
+              <input id="br-deadline" type="number" inputMode="numeric" min="1" value={deadline} onChange={e => setDeadline(e.target.value)} className={CL_INPUT} />
+            </div>
+            <div>
+              <label htmlFor="br-pay" className={CL_LABEL}>{t('br_f_pay')}</label>
+              <select id="br-pay" value={pay} onChange={e => setPay(e.target.value)} className={CL_INPUT}>
+                {BRING_PAY_METHODS.map(m => <option key={m} value={m}>{payLabel(m)}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div className={`${CL_CARD} space-y-4`}>
+            <h2 className="text-xl font-semibold">{t('cl_req_head')}</h2>
+            <ClientToggle label={t('cl_f_laptop')} on={laptop} onChange={setLaptop} />
+            <div>
+              <label htmlFor="br-net" className={CL_LABEL}>{t('cl_f_internet')}</label>
+              <select id="br-net" value={internet} onChange={e => setInternet(e.target.value)} className={CL_INPUT}>
+                <option value="Basic">Basic</option>
+                <option value="Good">Good</option>
+              </select>
+            </div>
+            <ClientToggle label={t('cl_f_beginners')} on={beginners} onChange={setBeginners} />
+          </div>
+        </>
+      )}
+
+      {error && (
+        <div role="alert" className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[14px] p-4 flex items-start gap-3">
+          <AlertTriangle size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
+          <p className="text-base text-[#1C1B1A]">{type === 'insight' ? t('br_error_ins') : t('br_error_opp')}</p>
+        </div>
+      )}
+      <button type="button" onClick={submit} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] min-h-[52px]">
+        {t('br_submit')}
+      </button>
+    </div>
+  );
+}
+
+function BringQueue({ t, lang, navTo, submissions, onDecide }) {
+  const digits = (n) => toDigits(n, lang);
+  const pending = submissions.filter(x => x.status === 'pending').slice().reverse();
+  const payLabel = (m) => m === 'Bank transfer' ? t('np_bank') : m === 'Other' ? t('br_pay_other') : m;
+  const dt = "text-sm text-[#6E6963]";
+  const dd = "text-base text-[#1C1B1A] break-words";
+  return (
+    <div className="max-w-2xl mx-auto space-y-6">
+      <div>
+        <button onClick={() => navTo('bring')} className="flex items-center gap-2 text-base text-[#4A4744] mb-4 hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2 font-medium">
+          <ChevronLeft size={20} /> {t('back')}
+        </button>
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-2">{t('br_q_title')}</h1>
+        <p className="text-base text-[#4A4744]">{t('br_q_line')}</p>
+      </div>
+
+      {pending.length === 0 ? (
+        <p className="text-base text-[#4A4744]">{t('br_q_empty')}</p>
+      ) : (
+        <div className="space-y-4">
+          {pending.map(x => (
+            <div key={x.id} className={`${CL_CARD} space-y-4`}>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="bg-[#F0EEE9] text-[#1C1B1A] px-3 py-1 rounded-full text-[13px] font-semibold">{x.type === 'opportunity' ? t('br_q_opp') : t('br_q_ins')}</span>
+                <span className="text-sm font-semibold text-[#6E6963]">{t('br_q_waiting')}</span>
+              </div>
+              <div>
+                <div className="font-semibold text-xl break-words">{x.name}</div>
+                <div className="text-base text-[#4A4744] break-words">{x.organisation} · {x.country} · {x.email}</div>
+              </div>
+              {x.type === 'opportunity' ? (
+                <dl className="space-y-3">
+                  <div><dt className={dt}>{t('cl_f_title')}</dt><dd className={`${dd} font-semibold`}>{x.title}</dd></div>
+                  <div><dt className={dt}>{t('cl_f_category')}</dt><dd className={dd}>{x.category}</dd></div>
+                  <div><dt className={dt}>{t('cl_f_skills')}</dt><dd className={dd}>{(x.skillsRequired || []).join(', ')}</dd></div>
+                  <div><dt className={dt}>{t('br_f_budget')}</dt><dd className={dd}>${fmtMoney(x.budgetMin)} – ${fmtMoney(x.budgetMax)}</dd></div>
+                  <div><dt className={dt}>{t('cl_f_deadline')}</dt><dd className={dd}>{fmt(t('wr_days'), { days: digits(x.deadlineDays) })}</dd></div>
+                  <div><dt className={dt}>{t('br_f_pay')}</dt><dd className={dd}>{payLabel(x.paymentMethod)}</dd></div>
+                  <div><dt className={dt}>{t('cl_f_desc')}</dt><dd className={dd}>{x.description}</dd></div>
+                  <div>
+                    <dt className={dt}>{t('br_tasks')}</dt>
+                    <dd><ul className="list-disc pl-5 text-base text-[#1C1B1A] space-y-1">{(x.deliverables || []).map((d, i) => <li key={i} className="break-words">{d}</li>)}</ul></dd>
+                  </div>
+                  <div><dt className={dt}>{t('cl_req_head')}</dt><dd className={dd}>{[x.needsOwnLaptop ? t('cl_f_laptop') : null, t('cl_f_internet') + ': ' + x.internetNeed, x.beginnerFriendly ? t('cl_f_beginners') : null].filter(Boolean).join(' · ')}</dd></div>
+                </dl>
+              ) : (
+                <p className="text-base text-[#1C1B1A] break-words">{x.text}</p>
+              )}
+              <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                <button type="button" onClick={() => onDecide(x.id, 'approve')} className="bg-[#C73E33] text-white px-6 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px] py-2">
+                  {t('br_approve')}
+                </button>
+                <button type="button" onClick={() => onDecide(x.id, 'reject')} className="bg-white border border-[#E3E0D9] text-[#1C1B1A] px-6 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] py-2">
+                  {t('br_reject')}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

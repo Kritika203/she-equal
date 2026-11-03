@@ -63,3 +63,7 @@ On the FirstWork page, tap "Post a job — client demo". This opens a clearly-la
 3. Tap "Accept" to open a simple agreement (deliverables, agreed price, deadline, revisions, milestones). "Confirm agreement" saves it on the job.
 
 A fresh demo job is deliberately marked "Payment method not verified". The `extension/` folder is unchanged.
+
+## SkillBridge
+
+Open it from My WorkPassport (SkillBridge card) or from the link at the bottom of a job page's Skill Match card. It compares the current user's skills with the combined job list (client-posted jobs plus the 18 sample jobs) and shows an Opportunity Counter, skill gaps with a free resource and a small practice task, and skills often asked together. Everything is computed on open (`computeSkillBridge` in `src/App.jsx`); no new localStorage keys. Proof of a practice task is a photo or link added in the Passport.
