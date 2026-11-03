@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background: #FBFAF8;
+  color: #1C1B1A;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Form controls: 16px so phones do not auto-zoom */
+input, textarea, select { font-size: 1rem; }
+
+/* Soft, consistent feedback (150ms, no bounce) */
+button, a, label, input, textarea, select {
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease,
+    box-shadow 150ms ease, transform 150ms ease, opacity 150ms ease;
+}
+button:not(:disabled):active { transform: scale(0.98); }
+button:disabled { cursor: not-allowed; }
+
+/* Visible keyboard focus for buttons */
+button:focus-visible, a:focus-visible, select:focus-visible {
+  outline: 2px solid rgba(199, 62, 51, 0.3);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+  button:not(:disabled):active { transform: none; }
+}
+
+/* Low-Data / Simple Mode: root text is 112.5%; scale the few fixed-pixel sizes too */
+html.wp-simple-on .wp-app [class*="text-[13px]"] { font-size: 14.625px; }
+html.wp-simple-on .wp-app [class*="text-[15px]"] { font-size: 16.875px; }
+html.wp-simple-on .wp-app [class*="text-[22px]"] { font-size: 24.75px; }
+html.wp-simple-on .wp-app [class*="text-[28px]"] { font-size: 31.5px; }
+@media (min-width: 640px) {
+  html.wp-simple-on .wp-app [class*="sm:text-[30px]"] { font-size: 33.75px; }
+}

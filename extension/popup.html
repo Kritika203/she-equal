@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WorkShield</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <svg class="shield" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C73E33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      <path d="M9 12l2 2 4-4"></path>
+    </svg>
+    <div>
+      <div class="brand">WorkShield</div>
+      <div class="by">by WorkPassport</div>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="lang-en" class="lang-btn active" aria-pressed="true" type="button">EN</button>
+      <button id="lang-ne" class="lang-btn" aria-pressed="false" type="button">नेपाली</button>
+    </div>
+  </header>
+
+  <div class="tabs main-tabs" role="group" aria-label="Sections">
+    <button id="mtab-check" class="tab active" aria-pressed="true" type="button">Check</button>
+    <button id="mtab-job" class="tab" aria-pressed="false" type="button" data-en="Job tools" data-ne="कामका साधनहरू">Job tools</button>
+    <button id="mtab-apply" class="tab" aria-pressed="false" type="button">Apply help</button>
+    <button id="mtab-passport" class="tab" aria-pressed="false" type="button">Passport</button>
+  </div>
+
+  <!-- ===================== TAB 1: CHECK ===================== -->
+  <section id="panel-check">
+    <div class="tabs" role="group" aria-label="Check type">
+      <button id="tab-job" class="tab active" aria-pressed="true" type="button">Job check</button>
+      <button id="tab-msg" class="tab" aria-pressed="false" type="button">Message check</button>
+    </div>
+
+    <div id="situations" hidden>
+      <p class="label">Or pick a situation:</p>
+      <div id="chips" class="chips"></div>
+      <div id="chip-reply"></div>
+    </div>
+
+    <textarea id="input" placeholder="Paste text, or use the button below…"></textarea>
+
+    <button id="use-selected" class="btn secondary" type="button">Use selected text on this page</button>
+    <p id="hint" class="hint" hidden>Select some text on the page first, then try again.</p>
+
+    <button id="check" class="btn primary" type="button" disabled>Check it</button>
+
+    <section id="result" class="result" hidden aria-live="polite">
+      <h1 id="headline" class="headline"></h1>
+      <p id="headline-ne" class="headline-ne"></p>
+      <ul id="findings" class="findings"></ul>
+    </section>
+
+    <section id="replies" hidden>
+      <h2 class="section-title">Help me reply</h2>
+      <div id="reply-cards"></div>
+    </section>
+
+    <div id="proof-box" hidden>
+      <button id="save-proof" class="btn secondary" type="button" hidden>Save as proof</button>
+      <details id="proof-details" class="details">
+        <summary>Saved proof (on this device)</summary>
+        <div id="proof-list"></div>
+      </details>
+    </div>
+
+    <section class="recent">
+      <div class="recent-head">
+        <h2 class="section-title">Recent checks</h2>
+        <button id="clear-history" class="link" type="button">Clear</button>
+      </div>
+      <ul id="history" class="history"></ul>
+    </section>
+  </section>
+
+  <!-- ===================== TAB 2: JOB TOOLS ===================== -->
+  <section id="panel-job" hidden>
+    <p id="jt-skills-label" class="label" data-en="Your skills (tap to change)" data-ne="तपाईंका सीप (बदल्न ट्याप गर्नुहोस्)">Your skills (tap to change)</p>
+    <div id="jt-skill-chips" class="chips"></div>
+    <div class="add-row">
+      <input id="jt-skill-add" type="text" list="jt-skill-list" autocomplete="off" aria-labelledby="jt-skills-label">
+      <button id="jt-skill-add-btn" class="btn secondary" type="button" data-en="Add" data-ne="थप्नुहोस्">Add</button>
+    </div>
+    <datalist id="jt-skill-list"></datalist>
+    <p id="jt-skill-error" class="error" hidden></p>
+
+    <textarea id="jt-input" data-ph-en="Paste a job post here…" data-ph-ne="कामको विज्ञापन यहाँ टाँस्नुहोस्…" placeholder="Paste a job post here…"></textarea>
+    <button id="jt-use-selected" class="btn secondary" type="button" data-en="Use selected text on this page" data-ne="यो पेजमा चयन गरिएको पाठ प्रयोग गर्नुहोस्">Use selected text on this page</button>
+    <p id="jt-hint" class="hint" hidden></p>
+
+    <div class="btn-row three">
+      <button id="jt-skills" class="btn primary" type="button" data-en="Check skills" data-ne="सीप जाँच्नुहोस्">Check skills</button>
+      <button id="jt-price" class="btn primary" type="button" data-en="Check price" data-ne="मूल्य जाँच्नुहोस्">Check price</button>
+      <button id="jt-explain" class="btn primary" type="button" data-en="Explain" data-ne="बुझाइदिनुहोस्">Explain</button>
+    </div>
+
+    <section id="jt-result" class="result" hidden aria-live="polite"></section>
+
+    <button id="jt-save" class="btn secondary" type="button" data-en="Save this job" data-ne="यो काम सेभ गर्नुहोस्">Save this job</button>
+
+    <section class="recent">
+      <h2 class="section-title" data-en="Saved jobs" data-ne="सेभ गरिएका काम">Saved jobs</h2>
+      <ul id="jt-saved" class="history saved"></ul>
+      <p class="small" data-en="Saved inside the extension. In the full WorkPassport, these appear in My Opportunities." data-ne="एक्सटेन्सनभित्र सेभ गरिएको। पूरा WorkPassport मा यी My Opportunities मा देखिन्छन्।">Saved inside the extension. In the full WorkPassport, these appear in My Opportunities.</p>
+    </section>
+  </section>
+
+  <!-- ===================== TAB 3: APPLY HELP ===================== -->
+  <section id="panel-apply" hidden>
+    <p class="intro">Applying on another site? Build a strong application here, then copy it.</p>
+
+    <label class="field" for="f-name">Your name</label>
+    <input id="f-name" type="text" autocomplete="off">
+
+    <label class="field" for="f-title">Job title</label>
+    <input id="f-title" type="text" autocomplete="off">
+
+    <label class="field" for="f-skills">Your skills</label>
+    <input id="f-skills" type="text" placeholder="e.g. Canva, Logo Design, English Writing" autocomplete="off">
+
+    <label class="field" for="f-price">Your price (USD)</label>
+    <input id="f-price" type="number" min="0" step="any" inputmode="decimal">
+    <p id="price-guide" class="small"></p>
+    <p id="price-npr" class="small strong" hidden></p>
+
+    <p id="apply-error" class="error" hidden>Add the job title and your skills first.</p>
+    <button id="make-app" class="btn primary" type="button">Make my application</button>
+
+    <div id="output-wrap" hidden>
+      <label class="field" for="output">Your application (you can edit it)</label>
+      <textarea id="output" class="output"></textarea>
+      <div class="btn-row">
+        <button id="improve" class="btn secondary" type="button">Improve it</button>
+        <button id="copy-app" class="btn primary" type="button">Copy application</button>
+      </div>
+      <p id="improve-status" class="small" aria-live="polite" hidden></p>
+      <p class="small">These are suggestions to help you. Read and change anything before you send — the final decision is always yours.</p>
+    </div>
+  </section>
+
+  <!-- ===================== TAB 4: PASSPORT ===================== -->
+  <section id="panel-passport" hidden>
+    <p class="intro">Your WorkPassport proves your skills. Keep your link here so you can paste it into any application.</p>
+
+    <div id="passport-empty" hidden>
+      <label class="field" for="p-link">Your WorkPassport link</label>
+      <input id="p-link" type="text" placeholder="Paste your WorkPassport link here" autocomplete="off">
+      <button id="save-link" class="btn primary" type="button">Save link</button>
+    </div>
+
+    <div id="passport-saved" hidden>
+      <p id="link-view" class="link-view"></p>
+      <button id="copy-link" class="btn primary" type="button">Copy my Passport link</button>
+      <button id="open-passport" class="btn secondary" type="button">Open WorkPassport</button>
+      <button id="change-link" class="link" type="button">Change link</button>
+    </div>
+
+    <p id="passport-status" class="small strong" aria-live="polite" hidden></p>
+    <p class="small">Your link is saved only in this browser.</p>
+  </section>
+
+  <p class="privacy">Checks run on your device. Nothing is sent anywhere.
+    <a id="open-app" href="#">Open WorkPassport</a></p>
+
+  <footer class="foot">WorkShield prototype — a check is guidance, not a promise of safety.</footer>
+
+  <script src="rules.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
