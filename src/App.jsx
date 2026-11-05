@@ -4,7 +4,7 @@ import {
   Shield, ShieldCheck, ShieldAlert, CheckCircle2, Bookmark, MapPin, 
   Search, SlidersHorizontal, ChevronLeft, Flag, Volume2, User, 
   LogOut, Check, ArrowRight, Lock, Bell, ChevronDown, CheckSquare, Square, X, Info, AlertTriangle, Sparkles, MessageSquare, Send, Wallet,
-  EyeOff, Sun, MoreVertical, BellOff, Ban, ClipboardList, ImagePlus, Link2, Trash2, Download, HeartHandshake, Plus, TrendingUp, ExternalLink
+  EyeOff, Sun, MoreVertical, BellOff, Ban, ClipboardList, ImagePlus, Link2, Trash2, Download, HeartHandshake, Plus, TrendingUp, ExternalLink, Phone, Moon, Briefcase
 } from 'lucide-react';
 
 // --- TRANSLATIONS DICTIONARY ---
@@ -307,6 +307,9 @@ const DICT = {
     tog_verified: "Payment Verified only",
     tog_match: "Matches my skills",
     sort_by: "Sort by",
+    sort_best: "Best match for me",
+    ws_one_label: "Paste a job post or a message from a client",
+    ws_one_intro: "One check looks for scam signs and for messages that cross your lines.",
     sort_new: "Newest",
     sort_high: "Budget: High to Low",
     sort_low: "Budget: Low to High",
@@ -535,6 +538,61 @@ const DICT = {
     ca_report: "Report client",
     ca_muted_note: "You muted this client. New messages will not arrive here.",
     ca_blocked_bar: "You blocked this client. You can unblock any time.",
+    // Safety pack: trusted person, check-in, emergency, end chat, checklist, quiet hours
+    sp_tc_title: "Your trusted person",
+    sp_tc_intro: "Choose one person you trust — a family member or a friend. If a call or a meeting feels wrong, this person should know your plan.",
+    sp_tc_name: "Their name",
+    sp_tc_phone: "Their phone number",
+    sp_tc_edit: "Edit",
+    sp_ci_sub: "Plan a check-in",
+    sp_ci_add_first: "Add your trusted person above first.",
+    sp_ci_job: "Choose the job",
+    sp_ci_client: "Client name",
+    sp_ci_in: "Check on me in",
+    sp_ci_d2: "2 minutes (to try it)",
+    sp_ci_d30: "30 minutes",
+    sp_ci_d60: "1 hour",
+    sp_ci_d120: "2 hours",
+    sp_ci_copy: "Copy my plan message",
+    sp_ci_start: "Start check-in",
+    sp_ci_msg_job: "Hi {contactName}, I am talking with {clientName} about the job \"{jobTitle}\". Please check on me if I do not reply by {time}. — {userName}, via WorkPassport",
+    sp_ci_msg_nojob: "Hi {contactName}, I am talking with {clientName} about a job. Please check on me if I do not reply by {time}. — {userName}, via WorkPassport",
+    sp_ci_wait: "Your check-in time is {time}. Tap \"I'm safe\" when you are okay.",
+    sp_ci_safe_btn: "I'm safe",
+    sp_ci_safe_done: "You checked in safe. Well done.",
+    sp_ci_over_title: "You did not check in",
+    sp_ci_over_line: "Your plan was to talk with {clientName} about \"{jobTitle}\" at {time}.",
+    sp_ci_over_line_nojob: "Your plan was to talk with {clientName} about a job at {time}.",
+    sp_ci_call: "Call {contactName}",
+    sp_ci_safe_now: "I'm safe now",
+    sp_disc_plan: "Only you can send this message. WorkPassport never sends messages or calls anyone for you.",
+    sp_em_btn: "Emergency — get help now",
+    sp_em_title: "Get help now",
+    sp_em_line: "If you are in danger now, call the police first.",
+    sp_em_police: "Nepal Police — 100",
+    sp_em_women: "National Women Commission — 1145",
+    sp_em_call: "Call {contactName} — {phone}",
+    sp_em_none: "You have not added a trusted person yet. You can add one on the Safety page.",
+    sp_em_hide: "Hide this app",
+    sp_es_btn: "End this chat safely",
+    sp_es_title: "End this chat safely?",
+    sp_es_expl: "This will: save the whole chat as proof in your Evidence Vault, block this client, and write a report you can copy.",
+    sp_es_confirm: "Confirm",
+    sp_es_rep_title: "Your report — copy and send it to the platform",
+    sp_es_toast: "Chat ended safely",
+    sp_tm_title: "If you talk or meet",
+    sp_tm_1: "Talk inside this app's chat when you can.",
+    sp_tm_2: "If you meet, choose a public place and a daytime hour.",
+    sp_tm_3: "Tell your trusted person first — you can share your plan from the Safety page.",
+    sp_tm_4: "You can say no to a call or a meeting. Good clients understand.",
+    sp_qh_title: "Quiet hours",
+    sp_qh_line: "When quiet hours are on, client chats show a ready reply so you do not feel you must answer at night.",
+    sp_qh_from: "From",
+    sp_qh_to: "To",
+    sp_qh_on_now: "Quiet hours are on now",
+    sp_qh_starts: "Quiet hours start at {from}",
+    sp_qh_card_title: "Quiet hours — you do not need to reply now",
+    sp_qh_draft: "Thank you for your message. My working hours are over for today. I will reply tomorrow in my working hours.",
     ca_report_title: "Report this client",
     ca_r_scam: "Scam",
     ca_r_harassment: "Harassment",
@@ -574,7 +632,37 @@ const DICT = {
     cl_submit: "Post this job",
     cl_error: "Please fill the title, at least one deliverable, at least one skill, a budget above 0, and a deadline of at least 1 day.",
     cl_toast_posted: "Job posted.",
-    cl_posted_chip: "Posted by you",
+    cl_posted_chip: "Posted by a client (demo)",
+    cm_welcome_q: "Are you a client?",
+    cm_welcome_line: "See the demo as a client: post a job and choose a freelancer.",
+    cm_enter: "Continue as a client (demo)",
+    cm_home: "Client Home",
+    cm_post: "Post a Job",
+    cm_switch_maya: "Switch to freelancer demo (Maya)",
+    cm_greeting: "Welcome, Bikash",
+    cm_profile_line: "Bikash Tamang runs Tamang Trek Gear, a small trekking shop in Kathmandu. He posts design and shop jobs.",
+    cm_post_new: "Post a new job",
+    cm_seed_chip: "Seeded demo job",
+    cm_switch_btn: "Switch to the client demo",
+    disc_client: "In this demo, jobs you post are marked Payment not verified. In the real product, a licensed payment partner checks the payment before a job can show as verified.",
+    pf_head: "About me",
+    pf_edit: "Edit my details",
+    pf_headline: "Headline — one short line about your work",
+    pf_about_label: "About me — tell clients about yourself",
+    pf_languages: "Languages I speak",
+    pf_availability: "When I can work",
+    pf_rate: "My usual price",
+    pf_tools: "Tools I have",
+    pf_training: "Training and education",
+    pf_tr_title: "Course or class name",
+    pf_tr_where: "School or institute",
+    pf_tr_year: "Year",
+    pf_empty: "Not added yet. Use Edit my details to add it.",
+    pf_saved_toast: "Your details are saved",
+    pf_details: "My details",
+    ld_label: "Low-Data Mode",
+    ld_desc: "The job list becomes short text cards — no long descriptions — so pages open fast and use very little data.",
+    ld_on_line: "Low-data mode is on — short text cards, less data used.",
     cl_view_applicants: "View applicants",
     cl_applicants: "Applicants",
     cl_demo_applicants: "Demo applicants for this prototype.",
@@ -606,6 +694,19 @@ const DICT = {
     br_title: "Bring an Opportunity",
     br_intro: "Know a job, or a skill that employers are asking for? Share it here. Our team checks every submission before anything is listed.",
     br_queue_link: "Team demo: curation queue",
+    ii_entry: "Institution Insight",
+    ii_entry_sub: "For partner colleges and training providers: group numbers only",
+    ii_title: "Institution Insight",
+    ii_cohort: "Sample cohort: {n} learners",
+    ii_privacy: "This page shows group numbers only. Institutions never see private chats, individual earnings, or which learner earned what.",
+    ii_col_skill: "Skill",
+    ii_col_have: "Learners with this skill (verified)",
+    ii_col_demand: "Sample jobs asking for it",
+    ii_have_of: "{have} of {cohort}",
+    ii_gap_title: "The biggest gap",
+    ii_gap_have: "Suggested response: add a short course or weekend workshop in {skill}. {demand} of the {total} sample jobs ask for it, and only {have} of the {cohort} learners have it verified.",
+    ii_gap_none: "Suggested response: add a short course or weekend workshop in {skill}. {demand} of the {total} sample jobs ask for it, and no learners have it verified yet.",
+    ii_sample: "The learner numbers are sample numbers for this prototype. The job numbers are counted from this app's sample jobs.",
     br_type_opp: "An opportunity (a job)",
     br_type_ins: "An insight (what employers ask for)",
     disc_bring: "Submissions are checked by our team before anything is listed. Please only share opportunities you know are real.",
@@ -933,6 +1034,9 @@ const DICT = {
     tog_verified: "भुक्तानी पक्का भएका मात्र",
     tog_match: "मेरो सीपसँग मिल्ने",
     sort_by: "क्रमबद्ध",
+    sort_best: "मेरा लागि उत्तम मिल्दो",
+    ws_one_label: "कामको पोस्ट वा ग्राहकको सन्देश टाँस्नुहोस्",
+    ws_one_intro: "एउटै जाँचले ठगीका संकेतहरू र तपाईंका सीमा नाघ्ने सन्देशहरू दुवै हेर्छ।",
     sort_new: "सबैभन्दा नयाँ",
     sort_high: "बजेट: धेरैदेखि थोरै",
     sort_low: "बजेट: थोरैदेखि धेरै",
@@ -1161,6 +1265,61 @@ const DICT = {
     ca_report: "ग्राहकको उजुरी गर्नुहोस्",
     ca_muted_note: "तपाईंले यो ग्राहकलाई म्युट गर्नुभयो। यहाँ नयाँ सन्देश आउँदैन।",
     ca_blocked_bar: "तपाईंले यो ग्राहकलाई ब्लक गर्नुभयो। जुनसुकै बेला अनब्लक गर्न सक्नुहुन्छ।",
+    // Safety pack: trusted person, check-in, emergency, end chat, checklist, quiet hours
+    sp_tc_title: "तपाईंको विश्वासिलो व्यक्ति",
+    sp_tc_intro: "तपाईंले विश्वास गर्ने एक जना व्यक्ति छान्नुहोस् — परिवारको सदस्य वा साथी। कल वा भेटघाटमा केही गलत लागेमा, यो व्यक्तिलाई तपाईंको योजना थाहा हुनुपर्छ।",
+    sp_tc_name: "उनको नाम",
+    sp_tc_phone: "उनको फोन नम्बर",
+    sp_tc_edit: "सम्पादन गर्नुहोस्",
+    sp_ci_sub: "चेक-इन योजना बनाउनुहोस्",
+    sp_ci_add_first: "पहिले माथि आफ्नो विश्वासिलो व्यक्ति थप्नुहोस्।",
+    sp_ci_job: "काम छान्नुहोस्",
+    sp_ci_client: "ग्राहकको नाम",
+    sp_ci_in: "मलाई यसपछि सोध्नुहोस्",
+    sp_ci_d2: "२ मिनेट (जाँच्नका लागि)",
+    sp_ci_d30: "३० मिनेट",
+    sp_ci_d60: "१ घण्टा",
+    sp_ci_d120: "२ घण्टा",
+    sp_ci_copy: "मेरो योजना सन्देश कपि गर्नुहोस्",
+    sp_ci_start: "चेक-इन सुरु गर्नुहोस्",
+    sp_ci_msg_job: "नमस्ते {contactName}, म {clientName} सँग \"{jobTitle}\" कामको बारेमा कुरा गर्दैछु। {time} सम्म मैले जवाफ दिइनँ भने कृपया मलाई सोध्नुहोस्। — {userName}, WorkPassport बाट",
+    sp_ci_msg_nojob: "नमस्ते {contactName}, म {clientName} सँग कामको बारेमा कुरा गर्दैछु। {time} सम्म मैले जवाफ दिइनँ भने कृपया मलाई सोध्नुहोस्। — {userName}, WorkPassport बाट",
+    sp_ci_wait: "तपाईंको चेक-इन समय {time} हो। तपाईं ठीक हुनुहुन्छ भने \"म सुरक्षित छु\" थिच्नुहोस्।",
+    sp_ci_safe_btn: "म सुरक्षित छु",
+    sp_ci_safe_done: "तपाईं सुरक्षित रूपमा चेक-इन हुनुभयो। राम्रो गर्नुभयो।",
+    sp_ci_over_title: "तपाईंले चेक-इन गर्नुभएन",
+    sp_ci_over_line: "तपाईंको योजना {time} मा {clientName} सँग \"{jobTitle}\" बारेमा कुरा गर्ने थियो।",
+    sp_ci_over_line_nojob: "तपाईंको योजना {time} मा {clientName} सँग कामको बारेमा कुरा गर्ने थियो।",
+    sp_ci_call: "{contactName} लाई फोन गर्नुहोस्",
+    sp_ci_safe_now: "म अहिले सुरक्षित छु",
+    sp_disc_plan: "यो सन्देश तपाईं मात्र पठाउन सक्नुहुन्छ। WorkPassport ले तपाईंका लागि कहिल्यै सन्देश पठाउँदैन वा फोन गर्दैन।",
+    sp_em_btn: "आपतकाल — अहिले मद्दत लिनुहोस्",
+    sp_em_title: "अहिले मद्दत लिनुहोस्",
+    sp_em_line: "तपाईं अहिले खतरामा हुनुहुन्छ भने, पहिले प्रहरीलाई फोन गर्नुहोस्।",
+    sp_em_police: "नेपाल प्रहरी — १००",
+    sp_em_women: "राष्ट्रिय महिला आयोग — ११४५",
+    sp_em_call: "{contactName} लाई फोन गर्नुहोस् — {phone}",
+    sp_em_none: "तपाईंले अहिलेसम्म विश्वासिलो व्यक्ति थप्नुभएको छैन। सुरक्षा पृष्ठमा थप्न सक्नुहुन्छ।",
+    sp_em_hide: "यो एप लुकाउनुहोस्",
+    sp_es_btn: "यो च्याट सुरक्षित रूपमा बन्द गर्नुहोस्",
+    sp_es_title: "यो च्याट सुरक्षित रूपमा बन्द गर्ने?",
+    sp_es_expl: "यसले: पुरै च्याटलाई प्रमाणका रूपमा तपाईंको Evidence Vault मा सेभ गर्नेछ, यो ग्राहकलाई ब्लक गर्नेछ, र तपाईंले कपि गर्न सक्ने प्रतिवेदन लेख्नेछ।",
+    sp_es_confirm: "पुष्टि गर्नुहोस्",
+    sp_es_rep_title: "तपाईंको प्रतिवेदन — कपि गरेर प्लेटफर्मलाई पठाउनुहोस्",
+    sp_es_toast: "च्याट सुरक्षित रूपमा बन्द भयो",
+    sp_tm_title: "कुरा गर्नु वा भेट्नु परेमा",
+    sp_tm_1: "सकेसम्म यसै एपको च्याटमा कुरा गर्नुहोस्।",
+    sp_tm_2: "भेट्नै परेमा, सार्वजनिक ठाउँ र दिउँसोको समय छान्नुहोस्।",
+    sp_tm_3: "पहिले आफ्नो विश्वासिलो व्यक्तिलाई भन्नुहोस् — सुरक्षा पृष्ठबाट आफ्नो योजना साझा गर्न सक्नुहुन्छ।",
+    sp_tm_4: "तपाईं कल वा भेटलाई नाइँ भन्न सक्नुहुन्छ। राम्रा ग्राहकहरूले बुझ्छन्।",
+    sp_qh_title: "शान्त समय",
+    sp_qh_line: "शान्त समय अन हुँदा, ग्राहक च्याटले तयार जवाफ देखाउँछ, ताकि राति जवाफ दिनैपर्छ जस्तो नलागोस्।",
+    sp_qh_from: "देखि",
+    sp_qh_to: "सम्म",
+    sp_qh_on_now: "शान्त समय अहिले अन छ",
+    sp_qh_starts: "शान्त समय {from} बाट सुरु हुन्छ",
+    sp_qh_card_title: "शान्त समय — अहिले जवाफ दिनु पर्दैन",
+    sp_qh_draft: "तपाईंको सन्देशका लागि धन्यवाद। आज मेरो कामको समय सकियो। म भोलि मेरो कामको समयमा जवाफ दिनेछु।",
     ca_report_title: "यो ग्राहकको उजुरी गर्नुहोस्",
     ca_r_scam: "ठगी",
     ca_r_harassment: "दुर्व्यवहार",
@@ -1200,7 +1359,37 @@ const DICT = {
     cl_submit: "यो काम पोस्ट गर्नुहोस्",
     cl_error: "कृपया शीर्षक, कम्तीमा एउटा बुझाउने काम, कम्तीमा एउटा सीप, ० भन्दा बढी बजेट, र कम्तीमा १ दिनको मिति भर्नुहोस्।",
     cl_toast_posted: "काम पोस्ट गरियो।",
-    cl_posted_chip: "तपाईंले पोस्ट गरेको",
+    cl_posted_chip: "ग्राहकद्वारा पोस्ट गरिएको (डेमो)",
+    cm_welcome_q: "तपाईं ग्राहक हुनुहुन्छ?",
+    cm_welcome_line: "ग्राहकका रूपमा डेमो हेर्नुहोस्: काम पोस्ट गर्नुहोस् र फ्रिलान्सर छान्नुहोस्।",
+    cm_enter: "ग्राहकका रूपमा जारी राख्नुहोस् (डेमो)",
+    cm_home: "ग्राहक गृह",
+    cm_post: "काम पोस्ट गर्नुहोस्",
+    cm_switch_maya: "फ्रिलान्सर डेमोमा जानुहोस् (माया)",
+    cm_greeting: "स्वागत छ, बिकाश",
+    cm_profile_line: "बिकाश तामाङ काठमाडौंमा रहेको सानो ट्रेकिङ पसल, तामाङ ट्रेक गियर चलाउँछन्। उहाँले डिजाइन र पसलका कामहरू पोस्ट गर्नुहुन्छ।",
+    cm_post_new: "नयाँ काम पोस्ट गर्नुहोस्",
+    cm_seed_chip: "बीउ डेमो काम",
+    cm_switch_btn: "ग्राहक डेमोमा जानुहोस्",
+    disc_client: "यस डेमोमा, तपाईंले पोस्ट गरेका कामहरू भुक्तानी प्रमाणित नभएको भनेर चिन्ह लगाइन्छ। वास्तविक उत्पादनमा, काम प्रमाणित देखिनुअघि इजाजतपत्र प्राप्त भुक्तानी साझेदारले भुक्तानी जाँच गर्छ।",
+    pf_head: "मेरो बारेमा",
+    pf_edit: "मेरा विवरण मिलाउनुहोस्",
+    pf_headline: "शीर्षक — तपाईंको कामबारे एक छोटो लाइन",
+    pf_about_label: "मेरो बारेमा — ग्राहकहरूलाई आफ्नो बारेमा भन्नुहोस्",
+    pf_languages: "मैले बोल्ने भाषाहरू",
+    pf_availability: "म कहिले काम गर्न सक्छु",
+    pf_rate: "मेरो सामान्य मूल्य",
+    pf_tools: "मसँग भएका साधनहरू",
+    pf_training: "तालिम र शिक्षा",
+    pf_tr_title: "कोर्स वा कक्षाको नाम",
+    pf_tr_where: "विद्यालय वा संस्था",
+    pf_tr_year: "वर्ष",
+    pf_empty: "अहिलेसम्म थपिएको छैन। थप्नका लागि 'मेरा विवरण मिलाउनुहोस्' प्रयोग गर्नुहोस्।",
+    pf_saved_toast: "तपाईंका विवरण सेभ भयो",
+    pf_details: "मेरा विवरण",
+    ld_label: "कम डाटा मोड",
+    ld_desc: "कामको सूची छोटो अक्षर-कार्ड बन्छ — लामो विवरण हुँदैन — त्यसैले पृष्ठ छिटो खुल्छ र डाटा थोरै खर्च हुन्छ।",
+    ld_on_line: "कम डाटा मोड अन छ — छोटो अक्षर-कार्ड, डाटा थोरै खर्च हुन्छ।",
     cl_view_applicants: "आवेदकहरू हेर्नुहोस्",
     cl_applicants: "आवेदकहरू",
     cl_demo_applicants: "यस नमुनाका लागि बनाइएका आवेदकहरू।",
@@ -1232,6 +1421,19 @@ const DICT = {
     br_title: "अवसर ल्याउनुहोस्",
     br_intro: "काम, वा रोजगारदाताहरूले मागिरहेको सीप थाहा छ? यहाँ साझा गर्नुहोस्। केही पनि सूचीमा राख्नुअघि हाम्रो टोलीले हरेक पेश्की जाँच्छ।",
     br_queue_link: "टोली डेमो: जाँच सूची",
+    ii_entry: "संस्थाका लागि जानकारी",
+    ii_entry_sub: "साझेदार कलेज र तालिम दिने संस्थाहरूका लागि: समूहका सङ्ख्या मात्र",
+    ii_title: "संस्थाका लागि जानकारी",
+    ii_cohort: "नमुना समूह: {n} जना सिकारु",
+    ii_privacy: "यो पृष्ठले समूहका सङ्ख्याहरू मात्र देखाउँछ। संस्थाहरूले निजी च्याट, व्यक्तिको आम्दानी, वा कसले कति कमायो भन्ने कहिल्यै देख्दैनन्।",
+    ii_col_skill: "सीप",
+    ii_col_have: "यो सीप भएका सिकारु (प्रमाणित)",
+    ii_col_demand: "यसलाई माग्ने नमुना कामहरू",
+    ii_have_of: "{cohort} मध्ये {have}",
+    ii_gap_title: "सबैभन्दा ठूलो अन्तर",
+    ii_gap_have: "सुझाव: {skill} मा छोटो कोर्स वा सप्ताहन्त कार्यशाला थप्नुहोस्। {total} वटा नमुना काममध्ये {demand} वटाले यो माग्छन्, र {cohort} जना सिकारुमध्ये {have} जनासँग मात्र यो प्रमाणित छ।",
+    ii_gap_none: "सुझाव: {skill} मा छोटो कोर्स वा सप्ताहन्त कार्यशाला थप्नुहोस्। {total} वटा नमुना काममध्ये {demand} वटाले यो माग्छन्, र अहिलेसम्म कुनै सिकारुसँग यो प्रमाणित छैन।",
+    ii_sample: "सिकारुका सङ्ख्याहरू यस प्रोटोटाइपका लागि नमुना सङ्ख्या हुन्। कामका सङ्ख्याहरू यस एपका नमुना कामहरूबाट गनिएका हुन्।",
     br_type_opp: "एउटा अवसर (काम)",
     br_type_ins: "एउटा जानकारी (रोजगारदाताहरू के माग्छन्)",
     disc_bring: "केही पनि सूचीमा राख्नुअघि हाम्रो टोलीले पेश्कीहरू जाँच्छ। कृपया तपाईंलाई वास्तविक लागेका अवसरहरू मात्र साझा गर्नुहोस्।",
@@ -1274,8 +1476,55 @@ const MAYA_PROFILE = {
   workWanted: ["Design", "Social Media", "Data Entry"],
   skills: ["Canva", "Photoshop", "Logo Design", "Social Media Posts", "English Writing", "Typing / Data Entry"],
   safetyRules: { chat: true, calls: true, time: true, photo: true, hours: true },
-  badge: "Beginner"
+  badge: "Beginner",
+  headline: "Design graduate — logos, social media posts and Canva designs",
+  about: "I am a design graduate from Biratnagar. I make logos, invitation cards and social media posts. I work carefully, show drafts early, and send finished work on time.",
+  languages: ["Nepali", "English", "Hindi"],
+  availability: "Weekdays and Saturday, about 15 hours a week",
+  rateNote: "Most small design jobs: NPR 3,000 – 8,000",
+  tools: ["Laptop", "Smartphone", "Canva (free)", "Photoshop"],
+  training: [
+    { title: "Graphic Design course", where: "ABC Training Institute, Biratnagar", year: "2026" },
+    { title: "Higher secondary — computer science", where: "Biratnagar", year: "2024" }
+  ]
 };
+
+// Client demo account (separate from the freelancer demo user).
+const CLIENT_PROFILE = { name: "Bikash Tamang", business: "Tamang Trek Gear", town: "Kathmandu" };
+const CLIENT_SEED_JOB = {
+  id: "cj-seed-1",
+  title: "Design a logo and shop tags for a trekking gear shop",
+  category: "Design",
+  clientName: "Bikash Tamang (Tamang Trek Gear)",
+  clientCountry: "Nepal",
+  clientType: "Small business",
+  paymentVerified: false,
+  beginnerFriendly: true,
+  description: "Our trekking shop in Kathmandu needs a simple logo and matching price tags for the shop. The logo should show mountains and be easy to print in one colour. Tags should be clean and easy to read.",
+  skillsRequired: ["Logo Design", "Video Editing"],
+  budgetUSD: 60,
+  budgetType: "fixed",
+  postedHoursAgo: 5,
+  applicants: 3,
+  jobsPostedByClient: 1,
+  hireRate: 0,
+  memberSince: 2026,
+  clientRating: 0,
+  aboutClient: "Posted from the client demo.",
+  needsOwnLaptop: true,
+  internetNeed: "Basic",
+  meetingTimeNepal: "Flexible — no meetings",
+  deadlineDays: 7,
+  caution: null,
+  deliverables: ["One logo (PNG and source file)", "10 price tag designs"],
+  clientProvides: ["Shop name and colours"],
+  revisionsIncluded: 1,
+  accepted: null,
+  seededDemo: true
+};
+
+const PF_LANG_OPTIONS = ["Nepali", "English", "Hindi", "Maithili", "Tharu", "Newari", "Tamang", "Other"];
+const PF_TOOL_OPTIONS = ["Laptop", "Smartphone", "Canva (free)", "Photoshop", "MS Excel", "Google Docs", "CapCut", "Printer access"];
 
 const DUMMY_JOBS = [
   {
@@ -1368,6 +1617,13 @@ export default function App() {
   const [payChecklist, setPayChecklist] = useLocalStorage('wp_pay_checklist', [false, false, false, false]);
   const [shieldHistory, setShieldHistory] = useLocalStorage('wp_shield_history', []);
   const [evidence, setEvidence] = useLocalStorage('wp_evidence', []);
+  // Safety pack (new keys): trusted person, check-in, quiet hours
+  const [trustedRaw, setTrusted] = useLocalStorage('wp_trusted_contact', null);
+  const trusted = trustedRaw && typeof trustedRaw === 'object' && typeof trustedRaw.name === 'string' && typeof trustedRaw.phone === 'string' && trustedRaw.name && trustedRaw.phone ? trustedRaw : null;
+  const [checkinRaw, setCheckin] = useLocalStorage('wp_checkin', null);
+  const checkin = checkinRaw && typeof checkinRaw === 'object' && !Array.isArray(checkinRaw) ? checkinRaw : null;
+  const [quietRaw, setQuiet] = useLocalStorage('wp_quiet', QUIET_DEFAULT);
+  const quiet = normQuiet(quietRaw);
   const [skillEvidenceRaw, setSkillEvidence] = useLocalStorage('wp_skill_evidence', {});
   const skillEvidence = skillEvidenceRaw && typeof skillEvidenceRaw === 'object' && !Array.isArray(skillEvidenceRaw) ? skillEvidenceRaw : {};
   const [chatsRaw, setChats] = useLocalStorage('wp_chats', {});
@@ -1382,7 +1638,7 @@ export default function App() {
     setChats(next);
   };
   const [settingsRaw, setSettings] = useLocalStorage('wp_settings', { shared: false, pin: "", simple: false });
-  const settings = { shared: !!(settingsRaw && settingsRaw.shared), pin: (settingsRaw && typeof settingsRaw.pin === 'string') ? settingsRaw.pin : "", simple: !!(settingsRaw && settingsRaw.simple) };
+  const settings = { shared: !!(settingsRaw && settingsRaw.shared), pin: (settingsRaw && typeof settingsRaw.pin === 'string') ? settingsRaw.pin : "", simple: !!(settingsRaw && settingsRaw.simple), lowdata: !!(settingsRaw && settingsRaw.lowdata) };
   const [clientActionsRaw, setClientActionsRaw] = useLocalStorage('wp_client_actions', {});
   const clientActions = clientActionsRaw && typeof clientActionsRaw === 'object' && !Array.isArray(clientActionsRaw) ? clientActionsRaw : {};
   const actionsRef = useRef(clientActions);
@@ -1398,6 +1654,10 @@ export default function App() {
   const [applyDraft, setApplyDraft] = useLocalStorage('wp_apply_draft', null);
   const [workroomsRaw, setWorkrooms] = useLocalStorage('wp_workrooms', {});
   const workrooms = workroomsRaw && typeof workroomsRaw === 'object' && !Array.isArray(workroomsRaw) ? workroomsRaw : {};
+  const [clientModeRaw, setClientMode] = useLocalStorage('wp_client_mode', null);
+  const clientMode = clientModeRaw === 'client';
+  const [clientProfileRaw, setClientProfile] = useLocalStorage('wp_client_profile', null);
+  const clientProfile = clientProfileRaw && typeof clientProfileRaw === 'object' ? clientProfileRaw : null;
   const [clientJobsRaw, setClientJobs] = useLocalStorage('wp_client_jobs', []);
   const clientJobs = Array.isArray(clientJobsRaw) ? clientJobsRaw : [];
   // ONE combined list: the user's posted jobs first, then the dummy jobs. Every job lookup uses this.
@@ -1475,8 +1735,17 @@ export default function App() {
   }, [simpleOn]);
 
   useEffect(() => {
-    if (isLoggedIn && currentView === 'welcome') setCurrentView('firstwork');
-  }, [isLoggedIn, currentView]);
+    if (clientMode && currentView === 'welcome') setCurrentView('client');
+    else if (isLoggedIn && currentView === 'welcome') setCurrentView('firstwork');
+  }, [isLoggedIn, clientMode, currentView]);
+
+  // Client demo: the first time the client account opens with no posted jobs, seed Bikash's one demo job.
+  const clientSeededRef = useRef(false);
+  useEffect(() => {
+    if (!clientMode || currentView !== 'client' || clientSeededRef.current) return;
+    clientSeededRef.current = true;
+    if (clientJobs.length === 0) setClientJobs([CLIENT_SEED_JOB]);
+  }, [clientMode, currentView, clientJobs]);
 
   // Demo seed: only for Maya, and only while wp_skill_evidence is completely empty (no skills at all).
   useEffect(() => {
@@ -1519,6 +1788,26 @@ export default function App() {
     showToast(t('nav_logout_toast'));
   };
 
+  const enterClientMode = () => {
+    setClientProfile(CLIENT_PROFILE);
+    setClientMode('client');
+    navTo('client');
+  };
+  const exitClientToMaya = () => {
+    setClientMode(null);
+    setClientProfile(null);
+    setUserProfile(MAYA_PROFILE);
+    setIsLoggedIn(true);
+    navTo('firstwork');
+  };
+  const clientLogout = () => {
+    setClientMode(null);
+    setClientProfile(null);
+    setIsLoggedIn(false);
+    navTo('welcome');
+    showToast(t('nav_logout_toast'));
+  };
+
   const successOverlay = currentView === 'setup_success' ? (
            <div className="fixed inset-0 bg-[#FBFAF8] z-50 flex flex-col items-center justify-center p-6 text-center">
               <CheckCircle2 size={64} strokeWidth={1.5} className="text-[#C73E33] mx-auto mb-6" />
@@ -1537,7 +1826,7 @@ export default function App() {
   ) : null;
 
   // --- UNAUTHENTICATED VIEWS ---
-  if (!isLoggedIn) {
+  if (!isLoggedIn && !clientMode) {
     return (
       <div className={`min-h-screen bg-[#FBFAF8] font-sans text-[#1C1B1A] flex flex-col items-center justify-center px-5 py-12 ${lang === 'ne' ? 'leading-relaxed' : ''}`}>
         <div className="w-full max-w-[400px] relative">
@@ -1564,6 +1853,19 @@ export default function App() {
                 {t('btn_demo')}
               </button>
 
+              <div className="w-full bg-white border border-[#EAE7E1] rounded-[20px] p-5 text-left mb-8">
+                <div className="flex items-start gap-3 mb-4">
+                  <Briefcase size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
+                  <div>
+                    <div className="font-semibold text-base text-[#1C1B1A]">{t('cm_welcome_q')}</div>
+                    <div className="text-sm text-[#6E6963] mt-0.5 leading-[1.5]">{t('cm_welcome_line')}</div>
+                  </div>
+                </div>
+                <button onClick={enterClientMode} className="w-full h-[52px] px-6 rounded-full bg-white text-[#1C1B1A] border border-[#E3E0D9] text-base font-medium hover:bg-[#F6F4EF] transition-colors flex items-center justify-center">
+                  {t('cm_enter')}
+                </button>
+              </div>
+
               <div className="flex items-start gap-2.5 text-[13px] leading-[1.6] text-[#8A8580] text-left">
                 <Lock size={15} className="mt-[3px] shrink-0" />
                 <span>{t('privacy_note')}</span>
@@ -1585,11 +1887,58 @@ export default function App() {
   }
 
   // --- PRIVACY GATES (Shared Device Mode) ---
-  if (sharedOn && quickHidden) {
+  if (quickHidden) {
     return <QuickHideScreen t={t} onReturn={() => { setUnlocked(false); setQuickHidden(false); }} />;
   }
   if (sharedOn && !unlocked) {
     return <LockScreen t={t} pin={settings.pin} onUnlock={() => setUnlocked(true)} />;
+  }
+
+  // --- CLIENT DEMO SHELL (a separate account: Bikash the client; Maya's data is untouched) ---
+  if (clientMode) {
+    return (
+      <div className={`wp-app min-h-screen flex flex-col bg-[#FBFAF8] font-sans text-base text-[#1C1B1A] ${lang === 'ne' ? 'leading-relaxed' : ''}`}>
+        <nav className="bg-[#FBFAF8]/90 backdrop-blur border-b border-[#EAE7E1] sticky top-0 z-40">
+          <div className="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between">
+            <button onClick={() => navTo('client')} className="flex items-center gap-2 min-h-[48px]">
+              <PassportShieldIcon color="#C73E33" size={26} />
+              <span className="font-semibold text-lg tracking-tight hidden sm:block">WorkPassport</span>
+            </button>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <LangToggle lang={lang} setLang={setLang} compact />
+              <div className="w-10 h-10 rounded-full bg-[#F0EEE9] border border-[#EAE7E1] flex items-center justify-center font-semibold text-sm" title={clientProfile ? clientProfile.name : 'Client'}>BT</div>
+            </div>
+          </div>
+          <div className="border-t border-[#EAE7E1] overflow-x-auto">
+            <div className="flex gap-6 px-4 w-max min-w-full max-w-[1200px] mx-auto">
+              <NavLink label={t('cm_home')} active={['client', 'client-applicants', 'client-agreement'].includes(currentView)} onClick={() => navTo('client')} />
+              <NavLink label={t('cm_post')} active={false} onClick={() => navTo('client', { scrollTo: 'form', n: Date.now() })} />
+              <NavLink label={t('cm_switch_maya')} active={false} onClick={exitClientToMaya} />
+              <NavLink label={t('nav_logout')} active={false} onClick={clientLogout} />
+            </div>
+          </div>
+        </nav>
+
+        <main className="flex-1 max-w-[1200px] mx-auto w-full p-4 sm:p-6 pb-28">
+          {currentView === 'client-applicants' ? (
+            <ClientApplicants t={t} lang={lang} navTo={navTo} job={clientJobs.find(j => j.id === viewParams.id)} />
+          ) : currentView === 'client-agreement' ? (
+            <ClientAgreement t={t} lang={lang} navTo={navTo} job={clientJobs.find(j => j.id === viewParams.id)} applicant={DEMO_APPLICANTS.find(x => x.id === viewParams.applicantId)} onConfirm={confirmAgreement} />
+          ) : (
+            <ClientView t={t} lang={lang} navTo={navTo} showToast={showToast} clientJobs={clientJobs} setClientJobs={setClientJobs} scrollTo={viewParams.scrollTo} clientMode clientProfile={clientProfile || CLIENT_PROFILE} />
+          )}
+        </main>
+
+        <footer className="border-t border-[#EAE7E1] py-10 px-4">
+          <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-3 text-center">
+            <div className="max-w-2xl text-left"><Disclaimer t={t} k="disc_footer" /></div>
+            <div className="text-[13px] text-[#8A8580]">{t('footer_text')}</div>
+          </div>
+        </footer>
+
+        {toast && <Toast msg={toast} />}
+      </div>
+    );
   }
 
   // --- AUTHENTICATED SHELL ---
@@ -1604,7 +1953,7 @@ export default function App() {
               <span className="font-semibold text-lg tracking-tight hidden sm:block">WorkPassport</span>
             </button>
             <div className="hidden md:flex gap-6">
-              <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue'].includes(currentView)} onClick={() => navTo('firstwork')} />
+              <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue', 'institution-insight'].includes(currentView)} onClick={() => navTo('firstwork')} />
               <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
               <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
               <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
@@ -1623,7 +1972,7 @@ export default function App() {
         </div>
         <div className="md:hidden border-t border-[#EAE7E1] overflow-x-auto">
           <div className="flex gap-6 px-4 w-max min-w-full">
-            <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue'].includes(currentView)} onClick={() => navTo('firstwork')} />
+            <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue', 'institution-insight'].includes(currentView)} onClick={() => navTo('firstwork')} />
             <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
             <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
             <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
@@ -1641,26 +1990,24 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-[1200px] mx-auto w-full p-4 sm:p-6 pb-28">
-        {currentView === 'firstwork' && <FirstWorkFeed allJobs={allJobs} t={t} navTo={navTo} user={userProfile} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} />}
+        {currentView === 'firstwork' && <FirstWorkFeed allJobs={allJobs} t={t} navTo={navTo} user={userProfile} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} lowdata={settings.lowdata} onSwitchClient={() => { setUnlocked(false); setIsLoggedIn(false); navTo('welcome'); }} />}
         {currentView === 'job-detail' && <JobDetail t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} skillLevels={skillLevels} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} showToast={showToast} hasDraft={simpleOn && !!applyDraft && applyDraft.jobId === viewParams.id} />}
         {currentView === 'apply' && <ApplyWizard key={viewParams.id} t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} setAppliedJobs={setAppliedJobs} lang={lang} simple={simpleOn} applyDraft={applyDraft} setApplyDraft={setApplyDraft} />}
         {currentView === 'opportunities' && <MyOpportunities allJobs={allJobs} key={viewParams.tab || 'saved'} initialTab={viewParams.tab} t={t} navTo={navTo} savedJobs={savedJobs} setSavedJobs={setSavedJobs} appliedJobs={appliedJobs} confirmedJobs={confirmedJobs} hideMoney={sharedOn} draftJobId={simpleOn && applyDraft ? applyDraft.jobId : null} />}
         {currentView === 'passport' && <PassportPage allJobs={allJobs} t={t} lang={lang} user={userProfile} setUser={setUserProfile} navTo={navTo} showToast={showToast} skillLevels={skillLevels} setSkillLevels={setSkillLevels} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} payChecklist={payChecklist} setPayChecklist={setPayChecklist} appliedJobs={appliedJobs} skillEvidence={skillEvidence} setSkillEvidence={setSkillEvidence} hideMoney={sharedOn} settings={settings} setSettings={setSettings} onSharedEnabled={() => setUnlocked(true)} evidence={evidence} />}
-        {currentView === 'shield' && <ShieldSafetyPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} history={shieldHistory} setHistory={setShieldHistory} evidence={evidence} setEvidence={setEvidence} scrollKey={viewParams.n} scrollTo={viewParams.scrollTo} />}
+        {currentView === 'shield' && <ShieldSafetyPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} history={shieldHistory} setHistory={setShieldHistory} evidence={evidence} setEvidence={setEvidence} scrollKey={viewParams.n} scrollTo={viewParams.scrollTo} allJobs={allJobs} appliedJobs={appliedJobs} trusted={trusted} setTrusted={setTrusted} checkin={checkin} setCheckin={setCheckin} quiet={quiet} setQuiet={setQuiet} onQuickHide={() => setQuickHidden(true)} />}
         {currentView === 'ext' && <ExtensionPage t={t} lang={lang} navTo={navTo} />}
         {currentView === 'skillbridge' && <SkillBridgePage allJobs={allJobs} t={t} lang={lang} user={userProfile} navTo={navTo} insights={approvedInsights} />}
         {currentView === 'bring' && <BringView t={t} lang={lang} navTo={navTo} onSubmit={submitBring} />}
+        {currentView === 'institution-insight' && <InstitutionInsight allJobs={allJobs} t={t} lang={lang} navTo={navTo} />}
         {currentView === 'bring-queue' && <BringQueue t={t} lang={lang} navTo={navTo} submissions={bringSubmissions} onDecide={decideBring} />}
         {currentView === 'vault' && <EvidenceVaultPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} masked={sharedOn} />}
         {currentView === 'chat' && (appliedJobs.some(a => a.jobId === viewParams.id) && allJobs.find(j => j.id === viewParams.id)
-          ? <ChatView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} navTo={navTo} showToast={showToast} chats={chats} updateChat={updateChat} setEvidence={setEvidence} workrooms={workrooms} setWorkrooms={setWorkrooms} simple={simpleOn} chatDrafts={chatDrafts} setChatDrafts={setChatDrafts} getClientAction={getClientAction} clientAction={getClientAction(viewParams.id)} setClientAction={setClientAction} />
+          ? <ChatView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} navTo={navTo} showToast={showToast} chats={chats} updateChat={updateChat} setEvidence={setEvidence} workrooms={workrooms} setWorkrooms={setWorkrooms} simple={simpleOn} chatDrafts={chatDrafts} setChatDrafts={setChatDrafts} getClientAction={getClientAction} clientAction={getClientAction(viewParams.id)} setClientAction={setClientAction} quiet={quiet} />
           : <ChatMissing t={t} navTo={navTo} />)}
         {currentView === 'workroom' && (appliedJobs.some(a => a.jobId === viewParams.id) && allJobs.find(j => j.id === viewParams.id)
           ? <WorkroomView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} navTo={navTo} showToast={showToast} workrooms={workrooms} setWorkrooms={setWorkrooms} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} hideMoney={sharedOn} />
           : <ChatMissing t={t} navTo={navTo} />)}
-      {currentView === 'client' && <ClientView t={t} lang={lang} navTo={navTo} showToast={showToast} clientJobs={clientJobs} setClientJobs={setClientJobs} scrollTo={viewParams.scrollTo} />}
-        {currentView === 'client-applicants' && <ClientApplicants t={t} lang={lang} navTo={navTo} job={clientJobs.find(j => j.id === viewParams.id)} />}
-        {currentView === 'client-agreement' && <ClientAgreement t={t} lang={lang} navTo={navTo} job={clientJobs.find(j => j.id === viewParams.id)} applicant={DEMO_APPLICANTS.find(x => x.id === viewParams.applicantId)} onConfirm={confirmAgreement} />}
       </main>
 
       {/* Footer */}
@@ -2023,6 +2370,15 @@ function PrivacySection({ t, settings, setSettings, onSharedEnabled = () => {} }
           </button>
           <p id="pv-simple-desc" className="px-5 pb-5 text-base text-[#4A4744]">{t('pv_simple_desc')}</p>
         </div>
+
+        {/* Low-Data Mode (real behaviour: compact text-first job cards) */}
+        <div className="border border-[#EAE7E1] rounded-[14px] bg-white">
+          <button type="button" onClick={() => setSettings({ ...settings, lowdata: !settings.lowdata })} role="switch" aria-checked={!!settings.lowdata} aria-describedby="pv-lowdata-desc" className="w-full flex items-center justify-between p-5 pb-3 min-h-[48px] text-left rounded-[14px]">
+            <span className="text-base font-medium pr-4">{t('ld_label')}</span>
+            <ToggleKnob on={!!settings.lowdata} />
+          </button>
+          <p id="pv-lowdata-desc" className="px-5 pb-5 text-base text-[#4A4744]">{t('ld_desc')}</p>
+        </div>
       </div>
     </div>
   );
@@ -2078,6 +2434,8 @@ const LEVEL_WEIGHT = { self: 10, demonstrated: 40, institution: 70, client: 100,
 const LEVEL_ORDER = ['self', 'demonstrated', 'institution', 'client', 'platform'];
 const DEMO_SEED = { Photoshop: 'institution', Canva: 'demonstrated' };
 const DEMO_INSTITUTE = "ABC Training Institute, Biratnagar — Graphic Design course";
+// Sample cohort for Institution Insight: group numbers only, no individual learner data. Sample data for this prototype.
+const DEMO_COHORT = { institute: "ABC Training Institute, Biratnagar", learners: 48, verified: { "Photoshop": 32, "Canva": 28, "Typing / Data Entry": 21, "English Writing": 18, "Logo Design": 15, "Social Media Posts": 12, "Excel / Spreadsheets": 3, "Video Editing": 2, "Nepali Writing": 0, "Translation": 0, "Customer Chat Support": 0 } };
 const DEFAULT_RULES = { chat: true, calls: true, time: true, photo: true, hours: true };
 const RULE_KEYS = ['chat', 'calls', 'time', 'photo', 'hours'];
 
@@ -2321,6 +2679,8 @@ function PassportPrint({ t, lang, user, levels, evidenceMap, confirmedList, prov
     <div className="passport-print">
       <div className="pp-brand">WorkPassport</div>
       <h1 className="pp-name">{user.name}</h1>
+      {user.headline && <p><strong>{user.headline}</strong></p>}
+      {user.about && <p>{user.about}</p>}
       <div className="pp-stats">
         <div><strong>{digits(provenCount)}</strong><span>{t('pp_stat_skills')}</span></div>
         <div><strong>{digits(confirmedList.length)}</strong><span>{t('pp_stat_jobs')}</span></div>
@@ -2350,6 +2710,19 @@ function PassportPrint({ t, lang, user, levels, evidenceMap, confirmedList, prov
       {confirmedList.length === 0 ? <p>{t('pp_public_empty')}</p> : confirmedList.map(j => (
         <div key={j.id} className="pp-job"><strong>{j.title}</strong> — {j.clientName} — {hideMoney ? MASK : `NPR ${fmtMoney(j.budgetUSD * 133)}`}</div>
       ))}
+
+      {(user.availability || user.rateNote || (Array.isArray(user.languages) && user.languages.length) || (Array.isArray(user.tools) && user.tools.length) || (Array.isArray(user.training) && user.training.some(x => x && x.title))) && (
+        <>
+          <h2>{t('pf_details')}</h2>
+          {(Array.isArray(user.languages) && user.languages.length > 0) && <p><strong>{t('pf_languages')}:</strong> {user.languages.join(', ')}</p>}
+          {user.availability && <p><strong>{t('pf_availability')}:</strong> {user.availability}</p>}
+          {user.rateNote && <p><strong>{t('pf_rate')}:</strong> {user.rateNote}</p>}
+          {(Array.isArray(user.tools) && user.tools.length > 0) && <p><strong>{t('pf_tools')}:</strong> {user.tools.join(', ')}</p>}
+          {(Array.isArray(user.training) ? user.training : []).filter(x => x && x.title).map((tr, i) => (
+            <p key={i}><strong>{t('pf_training')}:</strong> {tr.title}{tr.where ? ` — ${tr.where}` : ''}{tr.year ? ` (${tr.year})` : ''}</p>
+          ))}
+        </>
+      )}
 
       <p className="pp-foot">{t('pdf_footer')}</p>
       <p className="pp-foot">{fmt(t('pdf_made_on'), { date: today })}</p>
@@ -2481,6 +2854,142 @@ function SkillBridgePage({ allJobs = DUMMY_JOBS, t, lang, user, navTo, insights 
   );
 }
 
+// --- RICHER PASSPORT FIELDS: headline, about, languages, availability, usual price, tools, training. ---
+// Stored on the profile object (wp_user_profile). Display and trust context only: these fields
+// NEVER change skill levels, badges or progress.
+function profileHasDetails(user) {
+  return !!(user && (user.headline || user.about || (Array.isArray(user.languages) && user.languages.length) || user.availability || user.rateNote || (Array.isArray(user.tools) && user.tools.length) || (Array.isArray(user.training) && user.training.some(x => x && x.title))));
+}
+
+function ProfileFieldsList({ t, user }) {
+  const langs = Array.isArray(user.languages) ? user.languages : [];
+  const tools = Array.isArray(user.tools) ? user.tools : [];
+  const training = Array.isArray(user.training) ? user.training.filter(x => x && x.title) : [];
+  const chipRow = (arr) => (
+    <div className="flex flex-wrap gap-2">
+      {arr.map(x => <span key={x} className="bg-white border border-[#EAE7E1] text-[#4A4744] font-medium text-sm px-3 py-1.5 rounded-full">{x}</span>)}
+    </div>
+  );
+  const row = (label, content) => (
+    <div key={label}>
+      <div className="text-sm font-semibold text-[#8A8580] mb-1.5">{label}</div>
+      {content}
+    </div>
+  );
+  return (
+    <div className="space-y-5">
+      {user.about && <p className="text-base text-[#4A4744] leading-[1.6]">{user.about}</p>}
+      {langs.length > 0 && row(t('pf_languages'), chipRow(langs))}
+      {user.availability && row(t('pf_availability'), <p className="text-base">{user.availability}</p>)}
+      {user.rateNote && row(t('pf_rate'), <p className="text-base">{user.rateNote}</p>)}
+      {tools.length > 0 && row(t('pf_tools'), chipRow(tools))}
+      {training.length > 0 && row(t('pf_training'), (
+        <div className="space-y-2">
+          {training.map((tr, i) => (
+            <p key={i} className="text-base"><span className="font-semibold">{tr.title}</span>{tr.where ? ` — ${tr.where}` : ''}{tr.year ? ` (${tr.year})` : ''}</p>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ProfileDetails({ t, user, setUser, showToast }) {
+  const [editing, setEditing] = useState(false);
+  const [headline, setHeadline] = useState('');
+  const [about, setAbout] = useState('');
+  const [languages, setLanguages] = useState([]);
+  const [availability, setAvailability] = useState('');
+  const [rateNote, setRateNote] = useState('');
+  const [tools, setTools] = useState([]);
+  const [training, setTraining] = useState([]);
+  const startEdit = () => {
+    setHeadline(user.headline || '');
+    setAbout(user.about || '');
+    setLanguages(Array.isArray(user.languages) ? user.languages : []);
+    setAvailability(user.availability || '');
+    setRateNote(user.rateNote || '');
+    setTools(Array.isArray(user.tools) ? user.tools : []);
+    setTraining(Array.isArray(user.training) && user.training.length ? user.training.map(x => ({ title: x.title || '', where: x.where || '', year: x.year || '' })) : [{ title: '', where: '', year: '' }]);
+    setEditing(true);
+  };
+  const save = () => {
+    setUser({ ...user, headline: headline.trim(), about: about.trim(), languages, availability: availability.trim(), rateNote: rateNote.trim(), tools, training: training.filter(x => x.title.trim()).map(x => ({ title: x.title.trim(), where: x.where.trim(), year: x.year.trim() })) });
+    setEditing(false);
+    showToast(t('pf_saved_toast'));
+  };
+  const chipBtn = (label, on, toggle) => (
+    <button key={label} type="button" aria-pressed={on} onClick={toggle} className={`min-h-[44px] px-4 rounded-full border text-base font-medium ${on ? 'bg-[#FAF0EE] border-[#C73E33] text-[#AE332A]' : 'bg-white border-[#EAE7E1] text-[#4A4744] hover:bg-[#F6F4EF]'}`}>{label}</button>
+  );
+  const labelCls = "block text-base font-semibold text-[#1C1B1A] mb-2";
+  return (
+    <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <h2 className="font-semibold text-[22px]">{t('pf_head')}</h2>
+        {!editing && (
+          <button onClick={startEdit} className={PROOF_BTN}>{t('pf_edit')}</button>
+        )}
+      </div>
+      {!editing ? (
+        profileHasDetails(user) ? <ProfileFieldsList t={t} user={user} /> : <p className="text-base text-[#4A4744]">{t('pf_empty')}</p>
+      ) : (
+        <div className="space-y-5">
+          <div>
+            <label htmlFor="pf-headline" className={labelCls}>{t('pf_headline')}</label>
+            <input id="pf-headline" type="text" value={headline} onChange={e => setHeadline(e.target.value)} className={PROOF_INPUT} />
+          </div>
+          <div>
+            <label htmlFor="pf-about" className={labelCls}>{t('pf_about_label')}</label>
+            <textarea id="pf-about" rows={4} value={about} onChange={e => setAbout(e.target.value)} className={PROOF_INPUT} />
+          </div>
+          <div>
+            <div className={labelCls}>{t('pf_languages')}</div>
+            <div className="flex flex-wrap gap-2">
+              {PF_LANG_OPTIONS.map(l => chipBtn(l, languages.includes(l), () => setLanguages(prev => prev.includes(l) ? prev.filter(x => x !== l) : [...prev, l])))}
+            </div>
+          </div>
+          <div>
+            <label htmlFor="pf-avail" className={labelCls}>{t('pf_availability')}</label>
+            <input id="pf-avail" type="text" value={availability} onChange={e => setAvailability(e.target.value)} className={PROOF_INPUT} />
+          </div>
+          <div>
+            <label htmlFor="pf-rate" className={labelCls}>{t('pf_rate')}</label>
+            <input id="pf-rate" type="text" value={rateNote} onChange={e => setRateNote(e.target.value)} className={PROOF_INPUT} />
+          </div>
+          <div>
+            <div className={labelCls}>{t('pf_tools')}</div>
+            <div className="flex flex-wrap gap-2">
+              {PF_TOOL_OPTIONS.map(x => chipBtn(x, tools.includes(x), () => setTools(prev => prev.includes(x) ? prev.filter(y => y !== x) : [...prev, x])))}
+            </div>
+          </div>
+          <div>
+            <div className={labelCls}>{t('pf_training')}</div>
+            <div className="space-y-3">
+              {training.map((tr, i) => (
+                <div key={i} className="flex flex-col sm:flex-row gap-2">
+                  <input type="text" aria-label={t('pf_tr_title')} placeholder={t('pf_tr_title')} value={tr.title} onChange={e => setTraining(prev => prev.map((x, k) => k === i ? { ...x, title: e.target.value } : x))} className={`${PROOF_INPUT} flex-1`} />
+                  <input type="text" aria-label={t('pf_tr_where')} placeholder={t('pf_tr_where')} value={tr.where} onChange={e => setTraining(prev => prev.map((x, k) => k === i ? { ...x, where: e.target.value } : x))} className={`${PROOF_INPUT} flex-1`} />
+                  <input type="text" aria-label={t('pf_tr_year')} placeholder={t('pf_tr_year')} value={tr.year} onChange={e => setTraining(prev => prev.map((x, k) => k === i ? { ...x, year: e.target.value } : x))} className={`${PROOF_INPUT} sm:w-28`} />
+                  {training.length > 1 && (
+                    <button type="button" aria-label="Remove" onClick={() => setTraining(prev => prev.filter((_, k) => k !== i))} className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-full border border-[#EAE7E1] bg-white hover:bg-[#F6F4EF]"><Trash2 size={18} /></button>
+                  )}
+                </div>
+              ))}
+              {training.length < 3 && (
+                <button type="button" onClick={() => setTraining(prev => [...prev, { title: '', where: '', year: '' }])} className={PROOF_BTN}><Plus size={18} /> {t('cl_add_one')}</button>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button onClick={save} className="flex-1 bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px] px-5">{t('save')}</button>
+            <button onClick={() => setEditing(false)} className="flex-1 border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:border-[#DDD8CE] min-h-[48px] px-5">{t('cancel')}</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, navTo, showToast, skillLevels, setSkillLevels, confirmedJobs, setConfirmedJobs, payChecklist, setPayChecklist, appliedJobs, skillEvidence = {}, setSkillEvidence = () => {}, hideMoney = false, settings, setSettings, onSharedEnabled = () => {}, evidence = [] }) {
   const [view, setView] = useState('main'); // main | public
   const [shareOpen, setShareOpen] = useState(false);
@@ -2578,8 +3087,14 @@ function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, navTo, sho
           <div>
             <div className="font-semibold text-xl">{user.name}</div>
             <div className="text-base text-[#4A4744]">{user.district}</div>
+            {user.headline && <div className="text-base text-[#4A4744] mt-1">{user.headline}</div>}
           </div>
         </div>
+        {profileHasDetails(user) && (
+          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 mb-8">
+            <ProfileFieldsList t={t} user={user} />
+          </div>
+        )}
         <p className="text-sm text-[#8A8580] text-center">{t('pp_public_footer')}</p>
       </div>
     );
@@ -2595,6 +3110,7 @@ function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, navTo, sho
           <div className="min-w-0">
             <h1 className="text-[28px] sm:text-[30px] font-semibold truncate">{user.name}</h1>
             <div className="text-base text-[#4A4744] flex flex-wrap items-center gap-x-3 gap-y-1"><span className="flex items-center gap-1.5"><MapPin size={20} /> {user.district}</span><span className="bg-[#F0EEE9] px-3 py-0.5 rounded-full text-sm font-semibold">{t('pp_beginner')}</span></div>
+            {user.headline && <div className="text-base text-[#4A4744] mt-1.5">{user.headline}</div>}
           </div>
         </div>
         {!isDemoUser(user) && user.institute && <p className="text-base text-[#4A4744] mb-6">{fmt(t('pp_institute_pending'), { name: user.institute })}</p>}
@@ -2620,6 +3136,9 @@ function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, navTo, sho
           <button onClick={() => printDocument('passport')} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5 inline-flex items-center justify-center gap-2"><Download size={20} /> {t('pdf_btn')}</button>
         </div>
       </div>
+
+      {/* Section 1b: richer profile fields */}
+      <ProfileDetails t={t} user={user} setUser={setUser} showToast={showToast} />
 
       {/* Section 2: skills */}
       <div>
@@ -2932,35 +3451,343 @@ const SHIELD_EXAMPLES = [
   { label: 'sh_ex3', text: "We need a logo for our coffee shop in Pokhara. Please design 2 logo options and send PNG files. Fixed pay $60, paid by bank transfer after delivery. Deadline: 5 days. Our shop is Himal Coffee, you can see our page online." },
 ];
 
-function WorkShieldPage({ t, lang, showToast, history, setHistory }) {
+// --- SAFETY PACK: trusted person + check-in, emergency screen, end chat safely, talk/meet checklist, quiet hours ---
+// Honest by design: nothing here sends a message or calls anyone. Buttons only copy text or open the phone dialler (tel:).
+const copyToClipboard = async (str) => {
+  try { await navigator.clipboard.writeText(str); } catch (e) {
+    try { const ta = document.createElement('textarea'); ta.value = str; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch (e2) { /* ignore */ }
+  }
+};
+const spDigits = (lang, v) => lang === 'ne' ? String(v).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(v);
+// Clock time in the app's time style (24-hour, Nepali digits in Nepali mode)
+const spClock = (iso, lang) => {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  return spDigits(lang, d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }));
+};
+const telHref = (phone) => 'tel:' + String(phone || '').replace(/[^\d+]/g, '');
+function useNow(ms = 20000) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    setNow(Date.now());
+    const id = setInterval(() => setNow(Date.now()), ms);
+    return () => clearInterval(id);
+  }, [ms]);
+  return now;
+}
+const QUIET_DEFAULT = { on: false, from: "20:00", to: "07:00" };
+const hhmmToMin = (s) => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(s || '')); return m ? Number(m[1]) * 60 + Number(m[2]) : null; };
+const normQuiet = (q) => ({
+  on: !!(q && q.on),
+  from: q && hhmmToMin(q.from) !== null ? q.from : QUIET_DEFAULT.from,
+  to: q && hhmmToMin(q.to) !== null ? q.to : QUIET_DEFAULT.to,
+});
+// ACTIVE = toggle on AND now is inside the from–to window (the window may run past midnight)
+function isQuietActive(q, nowMs) {
+  if (!q || !q.on) return false;
+  const f = hhmmToMin(q.from), to = hhmmToMin(q.to);
+  if (f === null || to === null || f === to) return false;
+  const d = new Date(nowMs);
+  const m = d.getHours() * 60 + d.getMinutes();
+  return f < to ? (m >= f && m < to) : (m >= f || m < to);
+}
+const SP_INPUT = "w-full border border-[#EAE7E1] bg-white rounded-[14px] px-4 text-base min-h-[48px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 disabled:bg-[#F6F4EF]";
+const SP_PRIMARY = "inline-flex items-center justify-center gap-2 bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-6 disabled:opacity-50 disabled:hover:bg-[#C73E33]";
+const SP_SECONDARY = "inline-flex items-center justify-center gap-2 border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] px-6 disabled:opacity-50";
+
+function TrustedContactCard({ t, lang, user, allJobs, appliedJobs, trusted, setTrusted, checkin, setCheckin, showToast }) {
+  const [editing, setEditing] = useState(false);
+  const [nm, setNm] = useState("");
+  const [ph, setPh] = useState("");
+  const [jobId, setJobId] = useState("");
+  const [mins, setMins] = useState(30);
+  const [clientTyped, setClientTyped] = useState("");
+  const planRef = useRef(null);
+  const now = useNow(20000); // re-checked when the page opens and every 20 seconds
+
+  // Her APPLIED jobs: job title + client name
+  const seen = new Set();
+  const options = [];
+  (Array.isArray(appliedJobs) ? appliedJobs : []).forEach(a => {
+    if (!a || seen.has(a.jobId)) return;
+    seen.add(a.jobId);
+    const j = (allJobs || []).find(x => x.id === a.jobId);
+    const title = (j && j.title) || a.title || '';
+    const client = (j && j.clientName) || a.clientName || '';
+    if (title || client) options.push({ id: a.jobId, title, client });
+  });
+  const hasJobs = options.length > 0;
+  const selected = options.find(o => o.id === jobId) || options[0] || null;
+  const clientName = hasJobs ? selected.client : clientTyped.trim();
+  const jobTitle = hasJobs ? selected.title : "";
+  const userName = (user && user.name) || '';
+
+  const showForm = !trusted || editing;
+  const saveContact = (e) => {
+    e.preventDefault();
+    if (!nm.trim() || ph.replace(/[^\d]/g, '').length < 3) return;
+    setTrusted({ name: nm.trim(), phone: ph.trim() });
+    setEditing(false);
+  };
+  const startEdit = () => { setNm(trusted.name); setPh(trusted.phone); setEditing(true); };
+
+  const ck = checkin && typeof checkin === 'object' && checkin.byISO ? checkin : null;
+  const waiting = !!ck && ck.status === 'waiting';
+  const overdue = waiting && now > Date.parse(ck.byISO);
+  const safe = !!ck && ck.status === 'safe';
+
+  const controlsOff = !trusted || (!hasJobs && !clientName);
+  const sig = `${selected ? selected.id : ''}|${clientName}|${mins}`;
+  // The time in the copied message and the check-in time must be the same time, so a time chosen at copy is reused by Start
+  const planIso = () => {
+    const c = planRef.current;
+    if (c && c.sig === sig && Date.parse(c.iso) > Date.now()) return c.iso;
+    const iso = new Date(Date.now() + mins * 60000).toISOString();
+    planRef.current = { sig, iso };
+    return iso;
+  };
+  const buildMsg = (iso) => fmt(t(jobTitle ? 'sp_ci_msg_job' : 'sp_ci_msg_nojob'), { contactName: trusted.name, clientName, jobTitle, time: spClock(iso, lang), userName });
+  const copyPlan = async () => {
+    if (controlsOff) return;
+    await copyToClipboard(buildMsg(planIso()));
+    showToast(t('sh_copied'));
+  };
+  const startCheckin = () => {
+    if (controlsOff) return;
+    const iso = planIso();
+    planRef.current = null;
+    setCheckin({ clientName, jobTitle, contactName: trusted.name, byISO: iso, status: 'waiting' });
+  };
+  const imSafe = () => setCheckin({ ...ck, status: 'safe' });
+
+  const DURS = [[2, 'sp_ci_d2'], [30, 'sp_ci_d30'], [60, 'sp_ci_d60'], [120, 'sp_ci_d120']];
+  const lbl = "block text-base font-semibold mb-2";
+  return (
+    <div>
+      <div className={`rounded-[20px] p-6 border ${overdue ? 'bg-[#FAF0EE] border-[#C73E33]' : 'bg-white border-[#EAE7E1]'}`} role={overdue ? 'alert' : undefined}>
+        <h2 className="font-semibold text-[22px] mb-2 flex items-center gap-3"><HeartHandshake size={24} className="text-[#C73E33] shrink-0" /> {t('sp_tc_title')}</h2>
+        <p className="text-base text-[#4A4744] mb-5">{t('sp_tc_intro')}</p>
+
+        {showForm ? (
+          <form onSubmit={saveContact} className="space-y-4">
+            <div>
+              <label htmlFor="sp-tc-name" className={lbl}>{t('sp_tc_name')}</label>
+              <input id="sp-tc-name" type="text" autoComplete="off" value={nm} onChange={e => setNm(e.target.value)} className={SP_INPUT} />
+            </div>
+            <div>
+              <label htmlFor="sp-tc-phone" className={lbl}>{t('sp_tc_phone')}</label>
+              <input id="sp-tc-phone" type="tel" inputMode="tel" autoComplete="off" value={ph} onChange={e => setPh(e.target.value)} className={SP_INPUT} />
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button type="submit" disabled={!nm.trim() || ph.replace(/[^\d]/g, '').length < 3} className={SP_PRIMARY}>{t('save')}</button>
+              {trusted && <button type="button" onClick={() => setEditing(false)} className={SP_SECONDARY}>{t('cancel')}</button>}
+            </div>
+          </form>
+        ) : (
+          <div className="flex items-center justify-between gap-3 border border-[#EAE7E1] bg-white rounded-[14px] p-4">
+            <p className="min-w-0 text-base font-medium text-[#1C1B1A] break-words">{trusted.name} — {trusted.phone}</p>
+            <button type="button" onClick={startEdit} className="shrink-0 text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px] px-2">{t('sp_tc_edit')}</button>
+          </div>
+        )}
+
+        <div className="mt-6 pt-6 border-t border-[#EAE7E1]">
+          <h3 className="font-semibold text-xl mb-4">{t('sp_ci_sub')}</h3>
+          {!trusted && <p className="text-base text-[#4A4744] mb-4">{t('sp_ci_add_first')}</p>}
+
+          {overdue ? (
+            <div className="space-y-4">
+              <h4 className="font-semibold text-xl text-[#1C1B1A]">{t('sp_ci_over_title')}</h4>
+              <p className="text-base text-[#1C1B1A]">{fmt(t(ck.jobTitle ? 'sp_ci_over_line' : 'sp_ci_over_line_nojob'), { clientName: ck.clientName, jobTitle: ck.jobTitle, time: spClock(ck.byISO, lang) })}</p>
+              <a href={telHref(trusted ? trusted.phone : '')} className="w-full flex items-center justify-center gap-3 bg-[#C73E33] text-white rounded-full font-semibold text-lg hover:bg-[#AE332A] min-h-[64px] px-6 text-center"><Phone size={22} className="shrink-0" /> <span>{fmt(t('sp_ci_call'), { contactName: ck.contactName })}</span></a>
+              <button type="button" onClick={imSafe} className="w-full border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-6">{t('sp_ci_safe_now')}</button>
+            </div>
+          ) : waiting ? (
+            <div className="space-y-4">
+              <p className="text-base text-[#1C1B1A]">{fmt(t('sp_ci_wait'), { time: spClock(ck.byISO, lang) })}</p>
+              <button type="button" onClick={imSafe} className={SP_PRIMARY + " w-full sm:w-auto"}><Check size={20} /> {t('sp_ci_safe_btn')}</button>
+            </div>
+          ) : (
+            <>
+              {safe && <p className="flex items-start gap-2 text-base font-medium text-[#1C1B1A] bg-[#FAF0EE] border border-[#F3E1DD] rounded-[14px] p-4 mb-5"><CheckCircle2 size={20} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sp_ci_safe_done')}</span></p>}
+              <fieldset disabled={!trusted} className={`space-y-5 min-w-0 ${!trusted ? 'opacity-60' : ''}`}>
+                {hasJobs ? (
+                  <div>
+                    <label htmlFor="sp-ci-job" className={lbl}>{t('sp_ci_job')}</label>
+                    <select id="sp-ci-job" value={selected.id} onChange={e => setJobId(e.target.value)} className={SP_INPUT}>
+                      {options.map(o => <option key={o.id} value={o.id}>{[o.title, o.client].filter(Boolean).join(' — ')}</option>)}
+                    </select>
+                  </div>
+                ) : (
+                  <div>
+                    <label htmlFor="sp-ci-client" className={lbl}>{t('sp_ci_client')}</label>
+                    <input id="sp-ci-client" type="text" autoComplete="off" value={clientTyped} onChange={e => setClientTyped(e.target.value)} className={SP_INPUT} />
+                  </div>
+                )}
+                <div role="group" aria-labelledby="sp-ci-in">
+                  <div id="sp-ci-in" className={lbl}>{t('sp_ci_in')}</div>
+                  <div className="flex flex-wrap gap-2">
+                    {DURS.map(([m, k]) => (
+                      <button key={m} type="button" aria-pressed={mins === m} onClick={() => setMins(m)} className={`rounded-full border px-4 min-h-[44px] text-base font-medium ${mins === m ? 'border-[#C73E33] bg-[#FAF0EE] text-[#1C1B1A]' : 'border-[#E3E0D9] bg-white text-[#1C1B1A] hover:bg-[#F6F4EF]'}`}>{t(k)}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button type="button" onClick={copyPlan} disabled={controlsOff} className={SP_SECONDARY}>{t('sp_ci_copy')}</button>
+                  <button type="button" onClick={startCheckin} disabled={controlsOff} className={SP_PRIMARY}>{t('sp_ci_start')}</button>
+                </div>
+              </fieldset>
+            </>
+          )}
+        </div>
+      </div>
+      <Disclaimer t={t} k="sp_disc_plan" className="mt-3 px-2" />
+    </div>
+  );
+}
+
+function QuietHoursCard({ t, lang, quiet, setQuiet }) {
+  const now = useNow(20000);
+  const active = isQuietActive(quiet, now);
+  const hours = Array.from({ length: 24 }, (_, h) => `${String(h).padStart(2, '0')}:00`);
+  const opts = (cur) => {
+    const list = hours.includes(cur) ? hours : [...hours, cur].sort();
+    return list.map(h => <option key={h} value={h}>{spDigits(lang, h)}</option>);
+  };
+  const lbl = "block text-base font-semibold mb-2";
+  return (
+    <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6">
+      <h2 className="font-semibold text-[22px] mb-4 flex items-center gap-3"><Moon size={24} className="text-[#C73E33] shrink-0" /> {t('sp_qh_title')}</h2>
+      <button type="button" onClick={() => setQuiet({ ...quiet, on: !quiet.on })} role="switch" aria-checked={quiet.on} aria-describedby="sp-qh-desc" className="w-full flex items-center justify-between gap-4 p-4 min-h-[56px] text-left border border-[#EAE7E1] rounded-[14px] hover:border-[#DDD8CE]">
+        <span id="sp-qh-desc" className="text-base text-[#4A4744]">{t('sp_qh_line')}</span>
+        <ToggleKnob on={quiet.on} />
+      </button>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <div>
+          <label htmlFor="sp-qh-from" className={lbl}>{t('sp_qh_from')}</label>
+          <select id="sp-qh-from" value={quiet.from} onChange={e => setQuiet({ ...quiet, from: e.target.value })} className={SP_INPUT}>{opts(quiet.from)}</select>
+        </div>
+        <div>
+          <label htmlFor="sp-qh-to" className={lbl}>{t('sp_qh_to')}</label>
+          <select id="sp-qh-to" value={quiet.to} onChange={e => setQuiet({ ...quiet, to: e.target.value })} className={SP_INPUT}>{opts(quiet.to)}</select>
+        </div>
+      </div>
+      {quiet.on && (
+        <p id="sp-qh-status" role="status" className="mt-4 flex items-start gap-2 text-base font-medium text-[#1C1B1A]">
+          {active ? <Moon size={18} className="shrink-0 mt-1 text-[#C73E33]" /> : <Info size={18} className="shrink-0 mt-1 text-[#6E6963]" />}
+          <span>{active ? t('sp_qh_on_now') : fmt(t('sp_qh_starts'), { from: spDigits(lang, quiet.from) })}</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
+function EmergencyView({ t, trusted, onBack, onHide }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  const big = "w-full flex items-center justify-center gap-3 rounded-full font-semibold text-xl min-h-[72px] px-6 text-center";
+  return (
+    <div className="max-w-[800px] mx-auto space-y-5">
+      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6">
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{t('sp_em_title')}</h1>
+        <p className="text-lg text-[#4A4744]">{t('sp_em_line')}</p>
+      </div>
+      <div className="space-y-4">
+        <a href="tel:100" className={`${big} bg-[#C73E33] text-white hover:bg-[#AE332A]`}><Phone size={26} className="shrink-0" /> <span>{t('sp_em_police')}</span></a>
+        <a href="tel:1145" className={`${big} border border-[#E3E0D9] bg-white text-[#1C1B1A] hover:bg-[#F6F4EF]`}><Phone size={26} className="shrink-0 text-[#C73E33]" /> <span>{t('sp_em_women')}</span></a>
+        {trusted ? (
+          <a href={telHref(trusted.phone)} className={`${big} border border-[#E3E0D9] bg-white text-[#1C1B1A] hover:bg-[#F6F4EF]`}><Phone size={26} className="shrink-0 text-[#C73E33]" /> <span className="min-w-0 break-words">{fmt(t('sp_em_call'), { contactName: trusted.name, phone: trusted.phone })}</span></a>
+        ) : (
+          <p className="text-base text-[#4A4744] bg-white border border-[#EAE7E1] rounded-[20px] p-5">{t('sp_em_none')}</p>
+        )}
+      </div>
+      <div className="space-y-3 pt-2">
+        <button type="button" onClick={onHide} className="w-full flex items-center justify-center gap-2 border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-6"><EyeOff size={20} /> {t('sp_em_hide')}</button>
+        <button type="button" onClick={onBack} className="w-full flex items-center justify-center gap-2 text-[#4A4744] rounded-full font-semibold text-base hover:bg-[#F0EEE9] min-h-[52px] px-6"><ChevronLeft size={20} /> {t('back')}</button>
+      </div>
+    </div>
+  );
+}
+
+// Job detail: shown only when the job involves calls or meetings
+function SafeTalkCard({ t, job }) {
+  if (String(job.meetingTimeNepal || '').toLowerCase().includes('no meetings')) return null;
+  return (
+    <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 mb-10">
+      <h3 className="font-semibold text-xl mb-4 flex items-center gap-3"><ShieldCheck size={24} className="text-[#C73E33] shrink-0" /> {t('sp_tm_title')}</h3>
+      <ul className="space-y-3">
+        {['sp_tm_1', 'sp_tm_2', 'sp_tm_3', 'sp_tm_4'].map(k => (
+          <li key={k} className="flex items-start gap-3 text-base text-[#1C1B1A]"><Check size={20} className="mt-0.5 shrink-0 text-[#C73E33]" /> <span>{t(k)}</span></li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// Chat: confirmation sheet for "End this chat safely"
+function EndChatModal({ t, onConfirm, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+  return (
+    <div className="fixed inset-0 z-[60] bg-[#1C1B1A]/40 flex items-center justify-center p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div role="dialog" aria-modal="true" aria-labelledby="sp-es-title" className="bg-white rounded-[20px] border border-[#EAE7E1] p-6 w-full max-w-[420px] max-h-[90vh] overflow-y-auto">
+        <h2 id="sp-es-title" className="font-semibold text-2xl mb-3">{t('sp_es_title')}</h2>
+        <p className="text-base text-[#4A4744] mb-6">{t('sp_es_expl')}</p>
+        <div className="space-y-3">
+          <button type="button" onClick={onConfirm} className="w-full bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-6">{t('sp_es_confirm')}</button>
+          <button type="button" onClick={onClose} className="w-full border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] px-6">{t('cancel')}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- MERGED PAGE: ONE checker on top (runs both engines), then WorkShield history, a banner, then Safety ---
+function ShieldSafetyPage({ t, lang, user, navTo, showToast, history, setHistory, evidence, setEvidence, scrollTo, scrollKey, allJobs = [], appliedJobs = [], trusted = null, setTrusted = () => {}, checkin = null, setCheckin = () => {}, quiet = QUIET_DEFAULT, setQuiet = () => {}, onQuickHide = () => {} }) {
+  const [emergency, setEmergency] = useState(false);
+  useEffect(() => {
+    if (scrollTo === 'safety') {
+      const el = document.getElementById('safety-section');
+      if (el) el.scrollIntoView({ block: 'start' });
+    }
+  }, [scrollTo, scrollKey]);
+
   const [text, setText] = useState("");
-  const [result, setResult] = useState(null); // { findings, verdict, snippet }
-  const resultRef = useRef(null);
+  const [wsResult, setWsResult] = useState(null); // WorkShield: { findings, verdict, snippet }
+  const [sfResult, setSfResult] = useState(null); // Safety: { cats, text }
+  const [emptyErr, setEmptyErr] = useState(false);
+  const wsRef = useRef(null);
+  const sfRef = useRef(null);
   const topRef = useRef(null);
+  const other = lang === 'ne' ? 'en' : 'ne';
+  const rules = (user && user.safetyRules) || DEFAULT_RULES;
 
   useEffect(() => {
-    if (result && resultRef.current) resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [result]);
+    if (wsResult && wsRef.current) wsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [wsResult]);
 
-  const [emptyErr, setEmptyErr] = useState(false);
+  // ONE check runs BOTH engines on the same text
   const runText = () => {
     if (!text.trim()) { setEmptyErr(true); return; }
     setEmptyErr(false);
     const f = analyzeText(text);
-    setResult({ findings: f, verdict: verdictOf(f), snippet: text.trim().slice(0, 60) });
+    setWsResult({ findings: f, verdict: verdictOf(f), snippet: text.trim().slice(0, 60) });
+    setSfResult({ cats: analyzeMessage(text), text: text.trim() });
   };
   const runJob = (job) => {
     const f = analyzeJob(job);
-    setResult({ findings: f, verdict: verdictOf(f), snippet: job.title });
+    setWsResult({ findings: f, verdict: verdictOf(f), snippet: job.title });
+    setSfResult(null);
   };
   const reset = () => {
-    setText(""); setResult(null);
+    setText(""); setWsResult(null); setSfResult(null);
     if (topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     else window.scrollTo(0, 0);
   };
   const save = () => {
-    if (!result) return;
-    setHistory(prev => [{ snippet: result.snippet, verdict: result.verdict, date: new Date().toISOString() }, ...(Array.isArray(prev) ? prev : [])].slice(0, 10));
+    if (!wsResult) return;
+    setHistory(prev => [{ snippet: wsResult.snippet, verdict: wsResult.verdict, date: new Date().toISOString() }, ...(Array.isArray(prev) ? prev : [])].slice(0, 10));
     showToast(t('sh_saved_toast'));
   };
   const copyQ = async (q) => {
@@ -2970,125 +3797,195 @@ function WorkShieldPage({ t, lang, showToast, history, setHistory }) {
     showToast(t('sh_copied'));
   };
   const clearHistory = () => { setHistory([]); showToast(t('sh_cleared')); };
+  const copy = copyQ;
+  const saveProof = () => {
+    if (!sfResult) return;
+    setEvidence(prev => [{ text: sfResult.text.slice(0, 500), categories: sfResult.cats, date: new Date().toISOString(), source: 'page' }, ...(Array.isArray(prev) ? prev : [])].slice(0, 20));
+    showToast(t('sf_saved_toast'));
+  };
 
-  const VerdictIcon = result ? (result.verdict === 'danger' ? ShieldAlert : result.verdict === 'warning' ? AlertTriangle : ShieldCheck) : null;
-  const questions = result ? ['nopay', 'vague', 'lowpay'].filter(id => result.findings.yellow.includes(id)) : [];
+  const VerdictIcon = wsResult ? (wsResult.verdict === 'danger' ? ShieldAlert : wsResult.verdict === 'warning' ? AlertTriangle : ShieldCheck) : null;
+  const questions = wsResult ? ['nopay', 'vague', 'lowpay'].filter(id => wsResult.findings.yellow.includes(id)) : [];
   const pillStyle = { danger: 'bg-[#C73E33] text-white', warning: 'bg-[#FAF0EE] text-[#AE332A]', ok: 'bg-[#F0EEE9] text-[#1C1B1A]' };
+  const crossed = sfResult && sfResult.cats.length > 0;
+  const checked = !!(wsResult && sfResult);
+  const examples = [...SHIELD_EXAMPLES, ...SAFETY_EXAMPLES];
+
+  if (emergency) return <EmergencyView t={t} trusted={trusted} onBack={() => setEmergency(false)} onHide={onQuickHide} />;
 
   return (
-    <div className="max-w-[800px] mx-auto space-y-8">
-      <div ref={topRef} className="scroll-mt-[128px] md:scroll-mt-24">
-        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{t('sh_title')}</h1>
-        <p className="text-lg text-[#4A4744] mb-6">{t('sh_intro')}</p>
-        <textarea value={text} onChange={e => { setText(e.target.value); setEmptyErr(false); }} aria-label={t('sh_title')} placeholder={t('sh_placeholder')} className="w-full min-h-[140px] border border-[#EAE7E1] bg-white rounded-[14px] px-5 py-4 text-base outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 mb-4" />
-        {emptyErr && <p role="alert" className="text-[#AE332A] text-sm mb-4 flex items-start gap-2 bg-[#FAF0EE] p-3 rounded-[12px]"><ShieldAlert size={18} className="shrink-0 mt-0.5" /> <span>{t('err_paste_first')}</span></p>}
-        <button onClick={runText} className={`w-full sm:w-auto sm:px-12 py-3.5 rounded-full font-semibold text-base min-h-[52px] ${!text.trim() ? 'opacity-60' : ''} ${result ? 'bg-white border border-[#E3E0D9] text-[#1C1B1A] hover:bg-[#F6F4EF]' : 'bg-[#C73E33] text-white hover:bg-[#AE332A]'}`}>{t('sh_check')}</button>
-        <p className="text-sm text-[#8A8580] mt-3 flex items-center gap-1.5"><Lock size={14} className="shrink-0" /> {t('sh_private')}</p>
-        <div className="mt-6">
-          <div className="text-sm font-semibold text-[#8A8580] mb-2">{t('sh_try')}</div>
-          <div className="flex flex-wrap gap-2">
-            {SHIELD_EXAMPLES.map(ex => (
-              <button key={ex.label} onClick={() => { setText(ex.text); setEmptyErr(false); }} className="border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-5 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px]">{t(ex.label)}</button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {result && (
-        <div ref={resultRef} className="scroll-mt-[128px] md:scroll-mt-24 space-y-5">
-          <div className={`rounded-[20px] border p-6 sm:p-6 flex items-start gap-4 ${result.verdict === 'danger' ? 'bg-[#FAF0EE] border-[#C73E33]' : 'bg-white border-[#EAE7E1]'}`}>
-            <VerdictIcon size={44} className={`shrink-0 ${result.verdict === 'danger' ? 'text-[#C73E33]' : 'text-[#1C1B1A]'}`} />
-            <div>
-              <h2 className="text-[22px] leading-snug font-semibold mb-2">{t('sh_v_' + result.verdict)}</h2>
-              <p className="text-base text-[#4A4744]">{t('sh_s_' + result.verdict)}</p>
+    <div className="space-y-10">
+      <div className="max-w-[800px] mx-auto space-y-8">
+        <div ref={topRef} className="scroll-mt-[128px] md:scroll-mt-24">
+          <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{t('sh_title')}</h1>
+          <p className="text-lg text-[#4A4744] mb-6">{t('ws_one_intro')}</p>
+          <label htmlFor="ws-one-text" className="block font-semibold text-base mb-2">{t('ws_one_label')}</label>
+          <textarea id="ws-one-text" value={text} onChange={e => { setText(e.target.value); setEmptyErr(false); }} placeholder={t('sh_placeholder')} className="w-full min-h-[140px] border border-[#EAE7E1] bg-white rounded-[14px] px-5 py-4 text-base outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 mb-4" />
+          {emptyErr && <p role="alert" className="text-[#AE332A] text-sm mb-4 flex items-start gap-2 bg-[#FAF0EE] p-3 rounded-[12px]"><ShieldAlert size={18} className="shrink-0 mt-0.5" /> <span>{t('err_paste_first')}</span></p>}
+          <button onClick={runText} className={`w-full sm:w-auto sm:px-12 py-3.5 rounded-full font-semibold text-base min-h-[52px] ${!text.trim() ? 'opacity-60' : ''} ${checked ? 'bg-white border border-[#E3E0D9] text-[#1C1B1A] hover:bg-[#F6F4EF]' : 'bg-[#C73E33] text-white hover:bg-[#AE332A]'}`}>{t('sh_check')}</button>
+          <p className="text-sm text-[#8A8580] mt-3 flex items-center gap-1.5"><Lock size={14} className="shrink-0" /> {t('sh_private')}</p>
+          <div className="mt-6">
+            <div className="text-sm font-semibold text-[#8A8580] mb-2">{t('sh_try')}</div>
+            <div className="flex flex-wrap gap-2">
+              {examples.map(ex => (
+                <button key={ex.label} onClick={() => { setText(ex.text); setEmptyErr(false); }} className="border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-5 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px]">{t(ex.label)}</button>
+              ))}
             </div>
           </div>
+        </div>
 
-          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 space-y-4">
-            {result.findings.red.map(id => <div key={id} className="flex items-start gap-3 text-base"><ShieldAlert size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sh_f_' + id)}</span></div>)}
-            {result.findings.yellow.map(id => <div key={id} className="flex items-start gap-3 text-base"><AlertTriangle size={22} className="shrink-0 mt-0.5 text-[#1C1B1A]" /> <span>{t('sh_f_' + id)}</span></div>)}
-            {result.verdict !== 'danger' && result.findings.green.map(id => <div key={id} className="flex items-start gap-3 text-base"><CheckCircle2 size={22} className="shrink-0 mt-0.5 text-[#1C1B1A]" /> <span>{t('sh_f_' + id)}</span></div>)}
+        {wsResult && (
+          <div ref={wsRef} className="scroll-mt-[128px] md:scroll-mt-24 space-y-5">
+            <div className={`rounded-[20px] border p-6 sm:p-6 flex items-start gap-4 ${wsResult.verdict === 'danger' ? 'bg-[#FAF0EE] border-[#C73E33]' : 'bg-white border-[#EAE7E1]'}`}>
+              <VerdictIcon size={44} className={`shrink-0 ${wsResult.verdict === 'danger' ? 'text-[#C73E33]' : 'text-[#1C1B1A]'}`} />
+              <div>
+                <h2 className="text-[22px] leading-snug font-semibold mb-2">{t('sh_v_' + wsResult.verdict)}</h2>
+                <p className="text-base text-[#4A4744]">{t('sh_s_' + wsResult.verdict)}</p>
+              </div>
+            </div>
+
+            <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 space-y-4">
+              {wsResult.findings.red.map(id => <div key={id} className="flex items-start gap-3 text-base"><ShieldAlert size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sh_f_' + id)}</span></div>)}
+              {wsResult.findings.yellow.map(id => <div key={id} className="flex items-start gap-3 text-base"><AlertTriangle size={22} className="shrink-0 mt-0.5 text-[#1C1B1A]" /> <span>{t('sh_f_' + id)}</span></div>)}
+              {wsResult.verdict !== 'danger' && wsResult.findings.green.map(id => <div key={id} className="flex items-start gap-3 text-base"><CheckCircle2 size={22} className="shrink-0 mt-0.5 text-[#1C1B1A]" /> <span>{t('sh_f_' + id)}</span></div>)}
+            </div>
+
+            <div className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
+              <h3 className="font-semibold text-xl mb-4">{t('sh_next_title')}</h3>
+              <ul className="space-y-3 text-base text-[#1C1B1A]">
+                {[1, 2, 3].map(n => <li key={n} className="flex items-start gap-3"><ArrowRight size={20} className="shrink-0 mt-1" /> <span>{t(`sh_n_${wsResult.verdict}${wsResult.verdict === 'ok' ? n : n}`)}</span></li>)}
+              </ul>
+            </div>
+
+            {questions.length > 0 && (
+              <div>
+                <h3 className="font-semibold text-xl mb-3">{t('sh_q_title')}</h3>
+                <div className="space-y-3">
+                  {questions.map(id => (
+                    <div key={id} className="bg-white border border-[#EAE7E1] rounded-[14px] p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
+                      <p className="text-base">{t('sh_q_' + id)}</p>
+                      <button onClick={() => copyQ(t('sh_q_' + id))} className="shrink-0 border border-[#E3E0D9] bg-white rounded-full px-5 font-semibold text-sm hover:border-[#DDD8CE] min-h-[44px]">{t('sh_copy')}</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button onClick={reset} className="flex-1 bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-5">{t('sh_check_another')}</button>
+              <button onClick={save} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5">{t('sh_save')}</button>
+            </div>
+            <Disclaimer t={t} k="disc_shield" />
           </div>
+        )}
 
-          <div className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-            <h3 className="font-semibold text-xl mb-4">{t('sh_next_title')}</h3>
-            <ul className="space-y-3 text-base text-[#1C1B1A]">
-              {[1, 2, 3].map(n => <li key={n} className="flex items-start gap-3"><ArrowRight size={20} className="shrink-0 mt-1" /> <span>{t(`sh_n_${result.verdict}${result.verdict === 'ok' ? n : n}`)}</span></li>)}
-            </ul>
-          </div>
+        {sfResult && (
+          <div ref={sfRef} className="scroll-mt-[128px] md:scroll-mt-24 space-y-6">
+            {crossed ? (
+              <>
+                <div className="bg-[#FAF0EE] border border-[#C73E33] rounded-[20px] p-6 sm:p-6 flex items-start gap-4">
+                  <ShieldAlert size={40} className="shrink-0 text-[#C73E33]" />
+                  <div>
+                    <h2 className="text-[22px] leading-snug font-semibold mb-2">{t('sf_cross_title')}</h2>
+                    <p className="text-base text-[#4A4744]">{t('sf_cross_line')}</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  {sfResult.cats.map(id => {
+                    const ruleKey = SAFETY_RULE_OF[id];
+                    const off = ruleKey && !rules[ruleKey];
+                    return (
+                      <div key={id} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+                        <div className="font-semibold text-lg mb-2 flex items-start gap-2"><AlertTriangle size={20} className="shrink-0 mt-1" /> <span>{SAFETY_DATA[id].name[lang]}</span></div>
+                        <p className="text-base text-[#4A4744] mb-3">{SAFETY_DATA[id].expl[lang]}</p>
+                        <p className="text-sm font-semibold text-[#1C1B1A]">
+                          {ruleKey ? fmt(t('sf_breaks'), { rule: t('rule_' + ruleKey) }) : t('sf_no_one')}
+                          {off && <span className="font-normal text-[#8A8580]">{t('sf_off_note')}</span>}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 flex items-start gap-4">
+                <ShieldCheck size={40} className="shrink-0 text-[#1C1B1A]" />
+                <div>
+                  <h2 className="text-[22px] leading-snug font-semibold mb-2">{t('sf_ok_title')}</h2>
+                  <p className="text-base text-[#4A4744]">{t('sf_ok_line')}</p>
+                </div>
+              </div>
+            )}
 
-          {questions.length > 0 && (
             <div>
-              <h3 className="font-semibold text-xl mb-3">{t('sh_q_title')}</h3>
-              <div className="space-y-3">
-                {questions.map(id => (
-                  <div key={id} className="bg-white border border-[#EAE7E1] rounded-[14px] p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
-                    <p className="text-base">{t('sh_q_' + id)}</p>
-                    <button onClick={() => copyQ(t('sh_q_' + id))} className="shrink-0 border border-[#E3E0D9] bg-white rounded-full px-5 font-semibold text-sm hover:border-[#DDD8CE] min-h-[44px]">{t('sh_copy')}</button>
+              <h2 className="font-semibold text-[22px] mb-2">{t('sf_reply_title')}</h2>
+              <p className="text-base text-[#4A4744] mb-4">{t('sf_reply_intro')}</p>
+              <div className="space-y-4">
+                {[...sfResult.cats.map(id => ({ id, label: SAFETY_DATA[id].name[lang], reply: SAFETY_DATA[id].reply })), { id: 'exit', label: t('sf_exit_label'), reply: SAFETY_EXIT }].map(r => (
+                  <div key={r.id} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+                    <div className="text-sm font-semibold text-[#8A8580] mb-2">{r.label}</div>
+                    <p className="text-base text-[#1C1B1A] mb-3">{r.reply[lang]}</p>
+                    <p className="text-sm text-[#8A8580] mb-4">{r.reply[other]}</p>
+                    <button onClick={() => copy(r.reply[lang])} className="border border-[#E3E0D9] bg-white rounded-full px-6 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px]">{t('sh_copy')}</button>
                   </div>
                 ))}
               </div>
+              <Disclaimer t={t} k="disc_reply" className="mt-4" />
             </div>
-          )}
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button onClick={reset} className="flex-1 bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-5">{t('sh_check_another')}</button>
-            <button onClick={save} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5">{t('sh_save')}</button>
-          </div>
-          <Disclaimer t={t} k="disc_shield" />
-        </div>
-      )}
-
-      <div>
-        <h2 className="font-semibold text-[22px] mb-4">{t('sh_or_job')}</h2>
-        <div className="bg-white border border-[#EAE7E1] rounded-[20px] divide-y divide-[#EAE7E1] overflow-hidden">
-          {DUMMY_JOBS.map(job => (
-            <button key={job.id} onClick={() => runJob(job)} className="w-full text-left px-5 py-4 hover:bg-[#F6F4EF] flex items-center justify-between gap-3 min-h-[56px]">
-              <span className="min-w-0">
-                <span className="block font-semibold text-base">{job.title}</span>
-                <span className="block text-sm text-[#4A4744]">{job.clientName}</span>
-              </span>
-              {job.paymentVerified && <span className="shrink-0 flex items-center gap-1.5 text-sm font-semibold text-[#1C1B1A]"><CheckCircle2 size={16} /> {t('payment_verified')}</span>}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <h2 className="font-semibold text-[22px]">{t('sh_hist_title')}</h2>
-          {history.length > 0 && <button onClick={clearHistory} className="text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px] px-2">{t('sh_clear')}</button>}
-        </div>
-        {history.length === 0 ? (
-          <p className="text-base text-[#8A8580]">{t('sh_hist_empty')}</p>
-        ) : (
-          <div className="bg-white border border-[#EAE7E1] rounded-[20px] divide-y divide-[#EAE7E1]">
-            {history.map((h, i) => (
-              <div key={i} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                <span className={`shrink-0 self-start px-3 py-1 rounded-full text-[13px] font-semibold ${pillStyle[h.verdict]}`}>{t('sh_pill_' + h.verdict)}</span>
-                <span className="flex-1 min-w-0 text-base break-words">{h.snippet}</span>
-                <span className="text-sm text-[#8A8580] shrink-0">{fmtDate(h.date)}</span>
-              </div>
-            ))}
+            <div className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
+              <h3 className="font-semibold text-xl mb-4">{t('sf_next_title')}</h3>
+              <ol className="space-y-4 text-base text-[#1C1B1A]">
+                {[1, 2, 3, 4].map(n => (
+                  <li key={n} className="flex items-start gap-3">
+                    <span className="shrink-0 w-7 h-7 rounded-full bg-white border border-[#EAE7E1] flex items-center justify-center text-sm font-semibold">{lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : n}</span>
+                    <span className="flex-1">
+                      {t('sf_step' + n)}
+                      {n === 2 && <button onClick={saveProof} className="mt-3 w-full sm:w-auto bg-[#C73E33] text-white px-6 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] flex items-center justify-center">{t('sf_save_proof')}</button>}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         )}
+
+        <div>
+          <h2 className="font-semibold text-[22px] mb-4">{t('sh_or_job')}</h2>
+          <div className="bg-white border border-[#EAE7E1] rounded-[20px] divide-y divide-[#EAE7E1] overflow-hidden">
+            {DUMMY_JOBS.map(job => (
+              <button key={job.id} onClick={() => runJob(job)} className="w-full text-left px-5 py-4 hover:bg-[#F6F4EF] flex items-center justify-between gap-3 min-h-[56px]">
+                <span className="min-w-0">
+                  <span className="block font-semibold text-base">{job.title}</span>
+                  <span className="block text-sm text-[#4A4744]">{job.clientName}</span>
+                </span>
+                {job.paymentVerified && <span className="shrink-0 flex items-center gap-1.5 text-sm font-semibold text-[#1C1B1A]"><CheckCircle2 size={16} /> {t('payment_verified')}</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <h2 className="font-semibold text-[22px]">{t('sh_hist_title')}</h2>
+            {history.length > 0 && <button onClick={clearHistory} className="text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px] px-2">{t('sh_clear')}</button>}
+          </div>
+          {history.length === 0 ? (
+            <p className="text-base text-[#8A8580]">{t('sh_hist_empty')}</p>
+          ) : (
+            <div className="bg-white border border-[#EAE7E1] rounded-[20px] divide-y divide-[#EAE7E1]">
+              {history.map((h, i) => (
+                <div key={i} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                  <span className={`shrink-0 self-start px-3 py-1 rounded-full text-[13px] font-semibold ${pillStyle[h.verdict]}`}>{t('sh_pill_' + h.verdict)}</span>
+                  <span className="flex-1 min-w-0 text-base break-words">{h.snippet}</span>
+                  <span className="text-sm text-[#8A8580] shrink-0">{fmtDate(h.date)}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-}
 
-
-// --- MERGED PAGE: WorkShield first, then a banner, then Safety (both pages are unchanged inside) ---
-function ShieldSafetyPage({ t, lang, user, navTo, showToast, history, setHistory, evidence, setEvidence, scrollTo, scrollKey }) {
-  useEffect(() => {
-    if (scrollTo === 'safety') {
-      const el = document.getElementById('safety-section');
-      if (el) el.scrollIntoView({ block: 'start' });
-    }
-  }, [scrollTo, scrollKey]);
-  return (
-    <div className="space-y-10">
-      <WorkShieldPage t={t} lang={lang} showToast={showToast} history={history} setHistory={setHistory} />
       <div className="max-w-[800px] mx-auto">
         <div id="safety-section" className="scroll-mt-[128px] md:scroll-mt-24 bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-6 flex items-start gap-4">
           <HeartHandshake size={28} className="text-[#C73E33] shrink-0 mt-0.5" />
@@ -3097,179 +3994,66 @@ function ShieldSafetyPage({ t, lang, user, navTo, showToast, history, setHistory
             <p className="text-base text-[#4A4744]">{t('sfs_banner_intro')}</p>
           </div>
         </div>
+        <button type="button" onClick={() => setEmergency(true)} className="mt-4 w-full sm:w-auto flex items-center justify-center gap-2 border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-6"><Phone size={20} className="text-[#C73E33]" /> {t('sp_em_btn')}</button>
       </div>
-      <SafetyPage t={t} lang={lang} user={user} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} />
-    </div>
-  );
-}
 
-// --- SAFETY PAGE ---
-function SafetyPage({ t, lang, user, navTo, showToast, evidence, setEvidence }) {
-  const [text, setText] = useState("");
-  const [result, setResult] = useState(null); // { cats, text }
-  const resultRef = useRef(null);
-  const other = lang === 'ne' ? 'en' : 'ne';
-  const rules = (user && user.safetyRules) || DEFAULT_RULES;
-
-  useEffect(() => {
-    if (result && resultRef.current) resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [result]);
-
-  const [emptyErr, setEmptyErr] = useState(false);
-  const run = () => { if (!text.trim()) { setEmptyErr(true); return; } setEmptyErr(false); setResult({ cats: analyzeMessage(text), text: text.trim() }); };
-  const copy = async (str) => {
-    try { await navigator.clipboard.writeText(str); } catch (e) {
-      try { const ta = document.createElement('textarea'); ta.value = str; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch (e2) { /* ignore */ }
-    }
-    showToast(t('sh_copied'));
-  };
-  const saveProof = () => {
-    if (!result) return;
-    setEvidence(prev => [{ text: result.text.slice(0, 500), categories: result.cats, date: new Date().toISOString(), source: 'page' }, ...(Array.isArray(prev) ? prev : [])].slice(0, 20));
-    showToast(t('sf_saved_toast'));
-  };
-  const delProof = (i) => { setEvidence(prev => prev.filter((_, idx) => idx !== i)); showToast(t('sf_deleted')); };
-
-  const crossed = result && result.cats.length > 0;
-  return (
-    <div className="max-w-[800px] mx-auto space-y-8">
-      <div>
-        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{t('sf_title')}</h1>
-        <p className="text-lg text-[#4A4744] mb-6">{t('sf_intro')}</p>
-        <div className="bg-[#FAF0EE] rounded-[20px] p-6 sm:p-6">
-          <h2 className="font-semibold text-xl mb-4 text-[#1C1B1A]">{t('sf_three_title')}</h2>
-          <div className="space-y-4 text-base text-[#1C1B1A]">
-            <div className="flex items-start gap-3"><Shield size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sf_r1')}</span></div>
-            <div className="flex items-start gap-3"><Lock size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sf_r2')}</span></div>
-            <div className="flex items-start gap-3"><Bookmark size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sf_r3')}</span></div>
+      <div className="max-w-[800px] mx-auto space-y-8">
+        <div>
+          <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{t('sf_title')}</h1>
+          <p className="text-lg text-[#4A4744] mb-6">{t('sf_intro')}</p>
+          <div className="bg-[#FAF0EE] rounded-[20px] p-6 sm:p-6">
+            <h2 className="font-semibold text-xl mb-4 text-[#1C1B1A]">{t('sf_three_title')}</h2>
+            <div className="space-y-4 text-base text-[#1C1B1A]">
+              <div className="flex items-start gap-3"><Shield size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sf_r1')}</span></div>
+              <div className="flex items-start gap-3"><Lock size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sf_r2')}</span></div>
+              <div className="flex items-start gap-3"><Bookmark size={22} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sf_r3')}</span></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        <h2 className="font-semibold text-[22px] mb-4">{t('sf_check_title')}</h2>
-        <textarea value={text} onChange={e => { setText(e.target.value); setEmptyErr(false); }} aria-label={t('sf_check_title')} placeholder={t('sf_placeholder')} className="w-full min-h-[120px] border border-[#EAE7E1] bg-white rounded-[14px] px-5 py-4 text-base outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 mb-4" />
-        {emptyErr && <p role="alert" className="text-[#AE332A] text-sm mb-4 flex items-start gap-2 bg-[#FAF0EE] p-3 rounded-[12px]"><ShieldAlert size={18} className="shrink-0 mt-0.5" /> <span>{t('err_paste_first')}</span></p>}
-        <button onClick={run} className={`w-full sm:w-auto sm:px-12 py-3.5 rounded-full font-semibold text-base min-h-[52px] ${!text.trim() ? 'opacity-60' : ''} ${result ? 'bg-white border border-[#E3E0D9] text-[#1C1B1A] hover:bg-[#F6F4EF]' : 'bg-[#C73E33] text-white hover:bg-[#AE332A]'}`}>{t('sf_check')}</button>
-        <p className="text-sm text-[#8A8580] mt-3 flex items-center gap-1.5"><Lock size={14} className="shrink-0" /> {t('sf_private')}</p>
-        <div className="mt-6">
-          <div className="text-sm font-semibold text-[#8A8580] mb-2">{t('sh_try')}</div>
-          <div className="flex flex-wrap gap-2">
-            {SAFETY_EXAMPLES.map(ex => (
-              <button key={ex.label} onClick={() => { setText(ex.text); setEmptyErr(false); }} className="border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-5 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px]">{t(ex.label)}</button>
+
+        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
+          <h2 className="font-semibold text-[22px] mb-5">{t('pp_rules_title')}</h2>
+          <div className="space-y-3 mb-6">
+            {RULE_KEYS.map(k => (
+              <div key={k} className="flex items-center justify-between gap-4 p-4 border border-[#EAE7E1] rounded-[14px]">
+                <span className="text-base font-medium">{t('rule_' + k)}</span>
+                <span className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-[13px] font-semibold ${rules[k] ? 'bg-white border border-[#1C1B1A] text-[#1C1B1A]' : 'bg-[#F0EEE9] text-[#4A4744]'}`}>{rules[k] && <Check size={14} />}{rules[k] ? t('sf_on') : t('sf_off')}</span>
+              </div>
             ))}
           </div>
+          <button onClick={() => navTo('passport')} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px]">{t('sf_edit_rules')}</button>
         </div>
-      </div>
 
-      {result && (
-        <div ref={resultRef} className="scroll-mt-[128px] md:scroll-mt-24 space-y-6">
-          {crossed ? (
-            <>
-              <div className="bg-[#FAF0EE] border border-[#C73E33] rounded-[20px] p-6 sm:p-6 flex items-start gap-4">
-                <ShieldAlert size={40} className="shrink-0 text-[#C73E33]" />
-                <div>
-                  <h2 className="text-[22px] leading-snug font-semibold mb-2">{t('sf_cross_title')}</h2>
-                  <p className="text-base text-[#4A4744]">{t('sf_cross_line')}</p>
-                </div>
-              </div>
-              <div className="space-y-4">
-                {result.cats.map(id => {
-                  const ruleKey = SAFETY_RULE_OF[id];
-                  const off = ruleKey && !rules[ruleKey];
-                  return (
-                    <div key={id} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
-                      <div className="font-semibold text-lg mb-2 flex items-start gap-2"><AlertTriangle size={20} className="shrink-0 mt-1" /> <span>{SAFETY_DATA[id].name[lang]}</span></div>
-                      <p className="text-base text-[#4A4744] mb-3">{SAFETY_DATA[id].expl[lang]}</p>
-                      <p className="text-sm font-semibold text-[#1C1B1A]">
-                        {ruleKey ? fmt(t('sf_breaks'), { rule: t('rule_' + ruleKey) }) : t('sf_no_one')}
-                        {off && <span className="font-normal text-[#8A8580]">{t('sf_off_note')}</span>}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
+        <TrustedContactCard t={t} lang={lang} user={user} allJobs={allJobs} appliedJobs={appliedJobs} trusted={trusted} setTrusted={setTrusted} checkin={checkin} setCheckin={setCheckin} showToast={showToast} />
+
+        <QuietHoursCard t={t} lang={lang} quiet={quiet} setQuiet={setQuiet} />
+
+        <div>
+          <h2 className="font-semibold text-[22px] mb-4">{t('sf_proof_title')}</h2>
+          <button onClick={() => navTo('vault')} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] mb-4 inline-flex items-center justify-center gap-2"><Lock size={18} /> {t('ev_open')}</button>
+          {evidence.length === 0 ? (
+            <p className="text-base text-[#8A8580] mb-3">{t('sf_proof_empty')}</p>
           ) : (
-            <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 flex items-start gap-4">
-              <ShieldCheck size={40} className="shrink-0 text-[#1C1B1A]" />
-              <div>
-                <h2 className="text-[22px] leading-snug font-semibold mb-2">{t('sf_ok_title')}</h2>
-                <p className="text-base text-[#4A4744]">{t('sf_ok_line')}</p>
-              </div>
+            <div className="space-y-4 mb-3">
+              {evidence.map((e, i) => (
+                <div key={i} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <span className="text-sm font-semibold text-[#8A8580]">{fmtDate(e.date)}</span>
+                    <button onClick={() => delProof(i)} className="text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px] px-2 -mt-2 -mr-2">{t('sf_delete')}</button>
+                  </div>
+                  {e.categories.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {e.categories.map(id => <span key={id} className="bg-[#FAF0EE] text-[#AE332A] px-3 py-1 rounded-full text-[13px] font-semibold">{SAFETY_DATA[id].name[lang]}</span>)}
+                    </div>
+                  )}
+                  <p className="text-base text-[#1C1B1A] break-words">{e.text.slice(0, 80)}{e.text.length > 80 ? '…' : ''}</p>
+                </div>
+              ))}
             </div>
           )}
-
-          <div>
-            <h2 className="font-semibold text-[22px] mb-2">{t('sf_reply_title')}</h2>
-            <p className="text-base text-[#4A4744] mb-4">{t('sf_reply_intro')}</p>
-            <div className="space-y-4">
-              {[...result.cats.map(id => ({ id, label: SAFETY_DATA[id].name[lang], reply: SAFETY_DATA[id].reply })), { id: 'exit', label: t('sf_exit_label'), reply: SAFETY_EXIT }].map(r => (
-                <div key={r.id} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
-                  <div className="text-sm font-semibold text-[#8A8580] mb-2">{r.label}</div>
-                  <p className="text-base text-[#1C1B1A] mb-3">{r.reply[lang]}</p>
-                  <p className="text-sm text-[#8A8580] mb-4">{r.reply[other]}</p>
-                  <button onClick={() => copy(r.reply[lang])} className="border border-[#E3E0D9] bg-white rounded-full px-6 font-semibold text-base hover:border-[#DDD8CE] min-h-[48px]">{t('sh_copy')}</button>
-                </div>
-              ))}
-            </div>
-            <Disclaimer t={t} k="disc_reply" className="mt-4" />
-          </div>
-
-          <div className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-            <h3 className="font-semibold text-xl mb-4">{t('sf_next_title')}</h3>
-            <ol className="space-y-4 text-base text-[#1C1B1A]">
-              {[1, 2, 3, 4].map(n => (
-                <li key={n} className="flex items-start gap-3">
-                  <span className="shrink-0 w-7 h-7 rounded-full bg-white border border-[#EAE7E1] flex items-center justify-center text-sm font-semibold">{lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : n}</span>
-                  <span className="flex-1">
-                    {t('sf_step' + n)}
-                    {n === 2 && <button onClick={saveProof} className="mt-3 w-full sm:w-auto bg-[#C73E33] text-white px-6 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] flex items-center justify-center">{t('sf_save_proof')}</button>}
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <p className="text-sm text-[#8A8580] flex items-center gap-1.5"><Lock size={14} className="shrink-0" /> {t('sf_proof_private')}</p>
         </div>
-      )}
-
-      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-        <h2 className="font-semibold text-[22px] mb-5">{t('pp_rules_title')}</h2>
-        <div className="space-y-3 mb-6">
-          {RULE_KEYS.map(k => (
-            <div key={k} className="flex items-center justify-between gap-4 p-4 border border-[#EAE7E1] rounded-[14px]">
-              <span className="text-base font-medium">{t('rule_' + k)}</span>
-              <span className={`shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-[13px] font-semibold ${rules[k] ? 'bg-white border border-[#1C1B1A] text-[#1C1B1A]' : 'bg-[#F0EEE9] text-[#4A4744]'}`}>{rules[k] && <Check size={14} />}{rules[k] ? t('sf_on') : t('sf_off')}</span>
-            </div>
-          ))}
-        </div>
-        <button onClick={() => navTo('passport')} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px]">{t('sf_edit_rules')}</button>
-      </div>
-
-      <div>
-        <h2 className="font-semibold text-[22px] mb-4">{t('sf_proof_title')}</h2>
-        <button onClick={() => navTo('vault')} className="w-full sm:w-auto border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full px-6 font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] mb-4 inline-flex items-center justify-center gap-2"><Lock size={18} /> {t('ev_open')}</button>
-        {evidence.length === 0 ? (
-          <p className="text-base text-[#8A8580] mb-3">{t('sf_proof_empty')}</p>
-        ) : (
-          <div className="space-y-4 mb-3">
-            {evidence.map((e, i) => (
-              <div key={i} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <span className="text-sm font-semibold text-[#8A8580]">{fmtDate(e.date)}</span>
-                  <button onClick={() => delProof(i)} className="text-base font-semibold text-[#4A4744] underline underline-offset-4 min-h-[44px] px-2 -mt-2 -mr-2">{t('sf_delete')}</button>
-                </div>
-                {e.categories.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {e.categories.map(id => <span key={id} className="bg-[#FAF0EE] text-[#AE332A] px-3 py-1 rounded-full text-[13px] font-semibold">{SAFETY_DATA[id].name[lang]}</span>)}
-                  </div>
-                )}
-                <p className="text-base text-[#1C1B1A] break-words">{e.text.slice(0, 80)}{e.text.length > 80 ? '…' : ''}</p>
-              </div>
-            ))}
-          </div>
-        )}
-        <p className="text-sm text-[#8A8580] flex items-center gap-1.5"><Lock size={14} className="shrink-0" /> {t('sf_proof_private')}</p>
       </div>
     </div>
   );
@@ -3741,7 +4525,7 @@ function SetupFlow({ t, onBack, onComplete }) {
 
 
 // --- FIRSTWORK MODULE ---
-function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs = DUMMY_JOBS }) {
+function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs = DUMMY_JOBS, lowdata = false, onSwitchClient = () => {} }) {
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState("All");
   const [skillsFilter, setSkillsFilter] = useState([]);
@@ -3749,7 +4533,7 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
   const [togBeginner, setTogBeginner] = useState(false);
   const [togVerified, setTogVerified] = useState(false);
   const [togMatch, setTogMatch] = useState(false);
-  const [sort, setSort] = useState("Newest");
+  const [sort, setSort] = useState("Best match for me");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const filtered = useMemo(() => {
@@ -3767,6 +4551,13 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
 
     res.sort((a, b) => {
       if (sort === "Newest") return a.postedHoursAgo - b.postedHoursAgo;
+      if (sort === "Best match for me") {
+        // fully matching first, then more matched skills first, then the rest; inside a group keep the Newest order
+        const rank = (j) => { const n = j.skillsRequired.filter(s => user.skills.includes(s)).length; return n > 0 && n === j.skillsRequired.length ? Infinity : n; };
+        const ra = rank(a), rb = rank(b);
+        if (ra !== rb) return rb > ra ? 1 : -1;
+        return a.postedHoursAgo - b.postedHoursAgo;
+      }
       if (sort === "Budget: High to Low") return b.budgetUSD - a.budgetUSD;
       if (sort === "Budget: Low to High") return a.budgetUSD - b.budgetUSD;
       if (sort === "Best skill match") {
@@ -3780,7 +4571,7 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
   }, [search, cat, skillsFilter, budgetType, togBeginner, togVerified, togMatch, sort, user, allJobs]);
 
   const clearFilters = () => {
-    setSearch(""); setCat("All"); setSkillsFilter([]); setBudgetType("All"); setTogBeginner(false); setTogVerified(false); setTogMatch(false); setSort("Newest");
+    setSearch(""); setCat("All"); setSkillsFilter([]); setBudgetType("All"); setTogBeginner(false); setTogVerified(false); setTogMatch(false); setSort("Best match for me");
   };
 
   return (
@@ -3880,8 +4671,12 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
         </div>
 
         <div className="mb-6 flex flex-col sm:flex-row sm:items-stretch gap-3">
-          <button onClick={() => navTo('client')} className="min-h-[48px] px-6 rounded-full bg-white border border-[#E3E0D9] text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] flex items-center justify-center gap-2 w-full sm:w-auto sm:self-start">
-            <Plus size={20} /> {t('cl_entry')}
+          <button onClick={onSwitchClient} className="min-h-[48px] px-5 py-3 rounded-[20px] bg-white border border-[#EAE7E1] text-left hover:bg-[#F6F4EF] flex items-start gap-3 w-full sm:max-w-md">
+            <Briefcase size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
+            <span>
+              <span className="block font-semibold text-base text-[#1C1B1A]">{t('cm_welcome_q')}</span>
+              <span className="block text-sm text-[#6E6963] mt-0.5">{t('cm_switch_btn')}</span>
+            </span>
           </button>
           <button onClick={() => navTo('bring')} className="min-h-[48px] px-5 py-3 rounded-[20px] bg-white border border-[#EAE7E1] text-left hover:bg-[#F6F4EF] flex items-start gap-3 w-full sm:max-w-md">
             <HeartHandshake size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
@@ -3904,6 +4699,7 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
             <div className="flex items-center border border-[#EAE7E1] rounded-full bg-white px-3">
               <span className="text-[#8A8580] pl-2 text-sm font-medium hidden sm:inline">Sort:</span>
               <select value={sort} onChange={e => setSort(e.target.value)} className="bg-transparent pl-2 pr-4 py-3 outline-none font-semibold min-h-[48px] cursor-pointer text-base">
+                <option value="Best match for me">{t('sort_best')}</option>
                 <option value="Newest">{t('sort_new')}</option>
                 <option value="Budget: High to Low">{t('sort_high')}</option>
                 <option value="Budget: Low to High">{t('sort_low')}</option>
@@ -3912,6 +4708,12 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
             </div>
           </div>
         </div>
+
+        {lowdata && (
+          <div className="mb-6 bg-[#F0EEE9] border border-[#EAE7E1] rounded-[14px] px-4 py-3 text-base font-medium text-[#1C1B1A] flex items-center gap-2">
+            <Moon size={18} className="shrink-0" /> {t('ld_on_line')}
+          </div>
+        )}
 
         <div className="space-y-6">
           {filtered.length === 0 ? (
@@ -3926,7 +4728,7 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
             filtered.map(job => (
               <JobCard key={job.id} job={job} t={t} navTo={navTo} saved={savedJobs.includes(job.id)} onToggleSave={() => {
                 setSavedJobs(prev => prev.includes(job.id) ? prev.filter(id => id !== job.id) : [...prev, job.id]);
-              }} lang={lang} />
+              }} lang={lang} compact={lowdata} />
             ))
           )}
         </div>
@@ -3935,11 +4737,11 @@ function FirstWorkFeed({ t, navTo, user, savedJobs, setSavedJobs, lang, allJobs 
   );
 }
 
-function JobCard({ job, t, navTo, saved, onToggleSave, lang }) {
+function JobCard({ job, t, navTo, saved, onToggleSave, lang, compact = false }) {
   const isEn = lang === 'en';
   return (
-    <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 hover:border-[#DDD8CE] transition-colors flex flex-col sm:flex-row gap-6 relative overflow-hidden">
-      <div className="flex-1 cursor-pointer group" onClick={() => navTo('job-detail', { id: job.id })}>
+    <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 hover:border-[#DDD8CE] hover:shadow-[0_2px_16px_rgba(28,27,26,0.07)] transition flex flex-col sm:flex-row gap-6 relative overflow-hidden cursor-pointer group" onClick={() => navTo('job-detail', { id: job.id })}>
+      <div className="flex-1">
         <div className="flex flex-wrap items-center gap-3 mb-3 text-sm">
           {job.paymentVerified ? (
             <span className="flex items-center gap-1.5 font-semibold bg-[#F0EEE9] px-3 py-1 rounded-full text-[13px]"><CheckCircle2 size={16} className="text-[#1C1B1A]" /> {t('payment_verified')}</span>
@@ -3965,12 +4767,16 @@ function JobCard({ job, t, navTo, saved, onToggleSave, lang }) {
           <span className="flex items-center gap-1.5 font-medium"><MapPin size={20} className="text-[#8A8580]" /> {job.clientCountry}</span>
         </div>
         
-        <p className="text-base text-[#4A4744] line-clamp-2 mb-5 leading-relaxed">{isEn ? job.description : (job.description)}</p>
-        
-        <div className="flex flex-wrap gap-2 mb-4 sm:mb-0">
-          {job.skillsRequired.slice(0, 4).map(s => <span key={s} className="bg-white border border-[#EAE7E1] text-[#4A4744] font-medium text-sm px-3 py-1.5 rounded-full">{s}</span>)}
-          {job.skillsRequired.length > 4 && <span className="text-sm font-semibold text-[#8A8580] self-center px-2">+{job.skillsRequired.length - 4}</span>}
-        </div>
+        {!compact && (
+          <>
+            <p className="text-base text-[#4A4744] line-clamp-2 mb-5 leading-relaxed">{isEn ? job.description : (job.description)}</p>
+
+            <div className="flex flex-wrap gap-2 mb-4 sm:mb-0">
+              {job.skillsRequired.slice(0, 4).map(s => <span key={s} className="bg-white border border-[#EAE7E1] text-[#4A4744] font-medium text-sm px-3 py-1.5 rounded-full">{s}</span>)}
+              {job.skillsRequired.length > 4 && <span className="text-sm font-semibold text-[#8A8580] self-center px-2">+{job.skillsRequired.length - 4}</span>}
+            </div>
+          </>
+        )}
 
         {job.caution && (
           <div className="text-[#AE332A] text-sm flex items-start gap-2 mt-4 font-semibold bg-[#FAF0EE] p-3 rounded-[12px] border border-[#FAF0EE]">
@@ -3991,7 +4797,7 @@ function JobCard({ job, t, navTo, saved, onToggleSave, lang }) {
           <button onClick={(e) => { e.stopPropagation(); onToggleSave(); }} className={`min-h-[48px] w-12 shrink-0 flex items-center justify-center rounded-full border transition-colors ${saved ? 'bg-[#FAF0EE] text-[#AE332A] border-[#C73E33]' : 'border-[#EAE7E1] bg-white hover:border-[#DDD8CE] text-[#1C1B1A]'}`} aria-label="Save job">
             <Bookmark size={20} fill={saved ? "currentColor" : "none"} />
           </button>
-          <button onClick={() => navTo('job-detail', { id: job.id })} className="bg-[#C73E33] text-white px-5 rounded-full text-base font-semibold hover:bg-[#AE332A] min-h-[52px] flex-1 sm:flex-none flex items-center justify-center">
+          <button onClick={(e) => { e.stopPropagation(); navTo('job-detail', { id: job.id }); }} className="bg-[#C73E33] text-white px-5 rounded-full text-base font-semibold hover:bg-[#AE332A] min-h-[52px] flex-1 sm:flex-none flex items-center justify-center">
             {t('view_job')}
           </button>
         </div>
@@ -4142,6 +4948,8 @@ function JobDetail({ job, t, navTo, user, savedJobs, setSavedJobs, lang, showToa
             ))}
           </dl>
         </div>
+
+        <SafeTalkCard t={t} job={job} />
 
         <div className="mb-10">
           <h3 className="font-semibold text-2xl mb-4">{t('about_job')}</h3>
@@ -4719,7 +5527,10 @@ function ChatMissing({ t, navTo }) {
   return null;
 }
 
-function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, setEvidence, workrooms = {}, setWorkrooms = () => {}, simple = false, chatDrafts = {}, setChatDrafts = () => {}, getClientAction, clientAction = {}, setClientAction = () => {} }) {
+function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, setEvidence, workrooms = {}, setWorkrooms = () => {}, simple = false, chatDrafts = {}, setChatDrafts = () => {}, getClientAction, clientAction = {}, setClientAction = () => {}, quiet = QUIET_DEFAULT }) {
+  const [endOpen, setEndOpen] = useState(false);
+  const [endReport, setEndReport] = useState(null); // report text shown after "End this chat safely"
+  const nowTick = useNow(20000);
   const [draft, setDraft] = useState(() => (simple && typeof chatDrafts[job.id] === 'string' ? chatDrafts[job.id] : ""));
   const [menuOpen, setMenuOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
@@ -4752,6 +5563,21 @@ function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, set
   const endRef = useRef(null);
   const firstRender = useRef(true);
   const thread = chats[job.id] || seedThread(job);
+  const hasClientMsg = thread.some(m => m.from === 'client');
+  const quietNow = isQuietActive(quiet, nowTick);
+  const endChatSafely = () => {
+    const lines = thread.map(m => (m.from === 'client' ? 'Client: ' : 'Me: ') + m.text).join('\n');
+    // (1) one item in the Evidence Vault, same shape and mechanism as other saved proof
+    setEvidence(prev => [{ text: lines, categories: [], date: new Date().toISOString(), source: 'chat', jobTitle: job.title, clientName: job.clientName }, ...(Array.isArray(prev) ? prev : [])].slice(0, 20));
+    // (2) block through the existing client-actions mechanism
+    setClientAction(job.id, { blocked: true });
+    // (3) a report she can copy (English, because it goes to the platform)
+    const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    setEndReport(`Report about ${job.clientName} (job: ${job.title}). I am reporting this client from my WorkPassport chat. The full chat is saved in my Evidence Vault. Date: ${date}.`);
+    setEndOpen(false);
+    showToast(t('sp_es_toast'));
+    window.scrollTo({ top: 0 });
+  };
 
   useEffect(() => {
     if (!chats[job.id]) updateChat(job.id, () => seedThread(job));
@@ -4809,8 +5635,9 @@ function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, set
         </div>
         <CheckBtn withLabel />
       </div>
-        <div className="mt-3 pt-3 border-t border-[#EAE7E1] flex justify-end relative" ref={menuRef}>
-          <button type="button" onClick={() => setMenuOpen(o => !o)} aria-haspopup="menu" aria-expanded={menuOpen} className="flex items-center gap-2 rounded-full font-semibold text-base text-[#1C1B1A] border border-[#E3E0D9] bg-white hover:border-[#DDD8CE] min-h-[48px] px-4"><MoreVertical size={20} /> <span>{t('ca_options')}</span></button>
+        <div className="mt-3 pt-3 border-t border-[#EAE7E1] flex flex-wrap items-center justify-between gap-2 relative" ref={menuRef}>
+        {hasClientMsg && !blocked && <button type="button" onClick={() => setEndOpen(true)} className="inline-flex items-center justify-center gap-2 rounded-full border border-[#E3E0D9] bg-white text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] px-4 text-left"><Ban size={18} className="shrink-0 text-[#C73E33]" /> <span>{t('sp_es_btn')}</span></button>}
+          <button type="button" onClick={() => setMenuOpen(o => !o)} aria-haspopup="menu" aria-expanded={menuOpen} className="ml-auto flex items-center gap-2 rounded-full font-semibold text-base text-[#1C1B1A] border border-[#E3E0D9] bg-white hover:border-[#DDD8CE] min-h-[48px] px-4"><MoreVertical size={20} /> <span>{t('ca_options')}</span></button>
           {menuOpen && (
             <div role="menu" className="absolute right-0 top-full mt-2 w-[min(280px,calc(100vw-32px))] bg-white border border-[#EAE7E1] rounded-[16px] shadow-[0_8px_24px_rgba(28,27,26,0.08)] overflow-hidden z-40 text-left">
               <button role="menuitem" onClick={() => { setMenuOpen(false); toggleMute(); }} className="w-full text-left px-5 py-3 min-h-[48px] text-base text-[#1C1B1A] hover:bg-[#F6F4EF] border-b border-[#EAE7E1] flex items-center gap-3"><BellOff size={20} className="shrink-0" /> {muted ? t('ca_unmute') : t('ca_mute')}</button>
@@ -4820,6 +5647,14 @@ function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, set
           )}
         </div>
       </div>
+
+      {endReport && (
+        <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-5 mb-5">
+          <h2 className="font-semibold text-lg mb-3">{t('sp_es_rep_title')}</h2>
+          <p className="text-base text-[#1C1B1A] bg-white border border-[#EAE7E1] rounded-[14px] p-4 mb-4 break-words">{endReport}</p>
+          <button type="button" onClick={async () => { await copyToClipboard(endReport); showToast(t('sh_copied')); }} className="inline-flex items-center justify-center gap-2 bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px] px-6">{t('sh_copy')}</button>
+        </div>
+      )}
 
       <div role="log" aria-label={t('chat_thread_label')} className="space-y-4 pb-4">
         {thread.map((m, i) => m.from === 'client' ? (
@@ -4845,6 +5680,13 @@ function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, set
         </div>
       ) : (
         <div className="sticky bottom-0 z-30 bg-[#FBFAF8] pt-3 pb-3 border-t border-[#EAE7E1]">
+          {quietNow && (
+            <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-4 mb-3">
+              <h2 className="font-semibold text-base mb-2 flex items-start gap-2"><Moon size={18} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sp_qh_card_title')}</span></h2>
+              <p className="text-base text-[#4A4744] mb-3">{t('sp_qh_draft')}</p>
+              <button type="button" onClick={async () => { await copyToClipboard(t('sp_qh_draft')); showToast(t('sh_copied')); }} className="border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[44px] px-5">{t('sh_copy')}</button>
+            </div>
+          )}
           <form onSubmit={send} className="flex items-center gap-2">
             <CheckBtn />
             <input value={draft} onChange={e => changeDraft(e.target.value)} placeholder={t('chat_write')} aria-label={t('chat_write')} className="flex-1 min-w-0 min-h-[48px] border border-[#EAE7E1] bg-white rounded-full px-4 text-base outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30" />
@@ -4856,6 +5698,7 @@ function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, set
 
       {checker && <ChatCheckModal key={checker.n} t={t} lang={lang} user={user} navTo={navTo} showToast={showToast} setEvidence={setEvidence} initialText={checker.text} autoRun={checker.auto} onClose={() => setChecker(null)} clientApi={clientApi} job={job} workrooms={workrooms} setWorkrooms={setWorkrooms} />}
       {reportOpen && <ReportClientModal t={t} initial={report ? report.reason : null} onSend={sendReport} onClose={() => setReportOpen(false)} />}
+      {endOpen && <EndChatModal t={t} onConfirm={endChatSafely} onClose={() => setEndOpen(false)} />}
     </div>
   );
 }
@@ -5092,10 +5935,10 @@ function ClientToggle({ label, on, onChange }) {
   );
 }
 
-function ClientView({ t, lang, navTo, showToast, clientJobs, setClientJobs, scrollTo }) {
+function ClientView({ t, lang, navTo, showToast, clientJobs, setClientJobs, scrollTo, clientMode = false, clientProfile = null }) {
   const digits = (n) => toDigits(n, lang);
   const skillOptions = useMemo(() => [...new Set(DUMMY_JOBS.flatMap(j => j.skillsRequired))], []);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(clientMode && clientProfile ? `${clientProfile.name} (${clientProfile.business})` : '');
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState(ALL_CATEGORIES[0]);
   const [desc, setDesc] = useState('');
@@ -5110,9 +5953,11 @@ function ClientView({ t, lang, navTo, showToast, clientJobs, setClientJobs, scro
   const [beginners, setBeginners] = useState(true);
   const [error, setError] = useState(false);
   const mineRef = useRef(null);
+  const formRef = useRef(null);
 
   useEffect(() => {
     if (scrollTo === 'mine' && mineRef.current) mineRef.current.scrollIntoView({ block: 'start' });
+    if (scrollTo === 'form' && formRef.current) formRef.current.scrollIntoView({ block: 'start' });
   }, [scrollTo]);
 
   const submit = () => {
@@ -5161,12 +6006,24 @@ function ClientView({ t, lang, navTo, showToast, clientJobs, setClientJobs, scro
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-4 flex items-start gap-3">
-        <Info size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
-        <p className="text-base text-[#1C1B1A]">{t('cl_demo_note')}</p>
-      </div>
+      {clientMode ? (
+        <div>
+          <h1 className="text-[28px] sm:text-[30px] font-semibold mb-2">{t('cm_home')}</h1>
+          <p className="text-lg font-semibold mb-1">{t('cm_greeting')}</p>
+          <p className="text-base text-[#4A4744] mb-4 leading-[1.6]">{t('cm_profile_line')}</p>
+          <button onClick={() => { if (formRef.current) formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} className="bg-[#C73E33] text-white px-6 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] mb-4">
+            {t('cm_post_new')}
+          </button>
+          <Disclaimer t={t} k="disc_client" />
+        </div>
+      ) : (
+        <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-4 flex items-start gap-3">
+          <Info size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
+          <p className="text-base text-[#1C1B1A]">{t('cl_demo_note')}</p>
+        </div>
+      )}
 
-      <div className={`${CL_CARD} space-y-5`}>
+      <div ref={formRef} className={`${CL_CARD} space-y-5 scroll-mt-32`}>
         <div>
           <label htmlFor="cl-name" className={CL_LABEL}>{t('cl_f_name')}</label>
           <input id="cl-name" type="text" value={name} onChange={e => setName(e.target.value)} className={CL_INPUT} />
@@ -5265,6 +6122,9 @@ function ClientView({ t, lang, navTo, showToast, clientJobs, setClientJobs, scro
             {clientJobs.map(j => (
               <div key={j.id} className={CL_CARD}>
                 <div className="font-semibold text-xl mb-1 break-words">{j.title}</div>
+                {j.seededDemo && (
+                  <span className="inline-block bg-[#F0EEE9] text-[#1C1B1A] px-3 py-1 rounded-full text-[13px] font-semibold mb-2">{t('cm_seed_chip')}</span>
+                )}
                 <div className="text-base text-[#4A4744] mb-4">{j.clientName} · ${fmtMoney(j.budgetUSD)} (NPR {fmtMoney(j.budgetUSD * 133)}) · {fmt(t('wr_days'), { days: digits(j.deadlineDays) })}</div>
                 {j.accepted && (
                   <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[14px] p-4 mb-4 space-y-2">
@@ -5389,6 +6249,13 @@ function BringView({ t, lang, navTo, onSubmit }) {
         <p className="text-base text-[#4A4744] mb-3">{t('br_intro')}</p>
         <button type="button" onClick={() => navTo('bring-queue')} className="inline-flex items-center gap-2 text-base font-semibold text-[#1C1B1A] underline underline-offset-4 min-h-[44px]">
           <ClipboardList size={20} className="shrink-0" /> {t('br_queue_link')}
+        </button>
+        <button type="button" onClick={() => navTo('institution-insight')} className="mt-3 w-full text-left bg-white border border-[#EAE7E1] rounded-[20px] p-4 hover:bg-[#F6F4EF] min-h-[44px] flex items-start gap-3">
+          <TrendingUp size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
+          <span>
+            <span className="block text-base font-semibold text-[#1C1B1A]">{t('ii_entry')}</span>
+            <span className="block text-base text-[#4A4744]">{t('ii_entry_sub')}</span>
+          </span>
         </button>
       </div>
 
@@ -5583,6 +6450,66 @@ function BringQueue({ t, lang, navTo, submissions, onDecide }) {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+// --- INSTITUTION INSIGHT: group numbers only. Cohort numbers are sample data; job demand is counted live from the combined list. ---
+function InstitutionInsight({ allJobs, t, lang, navTo }) {
+  const digits = (n) => toDigits(n, lang);
+  const { total, demand } = useMemo(() => {
+    const d = {};
+    allJobs.forEach(j => { [...new Set(j.skillsRequired || [])].forEach(sk => { d[sk] = (d[sk] || 0) + 1; }); });
+    return { total: allJobs.length, demand: d };
+  }, [allJobs]);
+  const cohort = DEMO_COHORT.learners;
+  const names = [...new Set([...Object.keys(DEMO_COHORT.verified), ...Object.keys(demand)])];
+  const rows = names.map(skill => ({ skill, have: DEMO_COHORT.verified[skill] || 0, demand: demand[skill] || 0 }))
+    .sort((a, b) => b.demand - a.demand || a.skill.localeCompare(b.skill));
+  const gap = rows.filter(r => r.demand >= 2)
+    .sort((a, b) => (a.have / cohort) - (b.have / cohort) || b.demand - a.demand || a.skill.localeCompare(b.skill))[0];
+  return (
+    <div className="max-w-2xl mx-auto space-y-6">
+      <div>
+        <button onClick={() => navTo('bring')} className="flex items-center gap-2 text-base text-[#4A4744] mb-4 hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2 font-medium">
+          <ChevronLeft size={20} /> {t('back')}
+        </button>
+        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-1">{t('ii_title')}</h1>
+        <h2 className="text-xl font-semibold text-[#1C1B1A] break-words">{DEMO_COHORT.institute}</h2>
+        <p className="text-base text-[#4A4744] mt-1">{fmt(t('ii_cohort'), { n: digits(cohort) })}</p>
+      </div>
+
+      <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-4 flex items-start gap-3">
+        <Lock size={20} className="shrink-0 mt-0.5 text-[#AE332A]" />
+        <p className="text-base text-[#1C1B1A]">{t('ii_privacy')}</p>
+      </div>
+
+      <div className={CL_CARD}>
+        <div className="grid grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] gap-3 pb-3 border-b border-[#EAE7E1] text-sm font-semibold text-[#6E6963]">
+          <div>{t('ii_col_skill')}</div>
+          <div>{t('ii_col_have')}</div>
+          <div>{t('ii_col_demand')}</div>
+        </div>
+        {rows.map(r => (
+          <div key={r.skill} className="grid grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] gap-3 py-3 border-b border-[#EAE7E1] last:border-b-0 items-center">
+            <div className="text-base font-semibold text-[#1C1B1A] break-words">{r.skill}</div>
+            <div className="text-base text-[#1C1B1A]">{fmt(t('ii_have_of'), { have: digits(r.have), cohort: digits(cohort) })}</div>
+            <div className="text-base text-[#1C1B1A]">{digits(r.demand)}</div>
+          </div>
+        ))}
+      </div>
+
+      {gap && (
+        <div className={CL_CARD}>
+          <h2 className="text-xl font-semibold mb-2">{t('ii_gap_title')}</h2>
+          <div className="text-lg font-semibold text-[#C73E33] mb-2">{gap.skill}</div>
+          <p className="text-base text-[#4A4744]">
+            {fmt(t(gap.have > 0 ? 'ii_gap_have' : 'ii_gap_none'), { skill: gap.skill, demand: digits(gap.demand), total: digits(total), have: digits(gap.have), cohort: digits(cohort) })}
+          </p>
+        </div>
+      )}
+
+      <p className="text-sm text-[#6E6963]">{t('ii_sample')}</p>
     </div>
   );
 }

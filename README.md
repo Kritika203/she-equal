@@ -18,6 +18,13 @@ WorkPassport helps first-time freelancers (mostly young women in Nepal) get a fi
 
 10. **Scope check** — inside the chat's check pop-up (a third section after Safety and WorkShield). It compares a client message with the agreed work (the Workroom milestones if one exists, otherwise the job's deliverables) using a transparent phrase list (`checkScope` in `src/App.jsx`) and shows the exact words that triggered it. If flagged, she can copy an *I can do it* reply, copy an *ask first* reply, or create an additional milestone that is added to the job's Workroom (`wp_workrooms`, same shape, no new keys). Demo: apply to "30 Instagram posts for clothing store", open its chat and tap *Check this message* on the second message.
 
+11. **Safety pack (women-safety while working with a client)** — all on the Safety side of the merged page, in chat and on job detail. Nothing here sends a message or calls anyone: buttons only copy text or open the phone dialler (`tel:`).
+    - **Emergency screen** — a button under the Safety banner opens a full view with big `tel:100` (Nepal Police), `tel:1145` (National Women Commission) and trusted-person buttons, plus *Hide this app* (same Quick hide screen as the header button, also when Shared Device Mode is off).
+    - **Trusted person + safe check-in** — after the safety-rules card. Save one name and number (`wp_trusted_contact`), pick an applied job and a time, copy a plan message to send yourself, and start a check-in (`wp_checkin`). When the time passes (checked on open and every 20 seconds) the card turns into an alert with a *Call* button. Tip: choose "2 minutes (to try it)".
+    - **End this chat safely** — in a client chat that has at least one client message: saves the whole chat as one Evidence Vault item (`wp_evidence`), blocks the client (`wp_client_actions`) and shows a report you can copy.
+    - **If you talk or meet** — a checklist on job detail, shown only when the job's meeting time does not say "no meetings".
+    - **Quiet hours** — a settings row after the trusted-person card (`wp_quiet`). While active (toggle on and inside the From–To window, which may cross midnight) chats show a calm card with a ready reply above the composer. To try it, set From to the current hour. It is independent of the "No work messages after 8 PM" rule.
+
 ## Run the web app
 
 Steps: unzip → npm install → npm run dev
@@ -67,3 +74,7 @@ A fresh demo job is deliberately marked "Payment method not verified". The `exte
 ## SkillBridge
 
 Open it from My WorkPassport (SkillBridge card) or from the link at the bottom of a job page's Skill Match card. It compares the current user's skills with the combined job list (client-posted jobs plus the 18 sample jobs) and shows an Opportunity Counter, skill gaps with a free resource and a small practice task, and skills often asked together. Everything is computed on open (`computeSkillBridge` in `src/App.jsx`); no new localStorage keys. Proof of a practice task is a photo or link added in the Passport.
+
+## Institution Insight (aggregate-only)
+
+Open Bring an Opportunity, then the "Institution Insight" card. The page shows group numbers only for a partner training institute: sample cohort skills (code constant `DEMO_COHORT`) against job demand counted live from the combined job list, plus the biggest gap and a suggested response. It holds no learner names, no per-person rows and no earnings. No new localStorage keys.
