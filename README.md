@@ -78,3 +78,47 @@ Open it from My WorkPassport (SkillBridge card) or from the link at the bottom o
 ## Institution Insight (aggregate-only)
 
 Open Bring an Opportunity, then the "Institution Insight" card. The page shows group numbers only for a partner training institute: sample cohort skills (code constant `DEMO_COHORT`) against job demand counted live from the combined job list, plus the biggest gap and a suggested response. It holds no learner names, no per-person rows and no earnings. No new localStorage keys.
+
+## Code layout (v22 modular refactor)
+
+The app is still the same React + Vite prototype. The code is separated so it is easier to find and edit things.
+
+| Folder | What is in it |
+| --- | --- |
+| `src/App.jsx` | Main app state, login state and which page to show |
+| `src/pages/` | The individual screens, like FirstWork, Passport, WorkShield and Chat |
+| `src/components/` | Smaller UI pieces reused by the screens |
+| `src/services/` | Rules and calculations for safety checks, evidence, skills and chats |
+| `src/data/` | Sample jobs and demo profiles |
+| `src/i18n/` | English and Nepali translation files |
+| `src/hooks/` | The localStorage and clock hooks |
+| `src/utils/` and `src/constants/` | Small helper functions and shared values |
+| `extension/` | Chrome extension, unchanged from the supplied v22 ZIP |
+
+The same browser localStorage keys are used, so this refactor doesn't require a data migration.
+
+### Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+To check the production bundle before hosting:
+
+```bash
+npm run build
+npm run preview
+```
+
+For Vercel, use Vite, build command `npm run build`, and output folder `dist`. Do not upload `node_modules` or `dist` to GitHub.
+
+### Things to test after updating
+
+- Demo login and the FirstWork jobs / application flow
+- Passport, saved work samples, the privacy PIN and quick hide
+- WorkShield, Evidence Vault, chat actions and the Chrome extension
+- Client demo, Bring an Opportunity, SkillBridge and Institution Insight
+- English/Nepali switch, mobile layout and PDF export
+
+Note: this is still a browser-based demonstration. The local PIN, reports and payments are not production services.
