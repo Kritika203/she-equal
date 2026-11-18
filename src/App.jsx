@@ -225,64 +225,78 @@ export default function App() {
   };
 
   const successOverlay = currentView === 'setup_success' ? (
-           <div className="fixed inset-0 bg-[#FBFAF8] z-50 flex flex-col items-center justify-center p-6 text-center">
-              <CheckCircle2 size={64} strokeWidth={1.5} className="text-[#C73E33] mx-auto mb-6" />
-              <h1 className="text-[28px] sm:text-[30px] font-semibold mb-4">{t('setup_success_title')}, {userProfile?.name?.split(' ')[0]}!</h1>
-              <p className="text-lg text-[#4A4744] mb-10 max-w-md">{t('setup_success_sub')}</p>
-              
-              <div className="w-full max-w-sm flex flex-col gap-4">
-                <button onClick={() => navTo('firstwork')} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] transition-colors min-h-[52px]">
-                  {t('btn_find_job')}
-                </button>
-                <button onClick={() => navTo('passport')} className="w-full bg-white text-[#1C1B1A] border border-[#E3E0D9] py-3.5 rounded-full font-semibold text-lg hover:bg-[#F6F4EF] transition-colors min-h-[52px]">
-                  {t('btn_see_wp')}
-                </button>
+           <div className="fixed inset-0 bg-[#FAF9F7] z-50 flex flex-col items-center justify-center p-5 text-center">
+              <div className="w-full max-w-[380px] mx-auto">
+                <div className="w-14 h-14 bg-[#FFF5F5] border border-[#FED7D7] rounded-full flex items-center justify-center mx-auto mb-5">
+                  <CheckCircle2 size={28} strokeWidth={1.75} className="text-[#C73E33]" />
+                </div>
+                <h1 className="text-[22px] font-semibold text-[#111827] mb-2 leading-tight">{t('setup_success_title')}, {userProfile?.name?.split(' ')[0]}!</h1>
+                <p className="text-[13px] text-[#6B7280] mb-8 leading-relaxed">{t('setup_success_sub')}</p>
+                
+                <div className="flex flex-col gap-2.5">
+                  <button onClick={() => navTo('firstwork')} className="w-full h-10 bg-[#C73E33] text-white rounded-full font-semibold text-[13px] hover:bg-[#AE332A] transition-colors">
+                    {t('btn_find_job')}
+                  </button>
+                  <button onClick={() => navTo('passport')} className="w-full h-10 bg-white text-[#374151] border border-[#E8E5E0] rounded-full font-semibold text-[13px] hover:bg-[#F9F9F7] transition-colors">
+                    {t('btn_see_wp')}
+                  </button>
+                </div>
               </div>
            </div>
   ) : null;
 
   if (!isLoggedIn && !clientMode) {
     return (
-      <div className={`min-h-screen bg-[#FBFAF8] font-sans text-[#1C1B1A] flex flex-col items-center justify-center px-5 py-12 ${lang === 'ne' ? 'leading-relaxed' : ''}`}>
-        <div className="w-full max-w-[400px] relative">
-          <div className="flex justify-center mb-12"><LangToggle lang={lang} setLang={setLang} /></div>
+      <div className={`min-h-screen bg-[#FAF9F7] font-sans text-[#111827] flex flex-col items-center justify-center px-5 py-8 ${lang === 'ne' ? 'leading-relaxed' : ''}`}>
+        <div className="w-full max-w-[380px] relative">
+          <div className="flex justify-center mb-8"><LangToggle lang={lang} setLang={setLang} /></div>
 
           {currentView === 'welcome' ? (
             <div className="flex flex-col items-center text-center">
-              <div className="flex flex-col items-center gap-3 mb-10">
-                <span className="text-xl font-semibold tracking-tight text-[#1C1B1A]">WorkPassport</span>
+              {/* Brand */}
+              <div className="flex items-center gap-2 mb-6">
+                <PassportShieldIcon />
+                <span className="text-[16px] font-bold tracking-tight text-[#111827]">WorkPassport</span>
               </div>
-              <h1 className="text-[30px] font-semibold tracking-[-0.02em] leading-[1.25] mb-5 text-[#1C1B1A]">{t('welcome_title')}</h1>
-              <p className="text-base text-[#4A4744] mb-10 leading-[1.6]">{t('welcome_sub')}</p>
 
-              <div className="w-full flex flex-col gap-3 mb-6">
-                <button onClick={() => navTo('setup')} className="w-full h-[52px] px-6 rounded-full bg-[#C73E33] text-white text-base font-medium hover:bg-[#AE332A] transition-colors flex items-center justify-center">
+              {/* Headline */}
+              <h1 className="text-[24px] font-bold tracking-[-0.02em] leading-[1.3] mb-3 text-[#111827]">{t('welcome_title')}</h1>
+              <p className="text-[13px] text-[#6B7280] mb-8 leading-[1.7] max-w-[340px]">{t('welcome_sub')}</p>
+
+              {/* CTA Buttons */}
+              <div className="w-full flex flex-col gap-2.5 mb-5">
+                <button onClick={() => navTo('setup')} className="w-full h-10 rounded-full bg-[#C73E33] text-white text-[13px] font-semibold hover:bg-[#AE332A] transition-colors flex items-center justify-center">
                   {t('btn_new')}
                 </button>
-                <button onClick={() => navTo('login')} className="w-full h-[52px] px-6 rounded-full bg-white text-[#1C1B1A] border border-[#E3E0D9] text-base font-medium hover:bg-[#F6F4EF] transition-colors flex items-center justify-center">
+                <button onClick={() => navTo('login')} className="w-full h-10 rounded-full bg-white text-[#374151] border border-[#E8E5E0] text-[13px] font-semibold hover:bg-[#F9F9F7] transition-colors flex items-center justify-center">
                   {t('btn_login')}
                 </button>
               </div>
 
-              <button onClick={() => { if (userProfile && userProfile.name !== MAYA_PROFILE.name) { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); setSkillEvidence({}); } setUserProfile(MAYA_PROFILE); setIsLoggedIn(true); navTo('firstwork'); showToast(t('welcome_toast')); }} className="text-sm text-[#8A8580] underline underline-offset-4 hover:text-[#1C1B1A] mb-14 min-h-[44px] flex items-center justify-center px-4">
+              {/* Demo link */}
+              <button onClick={() => { if (userProfile && userProfile.name !== MAYA_PROFILE.name) { setSkillLevels({}); setConfirmedJobs([]); setPayChecklist([false, false, false, false]); setSkillEvidence({}); } setUserProfile(MAYA_PROFILE); setIsLoggedIn(true); navTo('firstwork'); showToast(t('welcome_toast')); }} className="text-[12px] text-[#9CA3AF] underline underline-offset-4 hover:text-[#374151] mb-8 py-2 px-4 transition-colors">
                 {t('btn_demo')}
               </button>
 
-              <div className="w-full bg-white border border-[#EAE7E1] rounded-[20px] p-5 text-left mb-8">
-                <div className="flex items-start gap-3 mb-4">
-                  <Briefcase size={22} className="shrink-0 mt-0.5 text-[#C73E33]" />
-                  <div>
-                    <div className="font-semibold text-base text-[#1C1B1A]">{t('cm_welcome_q')}</div>
-                    <div className="text-sm text-[#6E6963] mt-0.5 leading-[1.5]">{t('cm_welcome_line')}</div>
+              {/* Client demo card */}
+              <div className="w-full bg-white border border-[#E8E5E0] rounded-xl p-4 text-left mb-6">
+                <div className="flex items-start gap-2.5 mb-3">
+                  <div className="w-8 h-8 bg-[#FFF5F5] border border-[#FED7D7] rounded-lg flex items-center justify-center shrink-0">
+                    <Briefcase size={14} className="text-[#C73E33]" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-[13px] text-[#111827]">{t('cm_welcome_q')}</div>
+                    <div className="text-[12px] text-[#6B7280] mt-0.5 leading-[1.5]">{t('cm_welcome_line')}</div>
                   </div>
                 </div>
-                <button onClick={enterClientMode} className="w-full h-[52px] px-6 rounded-full bg-white text-[#1C1B1A] border border-[#E3E0D9] text-base font-medium hover:bg-[#F6F4EF] transition-colors flex items-center justify-center">
+                <button onClick={enterClientMode} className="w-full h-9 rounded-full bg-white text-[#374151] border border-[#E8E5E0] text-[13px] font-semibold hover:bg-[#F9F9F7] transition-colors flex items-center justify-center">
                   {t('cm_enter')}
                 </button>
               </div>
 
-              <div className="flex items-start gap-2.5 text-[13px] leading-[1.6] text-[#8A8580] text-left">
-                <Lock size={15} className="mt-[3px] shrink-0" />
+              {/* Privacy note */}
+              <div className="flex items-start gap-2 text-[11px] leading-[1.6] text-[#9CA3AF] text-left">
+                <Lock size={12} className="mt-[2px] shrink-0" />
                 <span>{t('privacy_note')}</span>
               </div>
             </div>
@@ -311,28 +325,36 @@ export default function App() {
   if (clientMode) {
     return (
       <div className={`wp-app min-h-screen flex flex-col bg-[#FBFAF8] font-sans text-base text-[#1C1B1A] ${lang === 'ne' ? 'leading-relaxed' : ''}`}>
-        <nav className="bg-[#FBFAF8]/90 backdrop-blur border-b border-[#EAE7E1] sticky top-0 z-40">
-          <div className="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between">
-            <button onClick={() => navTo('client')} className="flex items-center gap-2 min-h-[48px]">
+        <nav className="sticky top-0 z-40 border-b border-[#E8E5E0] bg-white/95 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-sm">
+          <div className="mx-auto flex h-[60px] max-w-[1200px] items-center justify-between gap-4 px-4 sm:px-6">
+            <button onClick={() => navTo('client')} className="flex shrink-0 items-center gap-2.5">
               <PassportShieldIcon color="#C73E33" size={26} />
-              <span className="font-semibold text-lg tracking-tight hidden sm:block">WorkPassport</span>
+              <span className="hidden text-[16px] font-bold tracking-tight text-[#111827] sm:block">WorkPassport</span>
             </button>
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <LangToggle lang={lang} setLang={setLang} compact />
-              <div className="w-10 h-10 rounded-full bg-[#F0EEE9] border border-[#EAE7E1] flex items-center justify-center font-semibold text-sm" title={clientProfile ? clientProfile.name : 'Client'}>BT</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#EAE7E1] bg-[#F0EEE9] text-[13px] font-semibold" title={clientProfile ? clientProfile.name : 'Client'}>BT</div>
             </div>
           </div>
-          <div className="border-t border-[#EAE7E1] overflow-x-auto">
-            <div className="flex gap-6 px-4 w-max min-w-full max-w-[1200px] mx-auto">
-              <NavLink label={t('cm_home')} active={['client', 'client-applicants', 'client-agreement'].includes(currentView)} onClick={() => navTo('client')} />
-              <NavLink label={t('cm_post')} active={false} onClick={() => navTo('client', { scrollTo: 'form', n: Date.now() })} />
-              <NavLink label={t('cm_switch_maya')} active={false} onClick={exitClientToMaya} />
-              <NavLink label={t('nav_logout')} active={false} onClick={clientLogout} />
+          <div className="border-t border-[#F3F4F6]">
+            <div className="mx-auto grid max-w-[1100px] grid-cols-4 px-2 sm:flex sm:items-center sm:gap-1 sm:px-6">
+              <button onClick={() => navTo('client')} className={`relative flex min-h-[48px] min-w-0 items-center justify-center border-b-2 px-1 text-center text-[10px] leading-tight transition-colors sm:min-h-[46px] sm:whitespace-nowrap sm:px-2 sm:text-[13px] ${['client', 'client-applicants', 'client-agreement'].includes(currentView) ? 'border-[#C73E33] font-semibold text-[#C73E33]' : 'border-transparent font-medium text-[#6B7280] hover:border-[#E5E7EB] hover:text-[#111827]'}`}>
+                {t('cm_home')}
+              </button>
+              <button onClick={() => navTo('client', { scrollTo: 'form', n: Date.now() })} className="relative flex min-h-[48px] min-w-0 items-center justify-center border-b-2 border-transparent px-1 text-center text-[10px] font-medium leading-tight text-[#6B7280] transition-colors hover:border-[#E5E7EB] hover:text-[#111827] sm:min-h-[46px] sm:whitespace-nowrap sm:px-2 sm:text-[13px]">
+                {t('cm_post')}
+              </button>
+              <button onClick={exitClientToMaya} className="relative flex min-h-[48px] min-w-0 items-center justify-center border-b-2 border-transparent px-1 text-center text-[10px] font-medium leading-tight text-[#6B7280] transition-colors hover:border-[#E5E7EB] hover:text-[#111827] sm:min-h-[46px] sm:whitespace-nowrap sm:px-2 sm:text-[13px]">
+                {t('cm_switch_maya')}
+              </button>
+              <button onClick={clientLogout} className="relative flex min-h-[48px] min-w-0 items-center justify-center border-b-2 border-transparent px-1 text-center text-[10px] font-medium leading-tight text-[#6B7280] transition-colors hover:border-[#E5E7EB] hover:text-[#111827] sm:min-h-[46px] sm:whitespace-nowrap sm:px-2 sm:text-[13px]">
+                {t('nav_logout')}
+              </button>
             </div>
           </div>
         </nav>
 
-        <main className="flex-1 max-w-[1200px] mx-auto w-full p-4 sm:p-6 pb-28">
+        <main className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-6 pb-16 sm:px-6 sm:py-7">
           {currentView === 'client-applicants' ? (
             <ClientApplicants t={t} lang={lang} navTo={navTo} job={clientJobs.find(j => j.id === viewParams.id)} />
           ) : currentView === 'client-agreement' ? (
@@ -355,78 +377,93 @@ export default function App() {
   }
 
   return (
-    <div className={`wp-app ${simpleOn ? 'wp-simple' : ''} min-h-screen flex flex-col bg-[#FBFAF8] font-sans text-base text-[#1C1B1A] ${lang === 'ne' ? 'leading-relaxed' : ''}`}>
-      {/* Navbar */}
-      <nav className="bg-[#FBFAF8]/90 backdrop-blur border-b border-[#EAE7E1] sticky top-0 z-40">
-        <div className="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <button onClick={() => navTo('firstwork')} className="flex items-center gap-2 min-h-[48px]">
+    <div className={`wp-app ${simpleOn ? 'wp-simple' : ''} min-h-screen flex flex-col bg-[#FAF9F7] font-sans text-base text-[#111827] ${lang === 'ne' ? 'leading-relaxed' : ''}`}>
+      {/* ── Navbar ── */}
+      <nav className="bg-white/95 backdrop-blur-sm border-b border-[#E8E5E0] sticky top-0 z-40 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-[60px] flex items-center justify-between gap-4">
+          {/* Logo + nav links */}
+          <div className="flex items-center gap-7">
+            <button onClick={() => navTo('firstwork')} className="flex items-center gap-2.5 shrink-0">
               <PassportShieldIcon color="#C73E33" size={26} />
-              <span className="font-semibold text-lg tracking-tight hidden sm:block">WorkPassport</span>
+              <span className="font-bold text-[16px] tracking-tight text-[#111827] hidden sm:block">WorkPassport</span>
             </button>
-            <div className="hidden md:flex gap-6">
+            {/* Desktop nav links */}
+            <div className="hidden lg:flex items-center gap-2">
               <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue', 'institution-insight'].includes(currentView)} onClick={() => navTo('firstwork')} />
               <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
               <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
               <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-4">
+          {/* Right controls */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <LangToggle lang={lang} setLang={setLang} compact />
             <NotificationBell t={t} priv={sharedOn} />
             {sharedOn && (
-              <button onClick={() => setQuickHidden(true)} aria-label={t('pv_quick_hide')} title={t('pv_quick_hide')} className="min-h-[48px] min-w-[44px] px-2 flex items-center justify-center rounded-full hover:bg-[#F0EEE9]">
-                <EyeOff size={24} className="text-[#4A4744]" />
+              <button
+                onClick={() => setQuickHidden(true)}
+                aria-label={t('pv_quick_hide')}
+                title={t('pv_quick_hide')}
+                className="w-9 h-9 flex items-center justify-center rounded-full text-[#6B7280] hover:bg-[#F3F4F6] hover:text-[#374151] border border-transparent hover:border-[#E5E7EB] transition-all"
+              >
+                <EyeOff size={17} strokeWidth={1.75} />
               </button>
             )}
             <UserDropdown user={userProfile} onLogout={handleLogout} t={t} navTo={navTo} lang={lang} setLang={setLang} showLock={sharedOn} onLock={() => setUnlocked(false)} />
           </div>
         </div>
-        <div className="md:hidden border-t border-[#EAE7E1] overflow-x-auto">
-          <div className="flex gap-6 px-4 w-max min-w-full">
-            <NavLink label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue', 'institution-insight'].includes(currentView)} onClick={() => navTo('firstwork')} />
-            <NavLink label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
-            <NavLink label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
-            <NavLink label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
+        {/* Mobile tab bar */}
+        <div className="lg:hidden border-t border-[#F3F4F6]">
+          <div className="grid w-full min-w-0 grid-cols-4 px-2">
+            <NavLink compact label={t('nav_firstwork')} active={['firstwork', 'job-detail', 'apply', 'opportunities', 'chat', 'workroom', 'client', 'client-applicants', 'client-agreement', 'bring', 'bring-queue', 'institution-insight'].includes(currentView)} onClick={() => navTo('firstwork')} />
+            <NavLink compact label={t('nav_passport')} active={currentView === 'passport'} onClick={() => navTo('passport')} />
+            <NavLink compact label={t('nav_shield_safety')} active={currentView === 'shield'} onClick={() => navTo('shield')} />
+            <NavLink compact label={t('nav_ext')} active={currentView === 'ext'} onClick={() => navTo('ext')} />
           </div>
         </div>
       </nav>
 
-      {/* Info Strip */}
+      {/* ── Verification banner ── */}
       {(currentView === 'firstwork' || currentView === 'opportunities') && (
-        <div className="bg-[#FAF0EE] text-[#AE332A] py-3 px-4 flex justify-center items-center gap-2 text-sm border-b border-[#F3E1DD]">
-          <ShieldCheck size={18} />
-          <span>{t('fw_banner')}</span>
+        <div className="bg-white border-b border-[#E8E5E0] py-2.5 px-4 flex justify-center items-center gap-2">
+          <ShieldCheck size={14} className="text-[#166534] shrink-0" />
+          <span className="text-[12px] font-medium text-[#374151]">{t('fw_banner')}</span>
         </div>
       )}
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-[1200px] mx-auto w-full p-4 sm:p-6 pb-28">
+      {/* ── Main content ── */}
+      <main className="flex-1">
         {currentView === 'firstwork' && <FirstWorkFeed allJobs={allJobs} t={t} navTo={navTo} user={userProfile} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} lowdata={settings.lowdata} onSwitchClient={() => { setUnlocked(false); setIsLoggedIn(false); navTo('welcome'); }} />}
-        {currentView === 'job-detail' && <JobDetail t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} skillLevels={skillLevels} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} showToast={showToast} hasDraft={simpleOn && !!applyDraft && applyDraft.jobId === viewParams.id} />}
-        {currentView === 'apply' && <ApplyWizard key={viewParams.id} t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} setAppliedJobs={setAppliedJobs} lang={lang} simple={simpleOn} applyDraft={applyDraft} setApplyDraft={setApplyDraft} />}
-        {currentView === 'opportunities' && <MyOpportunities allJobs={allJobs} key={viewParams.tab || 'saved'} initialTab={viewParams.tab} t={t} navTo={navTo} savedJobs={savedJobs} setSavedJobs={setSavedJobs} appliedJobs={appliedJobs} confirmedJobs={confirmedJobs} hideMoney={sharedOn} draftJobId={simpleOn && applyDraft ? applyDraft.jobId : null} />}
-        {currentView === 'passport' && <PassportPage allJobs={allJobs} t={t} lang={lang} user={userProfile} setUser={setUserProfile} navTo={navTo} showToast={showToast} skillLevels={skillLevels} setSkillLevels={setSkillLevels} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} payChecklist={payChecklist} setPayChecklist={setPayChecklist} appliedJobs={appliedJobs} skillEvidence={skillEvidence} setSkillEvidence={setSkillEvidence} hideMoney={sharedOn} settings={settings} setSettings={setSettings} onSharedEnabled={() => setUnlocked(true)} evidence={evidence} />}
-        {currentView === 'shield' && <ShieldSafetyPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} history={shieldHistory} setHistory={setShieldHistory} evidence={evidence} setEvidence={setEvidence} scrollKey={viewParams.n} scrollTo={viewParams.scrollTo} allJobs={allJobs} appliedJobs={appliedJobs} trusted={trusted} setTrusted={setTrusted} checkin={checkin} setCheckin={setCheckin} quiet={quiet} setQuiet={setQuiet} onQuickHide={() => setQuickHidden(true)} />}
-        {currentView === 'ext' && <ExtensionPage t={t} lang={lang} navTo={navTo} />}
-        {currentView === 'skillbridge' && <SkillBridgePage allJobs={allJobs} t={t} lang={lang} user={userProfile} navTo={navTo} insights={approvedInsights} />}
-        {currentView === 'bring' && <BringView t={t} lang={lang} navTo={navTo} onSubmit={submitBring} />}
-        {currentView === 'institution-insight' && <InstitutionInsight allJobs={allJobs} t={t} lang={lang} navTo={navTo} />}
-        {currentView === 'bring-queue' && <BringQueue t={t} lang={lang} navTo={navTo} submissions={bringSubmissions} onDecide={decideBring} />}
-        {currentView === 'vault' && <EvidenceVaultPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} masked={sharedOn} />}
+        {currentView === 'job-detail' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><JobDetail t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} skillLevels={skillLevels} savedJobs={savedJobs} setSavedJobs={setSavedJobs} lang={lang} showToast={showToast} hasDraft={simpleOn && !!applyDraft && applyDraft.jobId === viewParams.id} /></div>}
+        {currentView === 'apply' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><ApplyWizard key={viewParams.id} t={t} navTo={navTo} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} setAppliedJobs={setAppliedJobs} lang={lang} simple={simpleOn} applyDraft={applyDraft} setApplyDraft={setApplyDraft} /></div>}
+        {currentView === 'opportunities' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><MyOpportunities allJobs={allJobs} key={viewParams.tab || 'saved'} initialTab={viewParams.tab} t={t} navTo={navTo} savedJobs={savedJobs} setSavedJobs={setSavedJobs} appliedJobs={appliedJobs} confirmedJobs={confirmedJobs} hideMoney={sharedOn} draftJobId={simpleOn && applyDraft ? applyDraft.jobId : null} /></div>}
+        {currentView === 'passport' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><PassportPage allJobs={allJobs} t={t} lang={lang} user={userProfile} setUser={setUserProfile} navTo={navTo} showToast={showToast} skillLevels={skillLevels} setSkillLevels={setSkillLevels} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} payChecklist={payChecklist} setPayChecklist={setPayChecklist} appliedJobs={appliedJobs} skillEvidence={skillEvidence} setSkillEvidence={setSkillEvidence} hideMoney={sharedOn} settings={settings} setSettings={setSettings} onSharedEnabled={() => setUnlocked(true)} evidence={evidence} /></div>}
+        {currentView === 'shield' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><ShieldSafetyPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} history={shieldHistory} setHistory={setShieldHistory} evidence={evidence} setEvidence={setEvidence} scrollKey={viewParams.n} scrollTo={viewParams.scrollTo} allJobs={allJobs} appliedJobs={appliedJobs} trusted={trusted} setTrusted={setTrusted} checkin={checkin} setCheckin={setCheckin} quiet={quiet} setQuiet={setQuiet} onQuickHide={() => setQuickHidden(true)} /></div>}
+        {currentView === 'ext' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><ExtensionPage t={t} lang={lang} navTo={navTo} /></div>}
+        {currentView === 'skillbridge' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><SkillBridgePage allJobs={allJobs} t={t} lang={lang} user={userProfile} navTo={navTo} insights={approvedInsights} /></div>}
+        {currentView === 'bring' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><BringView t={t} lang={lang} navTo={navTo} onSubmit={submitBring} /></div>}
+        {currentView === 'institution-insight' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><InstitutionInsight allJobs={allJobs} t={t} lang={lang} navTo={navTo} /></div>}
+        {currentView === 'bring-queue' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><BringQueue t={t} lang={lang} navTo={navTo} submissions={bringSubmissions} onDecide={decideBring} /></div>}
+        {currentView === 'vault' && <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><EvidenceVaultPage t={t} lang={lang} user={userProfile} navTo={navTo} showToast={showToast} evidence={evidence} setEvidence={setEvidence} masked={sharedOn} /></div>}
         {currentView === 'chat' && (appliedJobs.some(a => a.jobId === viewParams.id) && allJobs.find(j => j.id === viewParams.id)
-          ? <ChatView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} navTo={navTo} showToast={showToast} chats={chats} updateChat={updateChat} setEvidence={setEvidence} workrooms={workrooms} setWorkrooms={setWorkrooms} simple={simpleOn} chatDrafts={chatDrafts} setChatDrafts={setChatDrafts} getClientAction={getClientAction} clientAction={getClientAction(viewParams.id)} setClientAction={setClientAction} quiet={quiet} />
-          : <ChatMissing t={t} navTo={navTo} />)}
+          ? <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 sm:py-4"><ChatView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} user={userProfile} navTo={navTo} showToast={showToast} chats={chats} updateChat={updateChat} setEvidence={setEvidence} workrooms={workrooms} setWorkrooms={setWorkrooms} simple={simpleOn} chatDrafts={chatDrafts} setChatDrafts={setChatDrafts} getClientAction={getClientAction} clientAction={getClientAction(viewParams.id)} setClientAction={setClientAction} quiet={quiet} /></div>
+          : <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><ChatMissing t={t} navTo={navTo} /></div>)}
         {currentView === 'workroom' && (appliedJobs.some(a => a.jobId === viewParams.id) && allJobs.find(j => j.id === viewParams.id)
-          ? <WorkroomView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} navTo={navTo} showToast={showToast} workrooms={workrooms} setWorkrooms={setWorkrooms} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} hideMoney={sharedOn} />
-          : <ChatMissing t={t} navTo={navTo} />)}
+          ? <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><WorkroomView key={viewParams.id} t={t} lang={lang} job={allJobs.find(j => j.id === viewParams.id)} navTo={navTo} showToast={showToast} workrooms={workrooms} setWorkrooms={setWorkrooms} confirmedJobs={confirmedJobs} setConfirmedJobs={setConfirmedJobs} hideMoney={sharedOn} /></div>
+          : <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8"><ChatMissing t={t} navTo={navTo} /></div>)}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[#EAE7E1] py-10 px-4">
-        <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-3 text-center">
-          <div className="max-w-2xl text-left"><Disclaimer t={t} k="disc_footer" /></div>
-          <div className="text-[13px] text-[#8A8580]">{t('footer_text')}</div>
+      {/* ── Footer ── */}
+      <footer className={`border-t border-[#E8E5E0] bg-white px-4 ${currentView === 'chat' ? 'mt-0 py-3' : 'mt-6 py-6'}`}>
+        <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <PassportShieldIcon color="#C73E33" size={18} />
+            <span className="text-[13px] font-semibold text-[#374151]">WorkPassport</span>
+          </div>
+          <div className="text-[11px] text-[#9CA3AF] max-w-2xl text-left sm:text-right leading-relaxed">
+            <Disclaimer t={t} k="disc_footer" className="!text-xs" />
+            <div className="mt-1">{t('footer_text')}</div>
+          </div>
         </div>
       </footer>
 

@@ -69,98 +69,98 @@ export function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, nav
 
   if (view === 'public') {
     return (
-      <div className="max-w-[760px] mx-auto">
+      <div className="max-w-[680px] mx-auto">
         {printDoc}
-        <div className="flex flex-wrap items-center justify-between gap-x-4 mb-2">
-          <button onClick={() => { setView('main'); window.scrollTo(0, 0); }} className="flex items-center gap-2 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px]"><ChevronLeft size={20} /> {t('pp_back_my')}</button>
-          <button onClick={() => printDocument('passport')} className={PROOF_BTN}><Download size={20} /> {t('pdf_btn')}</button>
+        <div className="flex flex-wrap items-center justify-between gap-x-3 mb-2">
+          <button onClick={() => { setView('main'); window.scrollTo(0, 0); }} className="flex items-center gap-1.5 text-[13px] font-semibold text-[#6B7280] hover:text-[#111827] h-9 transition-colors"><ChevronLeft size={16} /> {t('pp_back_my')}</button>
+          <button onClick={() => printDocument('passport')} className={PROOF_BTN}><Download size={15} /> {t('pdf_btn')}</button>
         </div>
-        <p className="text-sm text-[#8A8580] mb-4">{t('pp_preview_note')}</p>
+        <p className="text-[12px] text-[#9CA3AF] mb-3">{t('pp_preview_note')}</p>
         <WorkSamples groups={groups} t={t} />
-        <div className="bg-[#FAF0EE] text-[#AE332A] rounded-[14px] px-5 py-4 flex items-start gap-3 font-semibold mb-8"><ShieldCheck size={22} className="shrink-0 mt-0.5" /> <span>{t('pp_public_strip')}</span></div>
+        <div className="bg-[#FFF5F5] text-[#C73E33] rounded-xl px-4 py-3 flex items-start gap-2 font-semibold text-[13px] mb-6"><ShieldCheck size={16} className="shrink-0 mt-0.5" /> <span>{t('pp_public_strip')}</span></div>
 
-        <h2 className="font-semibold text-[22px] mb-4">{t('pp_work_title')}</h2>
+        <h2 className="font-semibold text-[17px] mb-3 text-[#111827]">{t('pp_work_title')}</h2>
         {confirmedList.length === 0 ? (
-          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 text-lg text-[#4A4744] mb-10">{t('pp_public_empty')}</div>
+          <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 text-[13px] text-[#9CA3AF] mb-8">{t('pp_public_empty')}</div>
         ) : (
-          <div className="space-y-4 mb-10">
+          <div className="space-y-3 mb-8">
             {confirmedList.map(j => (
-              <div key={j.id} className="bg-white border border-[#EAE7E1] rounded-[20px] p-6">
-                <div className="font-semibold text-xl mb-1">{j.title}</div>
-                <div className="text-base text-[#4A4744] mb-3">{j.clientName}</div>
+              <div key={j.id} className="bg-white border border-[#E8E5E0] rounded-xl p-4">
+                <div className="font-semibold text-[15px] text-[#111827] mb-0.5">{j.title}</div>
+                <div className="text-[13px] text-[#6B7280] mb-2">{j.clientName}</div>
                 <LevelBadge level="client" t={t} />
               </div>
             ))}
           </div>
         )}
 
-        <h2 className="font-semibold text-[22px] mb-4">{t('pp_skills_title')}</h2>
-        <div className="bg-white border border-[#EAE7E1] rounded-[20px] divide-y divide-[#EAE7E1] mb-10">
+        <h2 className="font-semibold text-[17px] mb-3 text-[#111827]">{t('pp_skills_title')}</h2>
+        <div className="bg-white border border-[#E8E5E0] rounded-xl divide-y divide-[#F3F4F6] mb-8">
           {levels.map(({ skill, level }) => (
-            <div key={skill} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <span className="font-semibold text-lg">{skill}</span>
+            <div key={skill} className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+              <span className="font-semibold text-[14px] text-[#111827]">{skill}</span>
               <LevelBadge level={level} t={t} />
             </div>
           ))}
         </div>
 
-        <div className="space-y-1 mb-10 text-base text-[#4A4744]">
-          {RULE_KEYS.filter(k => rules[k]).map(k => <p key={k}><span className="font-semibold text-[#1C1B1A]">{t('pp_working_rules')}</span> {t('rule_' + k)}</p>)}
+        <div className="space-y-1 mb-8 text-[13px] text-[#374151]">
+          {RULE_KEYS.filter(k => rules[k]).map(k => <p key={k}><span className="font-semibold text-[#111827]">{t('pp_working_rules')}</span> {t('rule_' + k)}</p>)}
         </div>
 
-        <h2 className="font-semibold text-[22px] mb-4">{t('pp_about')}</h2>
-        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 rounded-full bg-[#F0EEE9] border border-[#EAE7E1] flex items-center justify-center font-semibold text-xl text-[#1C1B1A] shrink-0">{initialsOf(user.name)}</div>
+        <h2 className="font-semibold text-[17px] mb-3 text-[#111827]">{t('pp_about')}</h2>
+        <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 flex items-center gap-3 mb-6">
+          <div className="w-11 h-11 rounded-full bg-[#F3F4F6] border border-[#E8E5E0] flex items-center justify-center font-semibold text-[14px] text-[#111827] shrink-0">{initialsOf(user.name)}</div>
           <div>
-            <div className="font-semibold text-xl">{user.name}</div>
-            <div className="text-base text-[#4A4744]">{user.district}</div>
-            {user.headline && <div className="text-base text-[#4A4744] mt-1">{user.headline}</div>}
+            <div className="font-semibold text-[15px] text-[#111827]">{user.name}</div>
+            <div className="text-[13px] text-[#6B7280]">{user.district}</div>
+            {user.headline && <div className="text-[13px] text-[#6B7280] mt-0.5">{user.headline}</div>}
           </div>
         </div>
         {profileHasDetails(user) && (
-          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 mb-8">
+          <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 mb-6">
             <ProfileFieldsList t={t} user={user} />
           </div>
         )}
-        <p className="text-sm text-[#8A8580] text-center">{t('pp_public_footer')}</p>
+        <p className="text-[11px] text-[#9CA3AF] text-center">{t('pp_public_footer')}</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-[900px] mx-auto space-y-8">
+    <div className="max-w-[780px] mx-auto space-y-5">
       {printDoc}
       {/* Section 1: header */}
-      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-full bg-[#F0EEE9] border border-[#EAE7E1] flex items-center justify-center font-semibold text-xl text-[#1C1B1A] shrink-0">{initialsOf(user.name)}</div>
+      <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 sm:p-5">
+        <div className="flex items-start gap-3 mb-4">
+          <div className="mt-1 w-12 h-12 rounded-full bg-[#F3F4F6] border border-[#E8E5E0] flex items-center justify-center font-semibold text-[16px] text-[#111827] shrink-0">{initialsOf(user.name)}</div>
           <div className="min-w-0">
-            <h1 className="text-[28px] sm:text-[30px] font-semibold truncate">{user.name}</h1>
-            <div className="text-base text-[#4A4744] flex flex-wrap items-center gap-x-3 gap-y-1"><span className="flex items-center gap-1.5"><MapPin size={20} /> {user.district}</span><span className="bg-[#F0EEE9] px-3 py-0.5 rounded-full text-sm font-semibold">{t('pp_beginner')}</span></div>
-            {user.headline && <div className="text-base text-[#4A4744] mt-1.5">{user.headline}</div>}
+            <h1 className="text-[22px] sm:text-[24px] font-semibold truncate text-[#111827]">{user.name}</h1>
+            <div className="text-[13px] text-[#6B7280] flex flex-wrap items-center gap-x-2.5 gap-y-0.5"><span className="flex items-center gap-1"><MapPin size={14} /> {user.district}</span><span className="bg-[#F3F4F6] px-2 py-0.5 rounded-full text-[10px] font-semibold text-[#6B7280]">{t('pp_beginner')}</span></div>
+            {user.headline && <div className="text-[13px] text-[#6B7280] mt-1">{user.headline}</div>}
           </div>
         </div>
-        {!isDemoUser(user) && user.institute && <p className="text-base text-[#4A4744] mb-6">{fmt(t('pp_institute_pending'), { name: user.institute })}</p>}
+        {!isDemoUser(user) && user.institute && <p className="text-[13px] text-[#6B7280] mb-4">{fmt(t('pp_institute_pending'), { name: user.institute })}</p>}
 
-        <div className="mb-6">
-          <div className="flex justify-between items-baseline mb-2"><span className="font-semibold text-base">{t('pp_progress')}</span><span className="font-semibold text-base">{digits(progress)}%</span></div>
-          <div className="h-2 bg-[#F0EEE9] rounded-full overflow-hidden"><div className="h-full bg-[#C73E33] rounded-full transition-all" style={{ width: `${progress}%` }}></div></div>
-          <p className="text-base text-[#4A4744] mt-3">{enc}</p>
+        <div className="mb-4">
+          <div className="flex justify-between items-baseline mb-1.5"><span className="font-semibold text-[13px] text-[#111827]">{t('pp_progress')}</span><span className="font-semibold text-[13px] text-[#111827]">{digits(progress)}%</span></div>
+          <div className="h-1.5 bg-[#F3F4F6] rounded-full overflow-hidden"><div className="h-full bg-[#C73E33] rounded-full transition-all" style={{ width: `${progress}%` }}></div></div>
+          <p className="text-[12px] text-[#9CA3AF] mt-1.5">{enc}</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-3 gap-2 mb-4">
           {[[t('pp_stat_skills'), digits(provenCount)], [t('pp_stat_jobs'), digits(confirmedList.length)], [t('pp_stat_earned'), hideMoney ? MASK : `NPR ${fmtMoney(earned)}`]].map(([label, val]) => (
-            <div key={label} className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[14px] p-3 sm:p-4">
-              <div className="font-semibold text-lg sm:text-2xl break-words">{val}</div>
-              <div className="text-sm text-[#4A4744] mt-1">{label}</div>
+            <div key={label} className="bg-[#F9F9F7] border border-[#E8E5E0] rounded-xl p-2.5 sm:p-3">
+              <div className="font-semibold text-[16px] sm:text-[18px] text-[#111827] break-words">{val}</div>
+              <div className="text-[11px] text-[#9CA3AF] mt-0.5">{label}</div>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
-          <button onClick={() => setShareOpen(true)} className="flex-1 bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-5">{t('pp_share')}</button>
-          <button onClick={() => { setView('public'); window.scrollTo(0, 0); }} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5">{t('pp_see_clients')}</button>
-          <button onClick={() => printDocument('passport')} className="flex-1 bg-white border border-[#E3E0D9] text-[#1C1B1A] py-3.5 rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[52px] px-5 inline-flex items-center justify-center gap-2"><Download size={20} /> {t('pdf_btn')}</button>
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+          <button onClick={() => setShareOpen(true)} className="flex-1 bg-[#C73E33] text-white rounded-full font-semibold text-[13px] hover:bg-[#AE332A] h-9 px-4 transition-colors">{t('pp_share')}</button>
+          <button onClick={() => { setView('public'); window.scrollTo(0, 0); }} className="flex-1 bg-white border border-[#E8E5E0] text-[#374151] rounded-full font-semibold text-[13px] hover:bg-[#F9F9F7] h-9 px-4 transition-all">{t('pp_see_clients')}</button>
+          <button onClick={() => printDocument('passport')} className="flex-1 bg-white border border-[#E8E5E0] text-[#374151] rounded-full font-semibold text-[13px] hover:bg-[#F9F9F7] h-9 px-4 inline-flex items-center justify-center gap-1.5 transition-all"><Download size={15} /> {t('pdf_btn')}</button>
         </div>
       </div>
 
@@ -169,21 +169,21 @@ export function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, nav
 
       {/* Section 2: skills */}
       <div>
-        <h2 className="font-semibold text-[22px] mb-4">{t('pp_skills_title')}</h2>
-        <div className="bg-white border border-[#EAE7E1] rounded-[20px] divide-y divide-[#EAE7E1] mb-6">
+        <h2 className="font-semibold text-[17px] mb-3 text-[#111827]">{t('pp_skills_title')}</h2>
+        <div className="bg-white border border-[#E8E5E0] rounded-xl divide-y divide-[#F3F4F6] mb-4">
           {levels.map(({ skill, level }) => (
-            <div key={skill} className="p-5 sm:p-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div key={skill} className="p-3.5 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-3 mb-2"><span className="font-semibold text-lg">{skill}</span><LevelBadge level={level} t={t} /></div>
-                <p className="text-base text-[#4A4744]">{t('pp_desc_' + level)}</p>
-                {level === 'demonstrated' && <p className="text-sm text-[#8A8580] mt-1">{t('pp_source')} {t('pp_src_demo')}</p>}
-                {level === 'institution' && instituteOf(skill, level) && <p className="text-sm text-[#8A8580] mt-1">{t('pp_source')} {instituteOf(skill, level)}</p>}
+                <div className="flex flex-wrap items-center gap-2 mb-1"><span className="font-semibold text-[14px] text-[#111827]">{skill}</span><LevelBadge level={level} t={t} /></div>
+                <p className="text-[13px] text-[#6B7280]">{t('pp_desc_' + level)}</p>
+                {level === 'demonstrated' && <p className="text-[11px] text-[#9CA3AF] mt-0.5">{t('pp_source')} {t('pp_src_demo')}</p>}
+                {level === 'institution' && instituteOf(skill, level) && <p className="text-[11px] text-[#9CA3AF] mt-0.5">{t('pp_source')} {instituteOf(skill, level)}</p>}
               </div>
-              <div className="sm:max-w-[220px] sm:text-right shrink-0">
-                {level === 'demonstrated' && <p className="text-sm text-[#8A8580]">{t('pp_next_demo')}</p>}
-                {level === 'institution' && <p className="text-sm text-[#8A8580]">{t('pp_next_inst')}</p>}
-                {(level === 'client' || level === 'platform') && <p className="text-sm text-[#8A8580] flex items-center gap-2 sm:justify-end"><Check size={16} className="text-[#1C1B1A]" /> {t('pp_top')}</p>}
+              <div className="sm:max-w-[200px] sm:text-right shrink-0">
+                {level === 'demonstrated' && <p className="text-[12px] text-[#9CA3AF]">{t('pp_next_demo')}</p>}
+                {level === 'institution' && <p className="text-[12px] text-[#9CA3AF]">{t('pp_next_inst')}</p>}
+                {(level === 'client' || level === 'platform') && <p className="text-[12px] text-[#9CA3AF] flex items-center gap-1.5 sm:justify-end"><Check size={13} className="text-[#111827]" /> {t('pp_top')}</p>}
               </div>
             </div>
             <ProofArea skill={skill} items={Array.isArray(evidenceMap[skill]) ? evidenceMap[skill] : []} t={t} digits={digits} onAdd={addProof} onRemove={removeProof} />
@@ -191,14 +191,14 @@ export function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, nav
           ))}
         </div>
 
-        <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-          <h3 className="font-semibold text-xl mb-5">{t('pp_how_title')}</h3>
-          <ol className="relative border-l-2 border-[#EAE7E1] ml-3 space-y-5">
+        <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 sm:p-5">
+          <h3 className="font-semibold text-[15px] text-[#111827] mb-4">{t('pp_how_title')}</h3>
+          <ol className="relative border-l-2 border-[#E8E5E0] ml-2.5 space-y-4">
             {LEVEL_ORDER.map((lv, i) => (
-              <li key={lv} className="pl-6 relative">
-                <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-white border-2 border-[#C73E33]"></span>
-                <div className="flex flex-wrap items-center gap-3 mb-1"><span className="text-sm font-semibold text-[#8A8580]">{digits(i + 1)}</span><LevelBadge level={lv} t={t} /></div>
-                <p className="text-base text-[#4A4744]">{t('pp_desc_' + lv)}</p>
+              <li key={lv} className="pl-5 relative">
+                <span className="absolute -left-[7px] top-1 w-3 h-3 rounded-full bg-white border-2 border-[#C73E33]"></span>
+                <div className="flex flex-wrap items-center gap-2 mb-0.5"><span className="text-[11px] font-semibold text-[#9CA3AF]">{digits(i + 1)}</span><LevelBadge level={lv} t={t} /></div>
+                <p className="text-[13px] text-[#6B7280]">{t('pp_desc_' + lv)}</p>
               </li>
             ))}
           </ol>
@@ -207,28 +207,28 @@ export function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, nav
 
       {/* Section 4: completed work */}
       <div>
-        <h2 className="font-semibold text-[22px] mb-4">{t('pp_work_title')}</h2>
+        <h2 className="font-semibold text-[17px] mb-3 text-[#111827]">{t('pp_work_title')}</h2>
         {confirmedList.length === 0 && waiting.length === 0 && (
-          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 text-center flex flex-col items-center gap-5">
-            <CheckSquare size={40} className="text-[#D8D4CC]" />
-            <p className="text-lg text-[#4A4744] max-w-md">{t('pp_work_empty')}</p>
-            <button onClick={() => navTo('firstwork')} className="bg-[#C73E33] text-white px-8 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px]">{t('pp_find_job')}</button>
+          <div className="bg-white border border-[#E8E5E0] rounded-xl p-5 text-center flex flex-col items-center gap-3">
+            <CheckSquare size={28} className="text-[#D1D5DB]" />
+            <p className="text-[13px] text-[#9CA3AF] max-w-sm">{t('pp_work_empty')}</p>
+            <button onClick={() => navTo('firstwork')} className="bg-[#C73E33] text-white px-5 rounded-full font-semibold text-[13px] hover:bg-[#AE332A] h-9 transition-colors">{t('pp_find_job')}</button>
           </div>
         )}
         {waiting.length > 0 && (
-          <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3">{t('pp_applied_head')}</h3>
-            <div className="space-y-4">
+          <div className="mb-4">
+            <h3 className="font-semibold text-[14px] text-[#111827] mb-2">{t('pp_applied_head')}</h3>
+            <div className="space-y-3">
               {waiting.map(a => {
                 const j = allJobs.find(x => x.id === a.jobId);
                 if (!j) return null;
                 return (
-                  <div key={a.jobId} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
-                    <div className="font-semibold text-lg mb-1">{j.title}</div>
-                    <div className="text-base text-[#4A4744] mb-1">{j.clientName}</div>
-                    <div className="text-base font-semibold mb-3">NPR {hideMoney ? MASK : fmtMoney(a.npr || a.price * 133)}</div>
-                    <span className="bg-[#F0EEE9] border border-[#EAE7E1] px-4 py-2 rounded-[12px] text-[#1C1B1A] font-semibold text-sm inline-flex items-center gap-2 mb-4"><CheckCircle2 size={16} /> {t('applied_status')}</span>
-                    <button onClick={() => confirmJob(j.id)} className="w-full border-2 border-dashed border-[#D8D4CC] text-[#4A4744] rounded-full px-5 font-semibold text-base hover:border-[#8A8580] min-h-[48px] bg-white">{t('pp_demo_confirm')}</button>
+                  <div key={a.jobId} className="bg-white border border-[#E8E5E0] rounded-xl p-3.5 sm:p-4">
+                    <div className="font-semibold text-[14px] text-[#111827] mb-0.5">{j.title}</div>
+                    <div className="text-[13px] text-[#6B7280] mb-0.5">{j.clientName}</div>
+                    <div className="text-[13px] font-semibold text-[#111827] mb-2">NPR {hideMoney ? MASK : fmtMoney(a.npr || a.price * 133)}</div>
+                    <span className="bg-[#F3F4F6] border border-[#E8E5E0] px-3 py-1 rounded-full text-[#374151] font-semibold text-[12px] inline-flex items-center gap-1.5 mb-3"><CheckCircle2 size={13} /> {t('applied_status')}</span>
+                    <button onClick={() => confirmJob(j.id)} className="w-full border-2 border-dashed border-[#D1D5DB] text-[#6B7280] rounded-full px-4 font-semibold text-[13px] hover:border-[#9CA3AF] h-9 bg-white transition-colors">{t('pp_demo_confirm')}</button>
                   </div>
                 );
               })}
@@ -237,15 +237,15 @@ export function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, nav
         )}
         {confirmedList.length > 0 && (
           <div>
-            <h3 className="font-semibold text-lg mb-3">{t('pp_done_head')}</h3>
-            <div className="space-y-4">
+            <h3 className="font-semibold text-[14px] text-[#111827] mb-2">{t('pp_done_head')}</h3>
+            <div className="space-y-3">
               {confirmedList.map(j => (
-                <div key={j.id} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
-                  <div className="font-semibold text-lg mb-1">{j.title}</div>
-                  <div className="text-base text-[#4A4744] mb-3">{j.clientName}</div>
-                  <div className="mb-3"><LevelBadge level="client" t={t} /></div>
-                  <div className="text-base font-semibold">{fmt(t('pp_earned_line'), { n: hideMoney ? MASK : fmtMoney(j.budgetUSD * 133) })}</div>
-                  <div className="text-sm text-[#8A8580] mt-1">{t('pp_confirmed_demo')}</div>
+                <div key={j.id} className="bg-white border border-[#E8E5E0] rounded-xl p-3.5 sm:p-4">
+                  <div className="font-semibold text-[14px] text-[#111827] mb-0.5">{j.title}</div>
+                  <div className="text-[13px] text-[#6B7280] mb-2">{j.clientName}</div>
+                  <div className="mb-2"><LevelBadge level="client" t={t} /></div>
+                  <div className="text-[13px] font-semibold text-[#111827]">{fmt(t('pp_earned_line'), { n: hideMoney ? MASK : fmtMoney(j.budgetUSD * 133) })}</div>
+                  <div className="text-[11px] text-[#9CA3AF] mt-0.5">{t('pp_confirmed_demo')}</div>
                 </div>
               ))}
             </div>
@@ -254,43 +254,43 @@ export function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, nav
       </div>
 
       {/* Evidence Vault link card */}
-      <button onClick={() => navTo('vault')} className="w-full text-left bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6 hover:border-[#DDD8CE] flex items-center gap-4 min-h-[64px]">
-        <Lock size={28} className="shrink-0 text-[#C73E33]" />
+      <button onClick={() => navTo('vault')} className="w-full text-left bg-white border border-[#E8E5E0] rounded-xl p-3.5 sm:p-4 hover:border-[#D1D5DB] flex items-center gap-3 transition-all">
+        <Lock size={22} className="shrink-0 text-[#C73E33]" />
         <span className="flex-1 min-w-0">
-          <span className="block font-semibold text-xl text-[#1C1B1A]">{t('ev_title')}</span>
-          <span className="block text-base text-[#4A4744]">{fmt(t('ev_count'), { n: digits(Array.isArray(evidence) ? evidence.length : 0) })}</span>
+          <span className="block font-semibold text-[15px] text-[#111827]">{t('ev_title')}</span>
+          <span className="block text-[12px] text-[#9CA3AF]">{fmt(t('ev_count'), { n: digits(Array.isArray(evidence) ? evidence.length : 0) })}</span>
         </span>
-        <ArrowRight size={22} className="shrink-0 text-[#8A8580]" />
+        <ArrowRight size={16} className="shrink-0 text-[#9CA3AF]" />
       </button>
 
       {/* SkillBridge link card */}
-      <button onClick={() => navTo('skillbridge')} className="w-full text-left bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6 hover:border-[#DDD8CE] flex items-center gap-4 min-h-[64px]">
-        <TrendingUp size={28} className="shrink-0 text-[#C73E33]" />
+      <button onClick={() => navTo('skillbridge')} className="w-full text-left bg-white border border-[#E8E5E0] rounded-xl p-3.5 sm:p-4 hover:border-[#D1D5DB] flex items-center gap-3 transition-all">
+        <TrendingUp size={22} className="shrink-0 text-[#C73E33]" />
         <span className="flex-1 min-w-0">
-          <span className="block font-semibold text-xl text-[#1C1B1A]">{t('sb_title')}</span>
-          <span className="block text-base text-[#4A4744]">{t('sb_card_line')}</span>
+          <span className="block font-semibold text-[15px] text-[#111827]">{t('sb_title')}</span>
+          <span className="block text-[12px] text-[#9CA3AF]">{t('sb_card_line')}</span>
         </span>
-        <ArrowRight size={22} className="shrink-0 text-[#8A8580]" />
+        <ArrowRight size={16} className="shrink-0 text-[#9CA3AF]" />
       </button>
 
       {/* Section 5: getting paid + safety rules */}
-      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-        <h2 className="font-semibold text-[22px] mb-5">{t('pp_pay_title')}</h2>
-        <div className="space-y-3 mb-5">
+      <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 sm:p-5">
+        <h2 className="font-semibold text-[17px] text-[#111827] mb-3">{t('pp_pay_title')}</h2>
+        <div className="space-y-1.5 mb-3">
           {[0, 1, 2, 3].map(i => {
             const on = !!(payChecklist && payChecklist[i]);
             return (
-              <button key={i} onClick={() => togglePay(i)} className={`w-full flex items-start gap-3 p-4 rounded-[14px] border text-left min-h-[48px] transition-colors ${on ? 'border-[#C73E33] bg-[#FAF0EE]' : 'border-[#EAE7E1] bg-white hover:border-[#DDD8CE]'}`} role="checkbox" aria-checked={on}>
-                {on ? <CheckSquare size={24} className="shrink-0 text-[#C73E33]" /> : <Square size={24} className="shrink-0 text-[#8A8580]" />}
-                <span className="text-base font-medium">{t('pp_pay_' + (i + 1))}</span>
+              <button key={i} onClick={() => togglePay(i)} className={`w-full min-h-[44px] flex items-center gap-2 p-2 rounded-xl border text-left transition-colors ${on ? 'border-[#C73E33] bg-[#FFF5F5]' : 'border-[#E8E5E0] bg-white hover:border-[#D1D5DB]'}`} role="checkbox" aria-checked={on}>
+                {on ? <CheckSquare size={16} className="shrink-0 text-[#C73E33]" /> : <Square size={16} className="shrink-0 text-[#9CA3AF]" />}
+                <span className="text-[13px] font-medium text-[#374151]">{t('pp_pay_' + (i + 1))}</span>
               </button>
             );
           })}
         </div>
-        <Disclaimer t={t} k="disc_pay" className="mt-0" />
+        <Disclaimer t={t} k="disc_pay" className="mt-0 text-[12px] leading-4" />
         <NetPayCalculator t={t} />
-        <h3 className="font-semibold text-xl mb-4">{t('pp_rules_title')}</h3>
-        <div className="space-y-3">
+        <h3 className="font-semibold text-[15px] text-[#111827] mb-2">{t('pp_rules_title')}</h3>
+        <div className="space-y-1.5">
           {RULE_KEYS.map(k => <RuleToggle key={k} label={t('rule_' + k)} on={!!rules[k]} onClick={() => toggleRule(k)} />)}
         </div>
       </div>
@@ -300,15 +300,15 @@ export function PassportPage({ allJobs = DUMMY_JOBS, t, lang, user, setUser, nav
 
       {/* Share modal */}
       {shareOpen && (
-        <div className="fixed inset-0 z-50 bg-[#1C1B1A]/40 flex items-center justify-center p-4" onClick={() => setShareOpen(false)}>
-          <div className="bg-white rounded-[20px] border border-[#EAE7E1] p-6 sm:p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
-            <h3 className="font-semibold text-2xl mb-3">{t('pp_share')}</h3>
-            <p className="text-base text-[#4A4744] mb-5">{t('pp_share_desc')}</p>
-            <div className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[14px] px-4 py-3 text-base font-semibold break-all mb-5">{link}</div>
-            <div className="space-y-3">
-              <button onClick={copyLink} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-base rounded-full hover:bg-[#AE332A] min-h-[52px]">{t('pp_copy_link')}</button>
-              <a href={`https://wa.me/?text=${encodeURIComponent('https://' + link)}`} target="_blank" rel="noopener noreferrer" className="w-full py-3.5 border border-[#E3E0D9] bg-white text-[#1C1B1A] font-semibold text-base rounded-full hover:bg-[#F6F4EF] min-h-[52px] flex items-center justify-center">{t('pp_whatsapp')}</a>
-              <button onClick={() => setShareOpen(false)} className="w-full py-3 text-[#4A4744] font-semibold text-base rounded-full hover:bg-[#F6F4EF] min-h-[48px]">{t('pp_close')}</button>
+        <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4" onClick={() => setShareOpen(false)}>
+          <div className="bg-white rounded-xl border border-[#E8E5E0] p-5 w-full max-w-sm" onClick={e => e.stopPropagation()}>
+            <h3 className="font-semibold text-[18px] text-[#111827] mb-2">{t('pp_share')}</h3>
+            <p className="text-[13px] text-[#6B7280] mb-4">{t('pp_share_desc')}</p>
+            <div className="bg-[#F9F9F7] border border-[#E8E5E0] rounded-lg px-3 py-2 text-[13px] font-semibold text-[#111827] break-all mb-4">{link}</div>
+            <div className="space-y-2">
+              <button onClick={copyLink} className="w-full bg-[#C73E33] text-white font-semibold text-[13px] rounded-full hover:bg-[#AE332A] h-9 transition-colors">{t('pp_copy_link')}</button>
+              <a href={`https://wa.me/?text=${encodeURIComponent('https://' + link)}`} target="_blank" rel="noopener noreferrer" className="w-full border border-[#E8E5E0] bg-white text-[#374151] font-semibold text-[13px] rounded-full hover:bg-[#F9F9F7] h-9 flex items-center justify-center transition-all">{t('pp_whatsapp')}</a>
+              <button onClick={() => setShareOpen(false)} className="w-full text-[#6B7280] font-semibold text-[13px] rounded-full hover:bg-[#F9F9F7] h-8 transition-colors">{t('pp_close')}</button>
             </div>
           </div>
         </div>

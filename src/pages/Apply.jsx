@@ -13,7 +13,7 @@ export function ApplyWizard({ job, t, navTo, user, setAppliedJobs, lang, simple 
   const sa = saved ? saved.answers : {};
   const [step, setStep] = useState(saved && saved.step >= 1 && saved.step <= 4 ? saved.step : 1);
   const sentRef = useRef(false);
-  const matchedSkills = job.skillsRequired.filter(s => user.skills.includes(s)).join(", ");
+  const matchedSkills = job.skillsRequired.filter(s => user.skills.includes(s)).join(', ');
   const initialText = `Hello,
 
 I saw your job for ${job.title}. I can help because I have skills in ${matchedSkills || 'various tools'}.
@@ -22,7 +22,7 @@ I am ready to start.
 
 Thanks,
 ${user.name}`;
-  
+
   const [text, setText] = useState(typeof sa.text === 'string' ? sa.text : initialText);
   const [price, setPrice] = useState(typeof sa.price === 'number' ? sa.price : job.budgetUSD);
   const [days, setDays] = useState(typeof sa.days === 'number' ? sa.days : (job.deadlineDays || 3));
@@ -41,8 +41,8 @@ ${user.name}`;
   const isHourly = job.budgetType === 'hourly';
   const rangeLo = isHourly ? Math.max(1, job.budgetUSD - 1) : Math.round(job.budgetUSD * 0.75);
   const rangeHi = isHourly ? job.budgetUSD : Math.round(job.budgetUSD);
-  const fmtNum = (n) => lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(n);
-  const fillRange = (str) => str.replace('{lo}', fmtNum(rangeLo)).replace('{hi}', fmtNum(rangeHi));
+  const fmtNum = n => lang === 'ne' ? String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]) : String(n);
+  const fillRange = str => str.replace('{lo}', fmtNum(rangeLo)).replace('{hi}', fmtNum(rangeHi));
   const priceMsg = price < rangeLo ? t('price_low') + ' ' + fillRange(t('price_hint')) : price > rangeHi ? t('price_high') + ' ' + fillRange(t('price_hint')) : fillRange(t('price_fair'));
   const npr = price * 133;
 
@@ -53,167 +53,310 @@ ${user.name}`;
     setStep(5);
   };
 
+  /* ── Progress bar ── */
+  const ProgressBar = () => (
+    <div className="flex gap-1.5 mb-6">
+      {[1, 2, 3, 4].map(i => (
+        <div
+          key={i}
+          className={`h-1 flex-1 rounded-full transition-colors ${i <= step ? 'bg-[#C73E33]' : 'bg-[#E5E7EB]'}`}
+        />
+      ))}
+    </div>
+  );
+
+  /* ═════════════════════
+     SUCCESS SCREEN
+  ═════════════════════ */
   if (step === 5) {
     return (
-      <div className="max-w-[650px] mx-auto bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 text-center">
-        <CheckCircle2 size={64} strokeWidth={1.5} className="mx-auto mb-6 text-[#C73E33]" />
-        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-4">{t('app_sent')}</h1>
-        <p className="text-lg text-[#4A4744] mb-10 leading-relaxed max-w-md mx-auto">{t('app_sent_desc')}</p>
-        <div className="space-y-4 max-w-sm mx-auto">
-          <button onClick={() => navTo('opportunities', { tab: 'applied' })} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-lg rounded-full hover:bg-[#AE332A] min-h-[52px]">{t('view_opps')}</button>
-          <button onClick={() => navTo('firstwork')} className="w-full py-3.5 border border-[#E3E0D9] font-semibold text-lg rounded-full hover:bg-[#F6F4EF] min-h-[52px] bg-white">{t('back_to_jobs')}</button>
+      <div className="max-w-[460px] mx-auto py-16 text-center">
+        <div className="bg-white border border-[#E8E5E0] rounded-2xl p-8 sm:p-10">
+          <div className="w-14 h-14 bg-[#F0FDF4] border border-[#BBF7D0] rounded-full flex items-center justify-center mx-auto mb-5">
+            <CheckCircle2 size={28} className="text-[#166534]" />
+          </div>
+          <h1 className="text-[20px] font-bold text-[#111827] mb-2">{t('app_sent')}</h1>
+          <p className="text-[13px] text-[#6B7280] leading-relaxed mb-8 max-w-xs mx-auto">{t('app_sent_desc')}</p>
+          <div className="space-y-2.5">
+            <button
+              onClick={() => navTo('opportunities', { tab: 'applied' })}
+              className="w-full py-3 bg-[#C73E33] text-white font-semibold text-[14px] rounded-xl hover:bg-[#AE332A] active:scale-[0.98] transition-all"
+            >
+              {t('view_opps')}
+            </button>
+            <button
+              onClick={() => navTo('firstwork')}
+              className="w-full py-3 border border-[#E8E5E0] font-semibold text-[14px] rounded-xl text-[#374151] hover:bg-[#F9F9F7] bg-white transition-colors"
+            >
+              {t('back_to_jobs')}
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
+  /* ═════════════════════
+     WIZARD STEPS
+  ═════════════════════ */
   return (
-    <div className="max-w-[700px] mx-auto bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-      <div className="flex items-center justify-between mb-8">
-        <button onClick={() => step === 1 ? navTo('job-detail', {id: job.id}) : setStep(step - 1)} className="flex items-center gap-2 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2">
-          <ChevronLeft size={20} /> {t('back')}
-        </button>
-        <div className="text-sm font-semibold bg-[#F0EEE9] px-4 py-2 rounded-full border border-[#EAE7E1]">{t('step')} {step} {t('of')} 4</div>
-      </div>
-      
-      <div className="h-2 bg-[#EAE7E1] rounded-full mb-10 overflow-hidden">
-        <div className="h-full bg-[#C73E33] transition-all" style={{width: `${(step/4)*100}%`}}></div>
-      </div>
+    <div className="max-w-[520px] mx-auto py-6">
+      <div className="bg-white border border-[#E8E5E0] rounded-2xl overflow-hidden">
+        {/* Header */}
+        <div className="px-5 py-4 border-b border-[#F3F4F6] flex items-center justify-between">
+          <button
+            onClick={() => step === 1 ? navTo('job-detail', { id: job.id }) : setStep(step - 1)}
+            className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#6B7280] hover:text-[#111827] transition-colors"
+          >
+            <ChevronLeft size={15} /> {t('back')}
+          </button>
+          <span className="text-[11px] font-semibold text-[#6B7280] bg-[#F3F4F6] px-3 py-1.5 rounded-full">
+            {t('step')} {step} {t('of')} 4
+          </span>
+        </div>
 
-      {step === 1 && (
-        <div className="animate-in fade-in">
-          <h2 className="text-[28px] sm:text-[30px] font-semibold mb-6">{t('apply_step1')}</h2>
-          <p className="text-base text-[#4A4744] mb-6 font-medium">Write a short message to the client. We started it for you based on your skills.</p>
-          <div className="mb-3"><span className="inline-flex items-center rounded-full bg-[#F0EEE9] px-2.5 py-1 text-[13px] font-medium text-[#6E6963]">{t('ai_label')}</span></div>
-          <div className="relative mb-3">
-            <textarea value={text} onChange={e => setText(e.target.value)} className="w-full h-72 p-5 border border-[#EAE7E1] rounded-[14px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 resize-none text-base leading-relaxed bg-[#F6F4EF]" />
-            <div className="absolute bottom-4 right-4 text-sm font-semibold text-[#8A8580]">{text.length} chars</div>
-          </div>
-          <Disclaimer t={t} k="disc_proposal" className="mb-6" />
-          <div className="flex justify-start mb-10">
-            <button onClick={() => setText(`Hello ${job.clientName.split(' ')[0]},
+        {/* Progress */}
+        <div className="px-5 pt-4">
+          <ProgressBar />
+        </div>
+
+        {/* Content */}
+        <div className="px-5 pb-6">
+
+          {/* ── Step 1: Cover letter ── */}
+          {step === 1 && (
+            <div>
+              <h2 className="text-[17px] font-bold text-[#111827] mb-1">{t('apply_step1')}</h2>
+              <p className="text-[13px] text-[#6B7280] mb-5 leading-relaxed">
+                Write a short message to the client. We started it for you based on your skills.
+              </p>
+
+              <div className="mb-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F4F6] px-2.5 py-1 text-[11px] font-semibold text-[#6B7280]">
+                  {t('ai_label')}
+                </span>
+              </div>
+              <div className="relative mb-2">
+                <textarea
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                  className="w-full h-52 p-4 border border-[#E8E5E0] rounded-xl outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/15 resize-none text-[13px] leading-relaxed bg-[#F9F9F7]"
+                />
+                <div className="absolute bottom-3 right-3 text-[11px] font-medium text-[#9CA3AF]">
+                  {text.length} chars
+                </div>
+              </div>
+              <Disclaimer t={t} k="disc_proposal" className="mb-4" />
+
+              <button
+                onClick={() => setText(`Hello ${job.clientName.split(' ')[0]},
 
 I carefully read your job for ${job.title}. I am a great fit because I have strong skills in ${matchedSkills}.
 
 I am a fast learner, reliable, and ready to start immediately. Please let me know if you have any questions.
 
 Best regards,
-${user.name}`)} className="text-sm font-semibold border border-[#EAE7E1] bg-white px-5 py-3 rounded-full hover:border-[#DDD8CE] min-h-[48px] flex items-center gap-2 text-[#1C1B1A]"><Sparkles size={20} /> {t('make_better')}</button>
-          </div>
-          <button onClick={() => setStep(2)} disabled={text.length < 40} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-lg rounded-full hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
-            {t('next')}
-          </button>
-        </div>
-      )}
+${user.name}`)}
+                className="inline-flex items-center gap-1.5 text-[12px] font-semibold border border-[#E8E5E0] bg-white px-3.5 py-2 rounded-xl hover:bg-[#F9F9F7] hover:border-[#D1D5DB] text-[#374151] mb-5 transition-all"
+              >
+                <Sparkles size={13} /> {t('make_better')}
+              </button>
 
-      {step === 2 && (
-        <div className="animate-in fade-in">
-          <h2 className="text-[28px] sm:text-[30px] font-semibold mb-8">{t('apply_step2')}</h2>
-          <div className="mb-8">
-            <label className="block text-lg font-semibold mb-3">Price (USD)</label>
-            <div className="flex items-center">
-              <span className="bg-[#F6F4EF] border border-[#EAE7E1] border-r-0 px-6 py-4 rounded-l-[14px] text-[#8A8580] font-semibold text-xl">$</span>
-              <input type="number" value={price} onChange={e => setPrice(Number(e.target.value))} className="w-full border border-[#EAE7E1] px-6 py-4 rounded-r-[14px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 text-2xl font-semibold bg-white" />
+              <button
+                onClick={() => setStep(2)}
+                disabled={text.length < 40}
+                className="w-full py-3 bg-[#C73E33] text-white font-semibold text-[14px] rounded-xl hover:bg-[#AE332A] disabled:opacity-40 active:scale-[0.98] transition-all"
+              >
+                {t('next')}
+              </button>
             </div>
-          </div>
-          <div className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[14px] p-5 mb-3 text-base font-medium text-[#1C1B1A] flex gap-3">
-            <ShieldCheck className="shrink-0 mt-0.5" /> <span>{priceMsg}</span>
-          </div>
-          <Disclaimer t={t} k="disc_price" className="mb-10" />
-          
-          <div className="mb-10">
-            <label className="block text-lg font-semibold mb-4">{t('delivery_time')}</label>
-            <div className="grid grid-cols-2 gap-4">
-              {[2, 3, 5, 7].map(d => (
-                <button key={d} onClick={() => setDays(d)} className={`py-3.5 border rounded-full text-lg font-semibold transition-colors min-h-[52px] ${days === d ? 'border-[#C73E33] bg-[#FAF0EE] text-[#AE332A]' : 'border-[#EAE7E1] bg-white text-[#4A4744] hover:border-[#DDD8CE]'}`}>
-                  {d} {t('days')}
-                </button>
-              ))}
-            </div>
-          </div>
-          <button onClick={() => setStep(3)} disabled={!price || price <= 0} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-lg rounded-full hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
-            {t('next')}
-          </button>
-        </div>
-      )}
+          )}
 
-      {step === 3 && (
-        <div className="animate-in fade-in">
-          <h2 className="text-[28px] sm:text-[30px] font-semibold mb-8">{t('apply_step3')}</h2>
-          
-          <div className="bg-[#F6F4EF] border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 mb-8">
-            <div className="flex justify-between items-center mb-4 text-base font-medium">
-              <span className="text-[#4A4744]">{t('job_price')}</span>
-              <span className="font-semibold text-lg">${price.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between items-center mb-6 text-base font-medium pb-6 border-b-2 border-dashed border-[#EAE7E1]">
-              <span className="text-[#4A4744]">{t('platform_fee')}</span>
-              <span className="text-[#AE332A] font-semibold bg-[#FAF0EE] px-3 py-1 rounded-[12px]">{t('free')}</span>
-            </div>
-            <div className="text-sm font-semibold text-[#8A8580] mb-2">1 USD = NPR 133</div>
-            <div className="flex justify-between items-center">
-              <span className="font-semibold text-xl">{t('you_receive')}</span>
-              <span className="font-semibold text-3xl">≈ NPR {fmtMoney(npr)}</span>
-            </div>
-            <Disclaimer t={t} k="receive_note" className="mt-6" />
-          </div>
-
-          <div className="border border-[#E3E0D9] rounded-[20px] p-6 sm:p-6 mb-10 bg-white">
-            <div className="font-semibold text-lg mb-6 flex items-center gap-2"><CheckSquare size={24} /> {t('confirm_client')}</div>
-            <label className="flex items-center gap-4 mb-4 cursor-pointer text-base font-medium hover:bg-[#F6F4EF] p-2 min-h-[44px] -ml-2 rounded-[12px] transition-colors">
-              <input type="checkbox" checked={chkPay} onChange={e => setChkPay(e.target.checked)} className="accent-[#C73E33] w-6 h-6" /> {t('chk_pay')}
-            </label>
-            <label className="flex items-center gap-4 mb-4 cursor-pointer text-base font-medium hover:bg-[#F6F4EF] p-2 min-h-[44px] -ml-2 rounded-[12px] transition-colors">
-              <input type="checkbox" checked={chkMile} onChange={e => setChkMile(e.target.checked)} className="accent-[#C73E33] w-6 h-6" /> {t('chk_mile')}
-            </label>
-            <label className="flex items-center gap-4 cursor-pointer text-base font-medium hover:bg-[#F6F4EF] p-2 min-h-[44px] -ml-2 rounded-[12px] transition-colors">
-              <input type="checkbox" checked={chkDead} onChange={e => setChkDead(e.target.checked)} className="accent-[#C73E33] w-6 h-6" /> {t('chk_dead')}
-            </label>
-          </div>
-
-          <button onClick={() => setStep(4)} disabled={!chkPay || !chkMile || !chkDead} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-lg rounded-full hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
-            {t('next')}
-          </button>
-        </div>
-      )}
-
-      {step === 4 && (
-        <div className="animate-in fade-in">
-          <h2 className="text-[28px] sm:text-[30px] font-semibold mb-8">{t('apply_step4')}</h2>
-          
-          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 mb-8 text-base space-y-6">
+          {/* ── Step 2: Price + delivery ── */}
+          {step === 2 && (
             <div>
-              <div className="text-[#8A8580] text-sm font-semibold mb-1 uppercase tracking-wider">Job</div>
-              <div className="font-semibold text-xl">{job.title}</div>
+              <h2 className="text-[17px] font-bold text-[#111827] mb-6">{t('apply_step2')}</h2>
+
+              {/* Price input */}
+              <div className="mb-5">
+                <label className="block text-[13px] font-semibold text-[#111827] mb-2">Price (USD)</label>
+                <div className="flex items-stretch">
+                  <span className="bg-[#F3F4F6] border border-[#E8E5E0] border-r-0 px-4 flex items-center rounded-l-xl text-[#9CA3AF] font-semibold text-[15px]">
+                    $
+                  </span>
+                  <input
+                    type="number"
+                    value={price}
+                    onChange={e => setPrice(Number(e.target.value))}
+                    className="flex-1 border border-[#E8E5E0] px-4 py-3 rounded-r-xl outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/15 text-[16px] font-bold text-[#111827] bg-white"
+                  />
+                </div>
+              </div>
+
+              {/* Price feedback */}
+              <div className="bg-[#F9F9F7] border border-[#E8E5E0] rounded-xl p-4 mb-2 flex items-start gap-2.5">
+                <ShieldCheck size={15} className="shrink-0 mt-0.5 text-[#166534]" />
+                <span className="text-[12px] font-medium text-[#374151] leading-relaxed">{priceMsg}</span>
+              </div>
+              <Disclaimer t={t} k="disc_price" className="mb-6" />
+
+              {/* Delivery time */}
+              <div className="mb-6">
+                <label className="block text-[13px] font-semibold text-[#111827] mb-3">{t('delivery_time')}</label>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[2, 3, 5, 7].map(d => (
+                    <button
+                      key={d}
+                      onClick={() => setDays(d)}
+                      className={`py-2.5 border rounded-xl text-[13px] font-semibold transition-all ${
+                        days === d
+                          ? 'border-[#C73E33] bg-[#FFF5F5] text-[#C73E33]'
+                          : 'border-[#E8E5E0] bg-white text-[#374151] hover:border-[#D1D5DB] hover:bg-[#F9F9F7]'
+                      }`}
+                    >
+                      {d} {t('days')}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={() => setStep(3)}
+                disabled={!price || price <= 0}
+                className="w-full py-3 bg-[#C73E33] text-white font-semibold text-[14px] rounded-xl hover:bg-[#AE332A] disabled:opacity-40 active:scale-[0.98] transition-all"
+              >
+                {t('next')}
+              </button>
             </div>
+          )}
+
+          {/* ── Step 3: Confirm terms ── */}
+          {step === 3 && (
             <div>
-              <div className="text-[#8A8580] text-sm font-semibold mb-2 uppercase tracking-wider">Message</div>
-              <div className="bg-[#F6F4EF] p-4 border border-[#EAE7E1] rounded-[14px] font-medium line-clamp-4 leading-relaxed">{text}</div>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-4 pt-4 border-t border-[#EAE7E1]">
-              <div>
-                <div className="text-[#8A8580] text-sm font-semibold mb-1 uppercase tracking-wider">Terms</div>
-                <div className="font-semibold text-xl">${price} in {days} days</div>
+              <h2 className="text-[17px] font-bold text-[#111827] mb-6">{t('apply_step3')}</h2>
+
+              {/* Summary card */}
+              <div className="bg-[#F9F9F7] border border-[#E8E5E0] rounded-xl p-4 mb-5 space-y-3">
+                <div className="flex justify-between items-center text-[13px]">
+                  <span className="text-[#6B7280]">{t('job_price')}</span>
+                  <span className="font-bold text-[#111827]">${price.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center text-[13px]">
+                  <span className="text-[#6B7280]">{t('platform_fee')}</span>
+                  <span className="text-[#166534] font-semibold bg-[#F0FDF4] border border-[#BBF7D0] px-2 py-0.5 rounded-full text-[11px]">
+                    {t('free')}
+                  </span>
+                </div>
+                <div className="border-t border-dashed border-[#E5E7EB] pt-3">
+                  <div className="text-[11px] text-[#9CA3AF] mb-1">1 USD = NPR 133</div>
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-[13px] font-semibold text-[#111827]">{t('you_receive')}</span>
+                    <span className="text-[20px] font-bold text-[#111827]">≈ NPR {fmtMoney(npr)}</span>
+                  </div>
+                </div>
+                <Disclaimer t={t} k="receive_note" />
               </div>
-              <div className="sm:text-right">
-                <div className="text-[#8A8580] text-sm font-semibold mb-1 uppercase tracking-wider">You get</div>
-                <div className="font-semibold text-2xl text-[#1C1B1A]">NPR {fmtMoney(npr)}</div>
+
+              {/* Checklist */}
+              <div className="border border-[#E8E5E0] rounded-xl p-4 mb-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <CheckSquare size={15} className="text-[#C73E33]" />
+                  <span className="text-[13px] font-bold text-[#111827]">{t('confirm_client')}</span>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { checked: chkPay, set: setChkPay, label: t('chk_pay') },
+                    { checked: chkMile, set: setChkMile, label: t('chk_mile') },
+                    { checked: chkDead, set: setChkDead, label: t('chk_dead') },
+                  ].map(({ checked, set, label }, i) => (
+                    <label
+                      key={i}
+                      className="flex items-start gap-3 cursor-pointer p-2.5 rounded-xl hover:bg-[#F9F9F7] transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={e => set(e.target.checked)}
+                        className="accent-[#C73E33] w-4 h-4 mt-0.5 shrink-0"
+                      />
+                      <span className="text-[13px] font-medium text-[#374151] leading-snug">{label}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
+
+              <button
+                onClick={() => setStep(4)}
+                disabled={!chkPay || !chkMile || !chkDead}
+                className="w-full py-3 bg-[#C73E33] text-white font-semibold text-[14px] rounded-xl hover:bg-[#AE332A] disabled:opacity-40 active:scale-[0.98] transition-all"
+              >
+                {t('next')}
+              </button>
             </div>
-          </div>
+          )}
 
-          <label className="flex items-center gap-4 mb-10 cursor-pointer p-5 border border-[#E3E0D9] rounded-[20px] bg-[#F6F4EF] hover:bg-[#EDEAE4] transition-colors">
-            <div className="shrink-0"><input type="checkbox" checked={finalCheck} onChange={e => setFinalCheck(e.target.checked)} className="accent-[#C73E33] w-6 h-6" /></div>
-            <div className="text-base font-semibold flex items-center gap-2"><ShieldCheck size={20} className="text-[#1C1B1A]" /> {t('ws_confirm')}</div>
-          </label>
+          {/* ── Step 4: Review + send ── */}
+          {step === 4 && (
+            <div>
+              <h2 className="text-[17px] font-bold text-[#111827] mb-5">{t('apply_step4')}</h2>
 
-          <div className="mb-10"><NetPayPreview usd={job.budgetUSD} t={t} /></div>
+              {/* Review summary */}
+              <div className="border border-[#E8E5E0] rounded-xl overflow-hidden mb-5">
+                {/* Job */}
+                <div className="px-4 py-3 border-b border-[#F3F4F6]">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] mb-1">Job</div>
+                  <div className="text-[14px] font-semibold text-[#111827]">{job.title}</div>
+                </div>
+                {/* Message preview */}
+                <div className="px-4 py-3 border-b border-[#F3F4F6]">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] mb-1.5">Message</div>
+                  <div className="bg-[#F9F9F7] border border-[#E8E5E0] rounded-lg px-3 py-2.5 text-[12px] text-[#374151] leading-relaxed line-clamp-4">
+                    {text}
+                  </div>
+                </div>
+                {/* Terms + amount */}
+                <div className="px-4 py-3 flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] mb-1">Terms</div>
+                    <div className="text-[14px] font-bold text-[#111827]">${price} in {days} days</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-[#9CA3AF] mb-1">You get</div>
+                    <div className="text-[18px] font-bold text-[#111827]">NPR {fmtMoney(npr)}</div>
+                  </div>
+                </div>
+              </div>
 
-          <button onClick={handleSend} disabled={!finalCheck} className="w-full py-3.5 bg-[#C73E33] text-white font-semibold text-xl rounded-full hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px] flex items-center justify-center gap-3">
-            {t('send_app')} <ArrowRight size={24} />
-          </button>
+              {/* Final confirmation */}
+              <label className="flex items-start gap-3 cursor-pointer p-4 border border-[#E8E5E0] rounded-xl bg-[#F9F9F7] hover:bg-[#F3F4F6] transition-colors mb-5">
+                <input
+                  type="checkbox"
+                  checked={finalCheck}
+                  onChange={e => setFinalCheck(e.target.checked)}
+                  className="accent-[#C73E33] w-4 h-4 mt-0.5 shrink-0"
+                />
+                <div className="flex items-center gap-1.5 text-[13px] font-semibold text-[#374151]">
+                  <ShieldCheck size={14} className="text-[#C73E33] shrink-0" /> {t('ws_confirm')}
+                </div>
+              </label>
+
+              {/* Pay preview (compact) */}
+              <div className="mb-5">
+                <NetPayPreview usd={job.budgetUSD} t={t} />
+              </div>
+
+              <button
+                onClick={handleSend}
+                disabled={!finalCheck}
+                className="w-full py-3 bg-[#C73E33] text-white font-bold text-[15px] rounded-xl hover:bg-[#AE332A] disabled:opacity-40 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+              >
+                {t('send_app')} <ArrowRight size={16} strokeWidth={2.5} />
+              </button>
+            </div>
+          )}
+
         </div>
-      )}
+      </div>
     </div>
   );
 }

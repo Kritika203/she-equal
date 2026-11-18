@@ -4,16 +4,20 @@ import { ChevronLeft, Shield, ShieldAlert, ShieldCheck, User } from 'lucide-reac
 import { useRef, useState } from 'react';
 import { ALL_CATEGORIES, ALL_SKILLS, DISTRICTS } from '../data/demo.js';
 
-
+/* ── shared input + button styles ── */
+const INPUT = "w-full border border-[#E8E5E0] rounded-xl px-3.5 py-2.5 text-[13px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/15 bg-white placeholder-[#B0ADA8] transition-all";
+const BTN_PRIMARY = "w-full h-10 bg-[#C73E33] text-white rounded-full font-semibold text-[13px] hover:bg-[#AE332A] disabled:opacity-40 transition-colors";
+const BTN_BACK = "flex items-center gap-1.5 text-[13px] text-[#6B7280] hover:text-[#111827] font-medium py-2 -ml-1 transition-colors";
+const LABEL = "block text-[13px] font-semibold text-[#111827] mb-1.5";
 
 function PlaceholderSection({ t, title }) {
   return (
     <div className="flex flex-col items-center justify-center h-[60vh] text-center">
-      <div className="w-20 h-20 bg-[#EAE7E1] rounded-[20px] flex items-center justify-center mb-6">
-        <User size={40} className="text-[#8A8580]" />
+      <div className="w-14 h-14 bg-[#F3F4F6] border border-[#E8E5E0] rounded-2xl flex items-center justify-center mb-4">
+        <User size={28} className="text-[#9CA3AF]" />
       </div>
-      <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{title}</h1>
-      <p className="text-lg text-[#8A8580]">{t('proto_section')}</p>
+      <h1 className="text-[22px] font-semibold mb-2 text-[#111827]">{title}</h1>
+      <p className="text-[13px] text-[#9CA3AF]">{t('proto_section')}</p>
     </div>
   );
 }
@@ -44,39 +48,40 @@ export function LoginFlow({ t, onBack, onLogin }) {
 
   return (
     <div className="pb-4">
-      <button onClick={step === 1 ? onBack : () => setStep(1)} className="flex items-center gap-2 text-base text-[#4A4744] mb-8 hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2 font-medium">
-        <ChevronLeft size={20} /> {t('back')}
+      <button onClick={step === 1 ? onBack : () => setStep(1)} className={BTN_BACK}>
+        <ChevronLeft size={16} /> {t('back')}
       </button>
-      <h2 className="text-[28px] sm:text-[30px] font-semibold mb-8">{step === 1 ? t('login_step1_title') : t('login_step2_title')}</h2>
+
+      <h2 className="text-[22px] font-semibold text-[#111827] mt-4 mb-5 leading-tight">{step === 1 ? t('login_step1_title') : t('login_step2_title')}</h2>
       
       {step === 1 ? (
         <>
-          <div className="mb-8">
-            <label className="block text-base font-semibold mb-3">{t('phone_label')}</label>
+          <div className="mb-5">
+            <label className={LABEL}>{t('phone_label')}</label>
             <div className="flex">
-              <div className="bg-[#F6F4EF] border border-[#EAE7E1] border-r-0 px-4 py-4 rounded-l-[14px] text-[#4A4744] font-medium">+977</div>
-              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="98XXXXXXXX" className="flex-1 border border-[#EAE7E1] px-4 py-4 rounded-r-[14px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 text-lg font-medium" />
+              <div className="bg-[#F9FAFB] border border-[#E8E5E0] border-r-0 px-3 py-2.5 rounded-l-xl text-[13px] text-[#6B7280] font-medium flex items-center">+977</div>
+              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="98XXXXXXXX" className="flex-1 border border-[#E8E5E0] px-3.5 py-2.5 rounded-r-xl outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/15 text-[14px] font-medium placeholder-[#B0ADA8] transition-all" />
             </div>
             {err && (
-              <div className="text-[#AE332A] text-sm mt-3 flex items-start gap-2 bg-[#FAF0EE] p-3 rounded-[12px] border border-[#FAF0EE]">
-                <ShieldAlert size={20} className="shrink-0 mt-0.5" /> <span>{err}</span>
+              <div className="text-[#C73E33] text-[12px] mt-2 flex items-start gap-2 bg-[#FFF5F5] p-2.5 rounded-lg border border-[#FED7D7]">
+                <ShieldAlert size={14} className="shrink-0 mt-0.5" /> <span>{err}</span>
               </div>
             )}
           </div>
-          <button onClick={handlePhoneSubmit} disabled={!phone} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
+          <button onClick={handlePhoneSubmit} disabled={!phone} className={BTN_PRIMARY}>
             {t('btn_send_code')}
           </button>
         </>
       ) : (
         <>
-          <div className="mb-4 text-[#4A4744] text-base font-medium">Sending to: +977 {phone}</div>
-          <div className="flex gap-4 mb-4 justify-between">
+          <div className="mb-3 text-[12px] text-[#6B7280] font-medium">Sending to: +977 {phone}</div>
+          <div className="flex gap-3 mb-3 justify-between">
             {[0, 1, 2, 3].map(i => (
-              <input key={i} ref={codeRefs[i]} type="tel" inputMode="numeric" aria-label={`${t('btn_verify')} ${i + 1}`} maxLength={1} value={code[i]} onChange={e => handleCodeChange(i, e.target.value)} className="w-16 h-16 sm:w-20 sm:h-20 text-center text-3xl font-semibold border border-[#EAE7E1] rounded-[14px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30" />
+              <input key={i} ref={codeRefs[i]} type="tel" inputMode="numeric" aria-label={`${t('btn_verify')} ${i + 1}`} maxLength={1} value={code[i]} onChange={e => handleCodeChange(i, e.target.value)} className="w-12 h-12 sm:w-14 sm:h-14 text-center text-xl font-semibold border border-[#E8E5E0] rounded-xl outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/15 transition-all" />
             ))}
           </div>
-          <div className="text-sm text-[#8A8580] mb-10 bg-[#F6F4EF] p-3 rounded-[12px] text-center border border-[#EAE7E1]">{t('code_hint')}</div>
-          <button onClick={onLogin} disabled={code.join('').length < 4} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
+          <div className="text-[11px] text-[#9CA3AF] mb-6 bg-[#F9FAFB] p-2.5 rounded-lg text-center border border-[#E8E5E0]">{t('code_hint')}</div>
+          <button onClick={onLogin} disabled={code.join('').length < 4} className={BTN_PRIMARY}>
             {t('btn_verify')}
           </button>
         </>
@@ -91,94 +96,104 @@ export function SetupFlow({ t, onBack, onComplete }) {
 
   const toggleArray = (arr, item) => arr.includes(item) ? arr.filter(i => i !== item) : [...arr, item];
 
+  const chipBase = "px-3 py-1.5 rounded-full text-[12px] font-medium border transition-all cursor-pointer";
+  const chipOn = "bg-[#FFF5F5] text-[#C73E33] border-[#FED7D7] shadow-sm";
+  const chipOff = "bg-white text-[#374151] border-[#E8E5E0] hover:border-[#D1D5DB] hover:bg-[#F9FAFB]";
+
   return (
     <div className="pb-4">
-      <div className="flex items-center justify-between mb-8">
-        <button onClick={step === 1 ? onBack : () => setStep(step - 1)} className="flex items-center gap-2 text-base text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] px-2 -ml-2 font-medium">
-          <ChevronLeft size={20} /> {t('back')}
+      {/* Header: back + step indicator */}
+      <div className="flex items-center justify-between mb-4">
+        <button onClick={step === 1 ? onBack : () => setStep(step - 1)} className={BTN_BACK}>
+          <ChevronLeft size={16} /> {t('back')}
         </button>
-        <div className="text-[13px] text-[#8A8580] font-semibold bg-[#F0EEE9] px-3 py-1 rounded-full">{t('step')} {step} {t('of')} 3</div>
+        <div className="text-[11px] text-[#6B7280] font-semibold bg-[#F3F4F6] px-2.5 py-1 rounded-full border border-[#E8E5E0]">{t('step')} {step} {t('of')} 3</div>
       </div>
       
-      <div className="h-2 bg-[#EAE7E1] rounded-full mb-8 overflow-hidden">
-        <div className="h-full bg-[#C73E33] transition-all" style={{width: `${(step/3)*100}%`}}></div>
+      {/* Progress bar */}
+      <div className="h-1.5 bg-[#F3F4F6] rounded-full mb-5 overflow-hidden">
+        <div className="h-full bg-[#C73E33] rounded-full transition-all duration-300" style={{width: `${(step/3)*100}%`}}></div>
       </div>
 
-      <h2 className="text-[28px] sm:text-[30px] font-semibold mb-8">
+      {/* Step heading */}
+      <h2 className="text-[20px] font-semibold text-[#111827] mb-5 leading-tight">
         {step === 1 && t('setup_step1')}
         {step === 2 && t('setup_step2')}
         {step === 3 && t('setup_step3')}
       </h2>
 
+      {/* ── Step 1: About You ── */}
       {step === 1 && (
-        <div className="space-y-8">
+        <div className="space-y-4">
           <div>
-            <label className="block text-base font-semibold mb-3">{t('full_name')}</label>
-            <input type="text" value={profile.name} onChange={e => setProfile({...profile, name: e.target.value})} placeholder={t('name_placeholder')} className="w-full border border-[#EAE7E1] px-4 py-4 rounded-[12px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 text-lg" />
+            <label className={LABEL}>{t('full_name')}</label>
+            <input type="text" value={profile.name} onChange={e => setProfile({...profile, name: e.target.value})} placeholder={t('name_placeholder')} className={INPUT} />
           </div>
           <div>
-            <label className="block text-base font-semibold mb-3">{t('district')}</label>
-            <select value={profile.district} onChange={e => setProfile({...profile, district: e.target.value})} className="w-full border border-[#EAE7E1] px-4 py-4 rounded-[12px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 bg-white text-lg min-h-[48px]">
+            <label className={LABEL}>{t('district')}</label>
+            <select value={profile.district} onChange={e => setProfile({...profile, district: e.target.value})} className={`${INPUT} cursor-pointer`}>
               {DISTRICTS.map(d => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-base font-semibold mb-3">{t('work_wanted')}</label>
-            <div className="flex flex-wrap gap-3">
+            <label className={LABEL}>{t('work_wanted')}</label>
+            <div className="flex flex-wrap gap-2">
               {ALL_CATEGORIES.map(c => (
-                <button key={c} onClick={() => setProfile({...profile, workWanted: toggleArray(profile.workWanted, c)})} className={`px-5 py-2.5 rounded-full text-base min-h-[44px] font-medium border transition-colors ${profile.workWanted.includes(c) ? 'bg-[#FAF0EE] text-[#AE332A] border-[#C73E33]' : 'bg-white text-[#4A4744] border-[#EAE7E1] hover:border-[#DDD8CE]'}`}>{c}</button>
+                <button key={c} onClick={() => setProfile({...profile, workWanted: toggleArray(profile.workWanted, c)})} className={`${chipBase} ${profile.workWanted.includes(c) ? chipOn : chipOff}`}>{c}</button>
               ))}
             </div>
           </div>
-          <div className="pt-4">
-            <button onClick={() => setStep(2)} disabled={!profile.name || profile.workWanted.length === 0} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
+          <div className="pt-2">
+            <button onClick={() => setStep(2)} disabled={!profile.name || profile.workWanted.length === 0} className={BTN_PRIMARY}>
               {t('next')}
             </button>
           </div>
         </div>
       )}
 
+      {/* ── Step 2: Your Skills ── */}
       {step === 2 && (
-        <div className="space-y-8">
-          <div className="bg-[#F6F4EF] border border-[#EAE7E1] p-4 rounded-[12px] flex gap-3 text-[#4A4744]">
-            <ShieldCheck className="shrink-0 text-[#1C1B1A]" />
-            <p className="text-sm">{t('skills_note')}</p>
+        <div className="space-y-4">
+          <div className="bg-[#F9FAFB] border border-[#E8E5E0] p-3 rounded-xl flex gap-2.5 text-[#6B7280]">
+            <ShieldCheck size={16} className="shrink-0 text-[#111827] mt-0.5" />
+            <p className="text-[12px] leading-relaxed">{t('skills_note')}</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {ALL_SKILLS.map(s => (
-              <button key={s} onClick={() => setProfile({...profile, skills: toggleArray(profile.skills, s)})} className={`px-5 py-2.5 rounded-full text-base min-h-[44px] font-medium border transition-colors ${profile.skills.includes(s) ? 'bg-[#FAF0EE] text-[#AE332A] border-[#C73E33]' : 'bg-white text-[#4A4744] border-[#EAE7E1] hover:border-[#DDD8CE]'}`}>{s}</button>
+              <button key={s} onClick={() => setProfile({...profile, skills: toggleArray(profile.skills, s)})} className={`${chipBase} ${profile.skills.includes(s) ? chipOn : chipOff}`}>{s}</button>
             ))}
           </div>
-          <div className="pt-6 border-t border-[#EAE7E1]">
-            <label className="block text-base font-semibold mb-3">{t('institute_label')}</label>
-            <input type="text" value={profile.institute} onChange={e => setProfile({...profile, institute: e.target.value})} placeholder={t('institute_placeholder')} className="w-full border border-[#EAE7E1] px-4 py-4 rounded-[12px] outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30 text-lg" />
+          <div className="pt-3 border-t border-[#F3F4F6]">
+            <label className={LABEL}>{t('institute_label')}</label>
+            <input type="text" value={profile.institute} onChange={e => setProfile({...profile, institute: e.target.value})} placeholder={t('institute_placeholder')} className={INPUT} />
           </div>
-          <button onClick={() => setStep(3)} disabled={profile.skills.length === 0} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] disabled:opacity-50 min-h-[52px]">
+          <button onClick={() => setStep(3)} disabled={profile.skills.length === 0} className={BTN_PRIMARY}>
             {t('next')}
           </button>
         </div>
       )}
 
+      {/* ── Step 3: Safety Rules ── */}
       {step === 3 && (
-        <div className="space-y-6">
-          <div className="bg-[#F6F4EF] border border-[#EAE7E1] p-4 rounded-[12px] flex gap-3 text-[#4A4744]">
-             <Shield className="shrink-0 text-[#1C1B1A]" />
-             <p className="text-sm">{t('safety_note')}</p>
+        <div className="space-y-4">
+          <div className="bg-[#F9FAFB] border border-[#E8E5E0] p-3 rounded-xl flex gap-2.5 text-[#6B7280]">
+             <Shield size={16} className="shrink-0 text-[#111827] mt-0.5" />
+             <p className="text-[12px] leading-relaxed">{t('safety_note')}</p>
           </div>
           
-          <div className="space-y-3">
+          <div className="space-y-2">
             {Object.keys(profile.safetyRules).map((rule, idx) => (
-              <button key={rule} className="w-full flex items-center justify-between p-5 border border-[#EAE7E1] rounded-[14px] hover:border-[#DDD8CE] transition-colors bg-white min-h-[48px] text-left" onClick={() => setProfile({...profile, safetyRules: {...profile.safetyRules, [rule]: !profile.safetyRules[rule]}})}>
-                <span className="text-base font-medium pr-4">{t(['rule_chat', 'rule_calls', 'rule_time', 'rule_photo', 'rule_hours'][idx])}</span>
-                <div className={`shrink-0 w-12 h-7 rounded-full flex items-center p-1 transition-colors ${profile.safetyRules[rule] ? 'bg-[#C73E33]' : 'bg-[#E3E0D9]'}`}>
-                  <div className={`w-5 h-5 bg-white rounded-full transition-transform ${profile.safetyRules[rule] ? 'translate-x-5' : 'translate-x-0'}`}></div>
+              <button key={rule} className="w-full flex items-center justify-between px-3.5 py-3 border border-[#E8E5E0] rounded-xl hover:border-[#D1D5DB] transition-colors bg-white text-left group" onClick={() => setProfile({...profile, safetyRules: {...profile.safetyRules, [rule]: !profile.safetyRules[rule]}})}>
+                <span className="text-[13px] font-medium text-[#374151] pr-3 group-hover:text-[#111827] transition-colors">{t(['rule_chat', 'rule_calls', 'rule_time', 'rule_photo', 'rule_hours'][idx])}</span>
+                <div className={`shrink-0 w-9 h-5 rounded-full flex items-center p-0.5 transition-colors duration-200 ${profile.safetyRules[rule] ? 'bg-[#C73E33]' : 'bg-[#D1D5DB]'}`}>
+                  <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200 ${profile.safetyRules[rule] ? 'translate-x-4' : 'translate-x-0'}`}></div>
                 </div>
               </button>
             ))}
           </div>
 
-          <div className="pt-6">
-            <button onClick={() => onComplete(profile)} className="w-full bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-lg hover:bg-[#AE332A] min-h-[52px]">
+          <div className="pt-2">
+            <button onClick={() => onComplete(profile)} className={BTN_PRIMARY}>
               {t('btn_create_wp')}
             </button>
           </div>

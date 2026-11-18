@@ -9,9 +9,13 @@ import { useNow } from '../hooks/useNow.js';
 import { CHAT_CANNED, seedThread } from '../services/chat.js';
 import { QUIET_DEFAULT, isQuietActive } from '../services/quietHours.js';
 import { copyToClipboard } from '../utils/clipboard.js';
-import { initialsOf } from '../utils/format.js';
-
-
+import { initialsOf, spClock } from '../utils/format.js';
+const messageTimestamp = (ts, lang) => {
+  const date = new Date(ts);
+  if (Number.isNaN(date.getTime())) return null;
+  const dateTime = date.toISOString();
+  return { dateTime, label: spClock(dateTime, lang) };
+};
 
 export function ChatView({ t, lang, job, user, navTo, showToast, chats, updateChat, setEvidence, workrooms = {}, setWorkrooms = () => {}, simple = false, chatDrafts = {}, setChatDrafts = () => {}, getClientAction, clientAction = {}, setClientAction = () => {}, quiet = QUIET_DEFAULT }) {
   const [endOpen, setEndOpen] = useState(false);
@@ -99,81 +103,97 @@ export function ChatView({ t, lang, job, user, navTo, showToast, chats, updateCh
 
   const openChecker = (text = "", auto = false) => setChecker({ text, auto, n: Date.now() });
   const CheckBtn = ({ withLabel, className = "" }) => (
-    <button type="button" onClick={() => openChecker()} aria-label={t('chat_check')} className={`shrink-0 flex items-center justify-center gap-2 rounded-full font-semibold text-base border border-[#E3E0D9] bg-white text-[#1C1B1A] hover:border-[#DDD8CE] min-h-[48px] ${withLabel ? 'px-4' : 'w-12'} ${className}`}>
-      <Shield size={20} className="text-[#C73E33]" />{withLabel && <span>{t('chat_check')}</span>}
+    <button type="button" onClick={() => openChecker()} aria-label={t('chat_check')} className={`shrink-0 flex items-center justify-center gap-1.5 rounded-full font-semibold text-[13px] border border-[#E8E5E0] bg-white text-[#1C1B1A] hover:border-[#D1D5DB] hover:bg-[#F9F9F7] transition-all ${withLabel ? 'h-9 px-3' : 'w-9 h-9'} ${className}`}>
+      <Shield size={16} className="text-[#C73E33]" />{withLabel && <span className="hidden sm:inline">{t('chat_check')}</span>}
     </button>
   );
 
   return (
-    <div className="max-w-[800px] mx-auto">
-      <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-4 sm:p-5 mb-5">
-      <div className="flex items-center gap-3">
-        <button onClick={() => navTo('opportunities', { tab: 'applied' })} aria-label={t('back')} className="shrink-0 flex items-center gap-1 text-base font-semibold text-[#4A4744] hover:text-[#1C1B1A] min-h-[48px] -ml-1 pr-1"><ChevronLeft size={20} /><span className="hidden sm:inline">{t('back')}</span></button>
-        <div className="shrink-0 w-11 h-11 rounded-full bg-[#FAF0EE] text-[#AE332A] font-semibold text-base flex items-center justify-center">{initialsOf((job.clientName || '').replace(/[()]/g, ''))}</div>
-        <div className="min-w-0 flex-1">
-          <div className="font-semibold text-lg leading-snug truncate">{job.clientName}</div>
-          <div className="text-sm text-[#6E6963] truncate">{job.title}</div>
+    <div className="mx-auto flex h-[calc(100dvh-9rem)] min-h-[320px] max-h-[720px] w-full max-w-[720px] flex-col sm:h-[calc(100dvh-9rem)]">
+      {/* ── Client info header ── */}
+      <div className="mb-2 shrink-0 rounded-xl border border-[#E8E5E0] bg-white">
+        <div className="flex items-center gap-2.5 px-3 py-2.5 sm:px-4 sm:py-3">
+          <button onClick={() => navTo('opportunities', { tab: 'applied' })} aria-label={t('back')} className="shrink-0 flex items-center gap-0.5 text-[13px] font-semibold text-[#6B7280] hover:text-[#111827] transition-colors h-9 -ml-0.5 pr-1">
+            <ChevronLeft size={18} /><span className="hidden sm:inline">{t('back')}</span>
+          </button>
+          <div className="shrink-0 w-9 h-9 rounded-full bg-[#FCF0EE] text-[#C73E33] font-semibold text-[13px] flex items-center justify-center">{initialsOf((job.clientName || '').replace(/[()]/g, ''))}</div>
+          <div className="min-w-0 flex-1">
+            <div className="font-semibold text-[14px] leading-snug truncate text-[#111827]">{job.clientName}</div>
+            <div className="text-[12px] text-[#9CA3AF] truncate leading-snug">{job.title}</div>
+          </div>
+          <CheckBtn withLabel />
         </div>
-        <CheckBtn withLabel />
-      </div>
-        <div className="mt-3 pt-3 border-t border-[#EAE7E1] flex flex-wrap items-center justify-between gap-2 relative" ref={menuRef}>
-        {hasClientMsg && !blocked && <button type="button" onClick={() => setEndOpen(true)} className="inline-flex items-center justify-center gap-2 rounded-full border border-[#E3E0D9] bg-white text-[#1C1B1A] font-semibold text-base hover:bg-[#F6F4EF] min-h-[48px] px-4 text-left"><Ban size={18} className="shrink-0 text-[#C73E33]" /> <span>{t('sp_es_btn')}</span></button>}
-          <button type="button" onClick={() => setMenuOpen(o => !o)} aria-haspopup="menu" aria-expanded={menuOpen} className="ml-auto flex items-center gap-2 rounded-full font-semibold text-base text-[#1C1B1A] border border-[#E3E0D9] bg-white hover:border-[#DDD8CE] min-h-[48px] px-4"><MoreVertical size={20} /> <span>{t('ca_options')}</span></button>
+        <div className="relative flex flex-wrap items-center justify-between gap-2 border-t border-[#F3F4F6] px-3 py-2 sm:px-4" ref={menuRef}>
+          {hasClientMsg && !blocked && <button type="button" onClick={() => setEndOpen(true)} className="inline-flex h-8 items-center justify-center gap-1.5 rounded-full border border-[#F2DBD7] bg-[#FFF5F5] px-3 text-left text-[12px] font-semibold text-[#C73E33] hover:bg-[#FEECEC] transition-colors">
+            <Ban size={14} className="shrink-0" /> <span>{t('sp_es_btn')}</span>
+          </button>}
+          <button type="button" onClick={() => setMenuOpen(o => !o)} aria-haspopup="menu" aria-expanded={menuOpen} className="ml-auto flex h-8 items-center gap-1.5 rounded-full border border-[#E8E5E0] bg-white px-3 text-[12px] font-semibold text-[#374151] hover:border-[#D1D5DB] hover:bg-[#F9F9F7] transition-all">
+            <MoreVertical size={15} /> <span>{t('ca_options')}</span>
+          </button>
           {menuOpen && (
-            <div role="menu" className="absolute right-0 top-full mt-2 w-[min(280px,calc(100vw-32px))] bg-white border border-[#EAE7E1] rounded-[16px] shadow-[0_8px_24px_rgba(28,27,26,0.08)] overflow-hidden z-40 text-left">
-              <button role="menuitem" onClick={() => { setMenuOpen(false); toggleMute(); }} className="w-full text-left px-5 py-3 min-h-[48px] text-base text-[#1C1B1A] hover:bg-[#F6F4EF] border-b border-[#EAE7E1] flex items-center gap-3"><BellOff size={20} className="shrink-0" /> {muted ? t('ca_unmute') : t('ca_mute')}</button>
-              <button role="menuitem" onClick={() => { setMenuOpen(false); toggleBlock(); }} className="w-full text-left px-5 py-3 min-h-[48px] text-base text-[#1C1B1A] hover:bg-[#F6F4EF] border-b border-[#EAE7E1] flex items-center gap-3"><Ban size={20} className="shrink-0" /> {blocked ? t('ca_unblock') : t('ca_block')}</button>
-              <button role="menuitem" onClick={() => { setMenuOpen(false); setReportOpen(true); }} className="w-full text-left px-5 py-3 min-h-[48px] text-base text-[#1C1B1A] hover:bg-[#F6F4EF] flex items-center gap-3"><Flag size={20} className="shrink-0" /> {t('ca_report')}{report ? ' ✓' : ''}</button>
+            <div role="menu" className="absolute right-0 top-full mt-1.5 w-[min(260px,calc(100vw-32px))] bg-white border border-[#E5E7EB] rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.08)] overflow-hidden z-40 text-left">
+              <button role="menuitem" onClick={() => { setMenuOpen(false); toggleMute(); }} className="w-full text-left px-3.5 py-2.5 text-[13px] text-[#374151] hover:bg-[#F9F9F7] border-b border-[#F3F4F6] flex items-center gap-2.5 transition-colors"><BellOff size={15} className="shrink-0 text-[#9CA3AF]" /> {muted ? t('ca_unmute') : t('ca_mute')}</button>
+              <button role="menuitem" onClick={() => { setMenuOpen(false); toggleBlock(); }} className="w-full text-left px-3.5 py-2.5 text-[13px] text-[#374151] hover:bg-[#F9F9F7] border-b border-[#F3F4F6] flex items-center gap-2.5 transition-colors"><Ban size={15} className="shrink-0 text-[#9CA3AF]" /> {blocked ? t('ca_unblock') : t('ca_block')}</button>
+              <button role="menuitem" onClick={() => { setMenuOpen(false); setReportOpen(true); }} className="w-full text-left px-3.5 py-2.5 text-[13px] text-[#374151] hover:bg-[#F9F9F7] flex items-center gap-2.5 transition-colors"><Flag size={15} className="shrink-0 text-[#9CA3AF]" /> {t('ca_report')}{report ? ' ✓' : ''}</button>
             </div>
           )}
         </div>
       </div>
 
       {endReport && (
-        <div className="bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] p-5 mb-5">
-          <h2 className="font-semibold text-lg mb-3">{t('sp_es_rep_title')}</h2>
-          <p className="text-base text-[#1C1B1A] bg-white border border-[#EAE7E1] rounded-[14px] p-4 mb-4 break-words">{endReport}</p>
-          <button type="button" onClick={async () => { await copyToClipboard(endReport); showToast(t('sh_copied')); }} className="inline-flex items-center justify-center gap-2 bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px] px-6">{t('sh_copy')}</button>
+        <div className="mb-2 shrink-0 rounded-xl border border-[#F2DBD7] bg-[#FFF5F5] p-3">
+          <h2 className="mb-2 font-semibold text-[14px] text-[#111827]">{t('sp_es_rep_title')}</h2>
+          <p className="mb-2.5 break-words rounded-lg border border-[#E8E5E0] bg-white p-2.5 text-[13px] text-[#374151] leading-relaxed">{endReport}</p>
+          <button type="button" onClick={async () => { await copyToClipboard(endReport); showToast(t('sh_copied')); }} className="inline-flex h-8 items-center justify-center gap-1.5 rounded-full bg-[#C73E33] px-4 text-[13px] font-semibold text-white hover:bg-[#AE332A] transition-colors">{t('sh_copy')}</button>
         </div>
       )}
 
-      <div role="log" aria-label={t('chat_thread_label')} className="space-y-4 pb-4">
-        {thread.map((m, i) => m.from === 'client' ? (
-          <div key={i} className="flex flex-col items-start">
-            <div className="max-w-[85%] bg-white border border-[#EAE7E1] rounded-[20px] rounded-bl-[6px] px-4 py-3 text-base text-[#1C1B1A] break-words">{m.text}</div>
-            <button onClick={() => openChecker(m.text, true)} className="flex items-center gap-1.5 text-sm font-semibold text-[#6E6963] hover:text-[#1C1B1A] min-h-[44px] px-1"><Shield size={14} /> {t('chat_check_msg')}</button>
-          </div>
-        ) : (
-          <div key={i} className="flex justify-end">
-            <div className="max-w-[85%] bg-[#FAF0EE] border border-[#F3E1DD] rounded-[20px] rounded-br-[6px] px-4 py-3 text-base text-[#1C1B1A] break-words">{m.text}</div>
-          </div>
-        ))}
-        {muted && <p className="flex items-start justify-center gap-2 text-center text-base text-[#6E6963] bg-[#F6F4EF] border border-[#EAE7E1] rounded-[14px] px-4 py-3"><BellOff size={18} className="shrink-0 mt-0.5" /> <span>{t('ca_muted_note')}</span></p>}
+      {/* ── Conversation area ── */}
+      <div role="log" aria-live="polite" aria-relevant="additions" aria-label={t('chat_thread_label')} className="min-h-0 flex-1 space-y-2.5 overflow-y-auto scroll-smooth px-1 py-2 scrollbar-thin">
+        {thread.map((m, i) => {
+          const time = messageTimestamp(m.ts, lang);
+          return m.from === 'client' ? (
+            <div key={i} className="flex flex-col items-start">
+              <div className="max-w-[80%] whitespace-pre-wrap break-words rounded-2xl rounded-bl-sm border border-[#E8E5E0] bg-white px-3.5 py-2.5 text-[14px] leading-[1.6] text-[#252525]">{m.text}</div>
+              <div className="flex items-center gap-2.5 px-1 mt-1">
+                {time && <time dateTime={time.dateTime} className="text-[11px] text-[#9CA3AF]">{time.label}</time>}
+                <button onClick={() => openChecker(m.text, true)} className="flex items-center gap-1 text-[11px] font-medium text-[#9CA3AF] hover:text-[#C73E33] transition-colors"><Shield size={12} /> {t('chat_check_msg')}</button>
+              </div>
+            </div>
+          ) : (
+            <div key={i} className="flex flex-col items-end">
+              <div className="max-w-[80%] whitespace-pre-wrap break-words rounded-2xl rounded-br-sm bg-[#FCF0EE] border border-[#F2DBD7] px-3.5 py-2.5 text-[14px] leading-[1.6] text-[#252525]">{m.text}</div>
+              {time && <time dateTime={time.dateTime} className="mt-1 px-1 text-[11px] text-[#9CA3AF]">{time.label}</time>}
+            </div>
+          );
+        })}
+        {muted && <p className="flex shrink-0 items-center justify-center gap-2 rounded-lg border border-[#E8E5E0] bg-[#F9F9F7] px-3 py-2 text-center text-[12px] text-[#9CA3AF]"><BellOff size={14} className="shrink-0" /> <span>{t('ca_muted_note')}</span></p>}
         <div ref={endRef} />
       </div>
 
+      {/* ── Message composer ── */}
       {blocked ? (
-        <div className="sticky bottom-0 z-30 bg-[#FBFAF8] pt-3 pb-3 border-t border-[#EAE7E1]">
-          <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-4 flex flex-col sm:flex-row sm:items-center gap-3">
-            <p className="flex-1 flex items-start gap-3 text-base text-[#1C1B1A]"><Ban size={20} className="shrink-0 mt-0.5 text-[#6E6963]" /> <span>{t('ca_blocked_bar')}</span></p>
-            <button type="button" onClick={toggleBlock} className="shrink-0 border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:border-[#DDD8CE] min-h-[48px] px-6">{t('ca_unblock')}</button>
+        <div className="sticky bottom-0 z-30 shrink-0 border-t border-[#E8E5E0] bg-[#FAF9F7]/95 py-2.5 backdrop-blur-sm">
+          <div className="flex flex-col gap-2 rounded-xl border border-[#E8E5E0] bg-white p-2.5 sm:flex-row sm:items-center">
+            <p className="flex flex-1 items-center gap-2 text-[13px] text-[#374151]"><Ban size={15} className="shrink-0 text-[#9CA3AF]" /> <span>{t('ca_blocked_bar')}</span></p>
+            <button type="button" onClick={toggleBlock} className="h-8 shrink-0 rounded-full border border-[#E8E5E0] bg-white px-4 text-[13px] font-semibold text-[#374151] hover:border-[#D1D5DB] hover:bg-[#F9F9F7] transition-all">{t('ca_unblock')}</button>
           </div>
         </div>
       ) : (
-        <div className="sticky bottom-0 z-30 bg-[#FBFAF8] pt-3 pb-3 border-t border-[#EAE7E1]">
+        <div className="sticky bottom-0 z-30 shrink-0 border-t border-[#E8E5E0] bg-[#FAF9F7]/95 py-2.5 backdrop-blur-sm">
           {quietNow && (
-            <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-4 mb-3">
-              <h2 className="font-semibold text-base mb-2 flex items-start gap-2"><Moon size={18} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('sp_qh_card_title')}</span></h2>
-              <p className="text-base text-[#4A4744] mb-3">{t('sp_qh_draft')}</p>
-              <button type="button" onClick={async () => { await copyToClipboard(t('sp_qh_draft')); showToast(t('sh_copied')); }} className="border border-[#E3E0D9] bg-white text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[44px] px-5">{t('sh_copy')}</button>
+            <div className="mb-2 rounded-xl border border-[#E8E5E0] bg-white p-2.5">
+              <h2 className="mb-1.5 flex items-center gap-1.5 text-[13px] font-semibold text-[#111827]"><Moon size={15} className="shrink-0 text-[#C73E33]" /> <span>{t('sp_qh_card_title')}</span></h2>
+              <p className="mb-2 text-[12px] text-[#6B7280] leading-relaxed">{t('sp_qh_draft')}</p>
+              <button type="button" onClick={async () => { await copyToClipboard(t('sp_qh_draft')); showToast(t('sh_copied')); }} className="h-8 rounded-full border border-[#E8E5E0] bg-white px-4 text-[12px] font-semibold text-[#374151] hover:bg-[#F9F9F7] transition-colors">{t('sh_copy')}</button>
             </div>
           )}
           <form onSubmit={send} className="flex items-center gap-2">
             <CheckBtn />
-            <input value={draft} onChange={e => changeDraft(e.target.value)} placeholder={t('chat_write')} aria-label={t('chat_write')} className="flex-1 min-w-0 min-h-[48px] border border-[#EAE7E1] bg-white rounded-full px-4 text-base outline-none focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/30" />
-            <button type="submit" className="shrink-0 flex items-center justify-center gap-2 bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px] px-4 sm:px-6"><Send size={18} /> {t('chat_send')}</button>
+            <input value={draft} onChange={e => changeDraft(e.target.value)} placeholder={t('chat_write')} aria-label={t('chat_write')} className="h-10 min-w-0 flex-1 rounded-full border border-[#E8E5E0] bg-white px-4 text-[14px] outline-none placeholder:text-[#9CA3AF] focus:border-[#C73E33] focus:ring-2 focus:ring-[#C73E33]/20 transition-all" />
+            <button type="submit" className="flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#C73E33] px-4 text-[13px] font-semibold text-white hover:bg-[#AE332A] transition-colors sm:px-5"><Send size={15} /> {t('chat_send')}</button>
           </form>
-          {savedDraft && <p className="text-sm text-[#6E6963] mt-2 px-2">{t('pv_draft_saved')}</p>}
+          {savedDraft && <p className="text-[11px] text-[#9CA3AF] mt-1.5 px-2">{t('pv_draft_saved')}</p>}
         </div>
       )}
 

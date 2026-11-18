@@ -24,135 +24,131 @@ export function ExtensionPage({ t, lang, navTo }) {
     }
   };
 
-  const Bang = () => <span className="shrink-0 w-6 h-6 rounded-full bg-[#FAF0EE] text-[#C73E33] text-sm font-bold flex items-center justify-center mt-0.5" aria-hidden="true">!</span>;
-  const Card = ({ title, children, className = "" }) => (
-    <div className={`bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6 ${className}`}>
-      <h2 className="font-semibold text-[22px] mb-5">{title}</h2>
-      {children}
-    </div>
-  );
+  const Bang = () => <span className="shrink-0 w-5 h-5 rounded-full bg-[#FFF5F5] text-[#C73E33] text-[11px] font-bold flex items-center justify-center mt-0.5" aria-hidden="true">!</span>;
 
   return (
-    <div className="max-w-[800px] mx-auto space-y-8">
-      {/* A1 header */}
+    <div className="max-w-[780px] mx-auto space-y-6">
+      {/* ── Header ── */}
       <div>
-        <h1 className="text-[28px] sm:text-[30px] font-semibold mb-3">{t('ex_title')}</h1>
-        <p className="text-lg text-[#4A4744]">{t('ex_intro')}</p>
+        <h1 className="text-[22px] font-semibold mb-1.5 text-[#111827]">{t('ex_title')}</h1>
+        <p className="text-[13px] text-[#6B7280]">{t('ex_intro')}</p>
       </div>
 
-      {/* A2 how it works */}
+      {/* ── How it works ── */}
       <div>
-        <h2 className="font-semibold text-[22px] mb-4">{t('ex_how_title')}</h2>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <h2 className="font-semibold text-[17px] text-[#111827] mb-3">{t('ex_how_title')}</h2>
+        <div className="grid gap-3 sm:grid-cols-3">
           {[1, 2, 3].map(n => (
-            <div key={n} className="bg-white border border-[#EAE7E1] rounded-[20px] p-5 sm:p-6">
-              <span className="w-9 h-9 rounded-full bg-[#FAF0EE] text-[#AE332A] flex items-center justify-center font-semibold mb-3">{num(n)}</span>
-              <p className="text-base text-[#1C1B1A] font-medium">{t('ex_s' + n)}</p>
+            <div key={n} className="bg-white border border-[#E8E5E0] rounded-xl p-3.5">
+              <span className="w-7 h-7 rounded-full bg-[#FFF5F5] text-[#C73E33] flex items-center justify-center text-[13px] font-semibold mb-2">{num(n)}</span>
+              <p className="text-[13px] text-[#374151] font-medium">{t('ex_s' + n)}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* A3 practice simulation */}
+      {/* ── Try it here (practice) ── */}
       <div>
-        <h2 className="font-semibold text-[22px] mb-2">{t('ex_try_title')}</h2>
-        <p className="text-base text-[#4A4744] mb-4">{t('ex_try_line')}</p>
+        <h2 className="font-semibold text-[17px] text-[#111827] mb-1">{t('ex_try_title')}</h2>
+        <p className="text-[12px] text-[#9CA3AF] mb-3">{t('ex_try_line')}</p>
 
-        <div className="inline-flex bg-[#F0EEE9] rounded-full p-1 mb-4" role="group">
+        <div className="inline-flex bg-[#F3F4F6] rounded-full p-0.5 mb-3" role="group">
           {[['job', 'ex_tab_job'], ['chat', 'ex_tab_chat']].map(([k, label]) => (
             <button key={k} onClick={() => switchTab(k)} aria-pressed={tab === k}
-              className={`rounded-full px-5 py-2 text-[15px] font-medium min-h-[44px] transition-all ${tab === k ? 'bg-white text-[#1C1B1A] shadow-[0_1px_2px_rgba(28,27,26,0.08)]' : 'text-[#8A8580] hover:text-[#4A4744]'}`}>
+              className={`rounded-full px-4 py-1.5 text-[12px] font-medium transition-all ${tab === k ? 'bg-white text-[#111827] shadow-sm font-semibold' : 'text-[#9CA3AF] hover:text-[#374151]'}`}>
               {t(label)}
             </button>
           ))}
         </div>
 
         {/* fake browser window */}
-        <div className={`relative bg-white border border-[#EAE7E1] rounded-[20px] overflow-hidden `}>
-          <div className="flex items-center gap-3 px-4 py-3 bg-[#F0EEE9] border-b border-[#EAE7E1]">
-            <div className="flex gap-1.5" aria-hidden="true">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#D8D4CC]" /><span className="w-2.5 h-2.5 rounded-full bg-[#D8D4CC]" /><span className="w-2.5 h-2.5 rounded-full bg-[#D8D4CC]" />
+        <div className="relative bg-white border border-[#E8E5E0] rounded-xl overflow-hidden">
+          <div className="flex items-center gap-2.5 px-3 py-2 bg-[#F3F4F6] border-b border-[#E8E5E0]">
+            <div className="flex gap-1" aria-hidden="true">
+              <span className="w-2 h-2 rounded-full bg-[#D1D5DB]" /><span className="w-2 h-2 rounded-full bg-[#D1D5DB]" /><span className="w-2 h-2 rounded-full bg-[#D1D5DB]" />
             </div>
-            <div className="flex-1 min-w-0 bg-white rounded-full px-4 py-1.5 text-sm text-[#8A8580] truncate">{t(isJob ? 'ex_addr_job' : 'ex_addr_chat')}</div>
+            <div className="flex-1 min-w-0 bg-white rounded-full px-3 py-1 text-[11px] text-[#9CA3AF] truncate">{t(isJob ? 'ex_addr_job' : 'ex_addr_chat')}</div>
           </div>
-          <div className="sm:flex sm:items-start sm:gap-4 sm:p-6">
-          <div className="p-5 sm:p-0 sm:flex-1 sm:min-w-0">
-            <div className="text-sm text-[#8A8580] mb-3">{t(isJob ? 'ex_label_job' : 'ex_label_chat')}</div>
-            {isJob ? (
-              <div className="border border-[#EAE7E1] rounded-[14px] p-4 ">
-                <p className="text-base text-[#1C1B1A] leading-relaxed"><span className={result ? 'bg-[#FAF0EE] underline decoration-[#C73E33]/40' : ''}>{mockText}</span></p>
-              </div>
-            ) : (
-              <div className="bg-[#F0EEE9] rounded-[20px] rounded-tl-md px-4 py-3 ">
-                <p className="text-base text-[#1C1B1A] leading-relaxed"><span className={result ? 'bg-[#FAF0EE] underline decoration-[#C73E33]/40' : ''}>{mockText}</span></p>
+          <div className="sm:flex sm:items-start sm:gap-3 sm:p-4">
+            <div className="p-3.5 sm:p-0 sm:flex-1 sm:min-w-0">
+              <div className="text-[11px] text-[#9CA3AF] mb-2">{t(isJob ? 'ex_label_job' : 'ex_label_chat')}</div>
+              {isJob ? (
+                <div className="border border-[#E8E5E0] rounded-lg p-3">
+                  <p className="text-[13px] text-[#374151] leading-relaxed"><span className={result ? 'bg-[#FFF5F5] underline decoration-[#C73E33]/40' : ''}>{mockText}</span></p>
+                </div>
+              ) : (
+                <div className="bg-[#F3F4F6] rounded-xl rounded-tl-sm px-3 py-2.5">
+                  <p className="text-[13px] text-[#374151] leading-relaxed"><span className={result ? 'bg-[#FFF5F5] underline decoration-[#C73E33]/40' : ''}>{mockText}</span></p>
+                </div>
+              )}
+            </div>
+
+            {/* extension popup overlay */}
+            {result && (
+              <div className="m-2.5 sm:m-0 sm:w-[300px] sm:shrink-0 bg-white border border-[#E8E5E0] rounded-xl p-3.5 shadow-[0_2px_8px_rgba(0,0,0,0.06)]" role="dialog" aria-label="WorkShield">
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <Shield size={16} className="text-[#C73E33]" />
+                  <span className="font-semibold text-[13px] text-[#111827]">WorkShield</span>
+                  <span className="text-[11px] text-[#9CA3AF]">{t('ex_pop_by')}</span>
+                </div>
+                {result.kind === 'job' ? (
+                  <>
+                    <h3 className="text-[14px] font-semibold leading-snug mb-2 text-[#111827]">{t('sh_v_' + result.verdict)}</h3>
+                    <div className="space-y-2 mb-3">
+                      {result.findings.red.map(id => <div key={id} className="flex items-start gap-2 text-[12px] text-[#374151]"><Bang /><span>{t('sh_f_' + id)}</span></div>)}
+                      {result.findings.yellow.map(id => <div key={id} className="flex items-start gap-2 text-[12px] text-[#374151]"><Bang /><span>{t('sh_f_' + id)}</span></div>)}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-[14px] font-semibold leading-snug mb-2 text-[#111827]">{t(result.cats.length ? 'sf_cross_title' : 'sf_ok_title')}</h3>
+                    <div className="space-y-2 mb-3">
+                      {result.cats.map(id => (
+                        <div key={id} className="flex items-start gap-2 text-[12px] text-[#374151]"><Bang />
+                          <span><span className="block font-semibold text-[#111827]">{SAFETY_DATA[id].name[lang]}</span>{SAFETY_DATA[id].expl[lang]}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+                <p className="text-[11px] text-[#9CA3AF] mb-3 flex items-center gap-1"><Lock size={11} className="shrink-0" /> {t('sh_private')}</p>
+                <div className="flex gap-1.5">
+                  <button onClick={() => navTo(result.kind === 'job' ? 'shield' : 'safety')} className="flex-1 bg-[#C73E33] text-white rounded-full font-semibold text-[12px] hover:bg-[#AE332A] h-8 px-2.5 transition-colors">{t(result.kind === 'job' ? 'ex_open_full' : 'ex_open_safety')}</button>
+                  <button onClick={() => setResult(null)} className="bg-white border border-[#E8E5E0] text-[#374151] rounded-full font-semibold text-[12px] hover:bg-[#F9F9F7] h-8 px-3.5 transition-all">{t('ex_close')}</button>
+                </div>
               </div>
             )}
           </div>
-
-          {/* extension-style popup overlay (sits beside the post on wide screens, below it on phones) */}
-          {result && (
-            <div className="m-3 sm:m-0 sm:w-[360px] sm:shrink-0 bg-white border border-[#EAE7E1] rounded-[14px] p-4 shadow-[0_2px_10px_rgba(28,27,26,0.08)]" role="dialog" aria-label="WorkShield">
-              <div className="flex items-center gap-2 mb-3">
-                <Shield size={22} className="text-[#C73E33]" />
-                <span className="font-semibold">WorkShield</span>
-                <span className="text-sm text-[#8A8580]">{t('ex_pop_by')}</span>
-              </div>
-              {result.kind === 'job' ? (
-                <>
-                  <h3 className="text-lg font-semibold leading-snug mb-3">{t('sh_v_' + result.verdict)}</h3>
-                  <div className="space-y-3 mb-4">
-                    {result.findings.red.map(id => <div key={id} className="flex items-start gap-3 text-base"><Bang /><span>{t('sh_f_' + id)}</span></div>)}
-                    {result.findings.yellow.map(id => <div key={id} className="flex items-start gap-3 text-base"><Bang /><span>{t('sh_f_' + id)}</span></div>)}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <h3 className="text-lg font-semibold leading-snug mb-3">{t(result.cats.length ? 'sf_cross_title' : 'sf_ok_title')}</h3>
-                  <div className="space-y-3 mb-4">
-                    {result.cats.map(id => (
-                      <div key={id} className="flex items-start gap-3 text-base"><Bang />
-                        <span><span className="block font-semibold text-[#1C1B1A]">{SAFETY_DATA[id].name[lang]}</span>{SAFETY_DATA[id].expl[lang]}</span>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-              <p className="text-sm text-[#8A8580] mb-4 flex items-center gap-1.5"><Lock size={14} className="shrink-0" /> {t('sh_private')}</p>
-              <div className="flex gap-2">
-                <button onClick={() => navTo(result.kind === 'job' ? 'shield' : 'safety')} className="flex-1 bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[44px] px-3">{t(result.kind === 'job' ? 'ex_open_full' : 'ex_open_safety')}</button>
-                <button onClick={() => setResult(null)} className="bg-white border border-[#E3E0D9] text-[#1C1B1A] rounded-full font-semibold text-base hover:bg-[#F6F4EF] min-h-[44px] px-5">{t('ex_close')}</button>
-              </div>
-            </div>
-          )}
-          </div>
         </div>
 
-        <button onClick={runCheck} className="mt-4 w-full sm:w-auto sm:px-10 bg-[#C73E33] text-white py-3.5 rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[52px] px-5">{t(isJob ? 'ex_btn_job' : 'ex_btn_chat')}</button>
+        <button onClick={runCheck} className="mt-3 w-full sm:w-auto sm:px-6 bg-[#C73E33] text-white rounded-full font-semibold text-[13px] hover:bg-[#AE332A] h-9 px-4 transition-colors">{t(isJob ? 'ex_btn_job' : 'ex_btn_chat')}</button>
       </div>
 
-      {/* A4 install steps */}
-      <Card title={t('ex_inst_title')}>
-        <ol className="space-y-4 text-base text-[#1C1B1A]">
+      {/* ── How to install ── */}
+      <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 sm:p-5">
+        <h2 className="font-semibold text-[17px] text-[#111827] mb-4">{t('ex_inst_title')}</h2>
+        <ol className="space-y-3 text-[13px] text-[#374151]">
           {[1, 2, 3, 4].map(n => (
-            <li key={n} className="flex items-start gap-3">
-              <span className="shrink-0 w-7 h-7 rounded-full bg-[#F0EEE9] flex items-center justify-center text-sm font-semibold">{num(n)}</span>
+            <li key={n} className="flex items-start gap-2.5">
+              <span className="shrink-0 w-5 h-5 rounded-full bg-[#F3F4F6] flex items-center justify-center text-[11px] font-semibold text-[#374151]">{num(n)}</span>
               <span className="flex-1">{t('ex_i' + n)}</span>
             </li>
           ))}
         </ol>
-        <p className="mt-5 text-base font-semibold text-[#1C1B1A] flex items-center gap-2"><Check size={20} className="text-[#C73E33] shrink-0" /> {t('ex_i_note')}</p>
-      </Card>
+        <p className="mt-4 text-[13px] font-semibold text-[#111827] flex items-center gap-1.5"><Check size={15} className="text-[#C73E33] shrink-0" /> {t('ex_i_note')}</p>
+      </div>
 
-      {/* A5 privacy */}
+      {/* ── Your privacy ── */}
       <div>
-        <Card title={t('ex_priv_title')}>
-          <div className="space-y-4 text-base text-[#1C1B1A]">
+        <div className="bg-white border border-[#E8E5E0] rounded-xl p-4 sm:p-5">
+          <h2 className="font-semibold text-[17px] text-[#111827] mb-4">{t('ex_priv_title')}</h2>
+          <div className="space-y-2.5 text-[13px] text-[#374151]">
             {[1, 2, 3].map(n => (
-              <div key={n} className="flex items-start gap-3"><Lock size={20} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('ex_p' + n)}</span></div>
+              <div key={n} className="flex items-start gap-2"><Lock size={15} className="shrink-0 mt-0.5 text-[#C73E33]" /> <span>{t('ex_p' + n)}</span></div>
             ))}
           </div>
-        </Card>
-        <Disclaimer t={t} k="disc_ext" className="mt-4" />
+        </div>
+        <Disclaimer t={t} k="disc_ext" className="mt-3" />
       </div>
     </div>
   );

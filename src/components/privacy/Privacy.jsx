@@ -48,10 +48,10 @@ export function QuickHideScreen({ t, onReturn }) {
   );
 }
 
-export function ToggleKnob({ on }) {
+export function ToggleKnob({ on, compact = false }) {
   return (
-    <div className={`shrink-0 w-12 h-7 rounded-full flex items-center p-1 transition-colors ${on ? 'bg-[#C73E33]' : 'bg-[#E3E0D9]'}`}>
-      <div className={`w-5 h-5 bg-white rounded-full transition-transform ${on ? 'translate-x-5' : 'translate-x-0'}`}></div>
+    <div className={`shrink-0 rounded-full flex items-center transition-colors ${compact ? 'w-10 h-[22px] px-0.5' : 'w-12 h-7 p-1'} ${on ? 'bg-[#C73E33]' : 'bg-[#E3E0D9]'}`}>
+      <div className={`bg-white rounded-full transition-transform ${compact ? 'w-[18px] h-[18px]' : 'w-5 h-5'} ${on ? (compact ? 'translate-x-[18px]' : 'translate-x-5') : 'translate-x-0'}`}></div>
     </div>
   );
 }
@@ -88,18 +88,18 @@ export function PrivacySection({ t, settings, setSettings, onSharedEnabled = () 
   const primaryBtn = "flex-1 bg-[#C73E33] text-white rounded-full font-semibold text-base hover:bg-[#AE332A] min-h-[48px] px-5";
 
   return (
-    <div className="bg-white border border-[#EAE7E1] rounded-[20px] p-6 sm:p-6">
-      <h2 className="font-semibold text-[22px] mb-5">{t('pv_title')}</h2>
-      <div className="space-y-3">
+    <div className="bg-white border border-[#EAE7E1] rounded-xl p-4 sm:p-5">
+      <h2 className="font-semibold text-[17px] mb-3 text-[#111827]">{t('pv_title')}</h2>
+      <div className="space-y-2">
         {/* Shared Device Mode */}
-        <div className="border border-[#EAE7E1] rounded-[14px] bg-white">
-          <button type="button" onClick={toggleShared} role="switch" aria-checked={settings.shared} aria-describedby="pv-shared-desc" className="w-full flex items-center justify-between p-5 pb-3 min-h-[48px] text-left rounded-[14px]">
-            <span className="text-base font-medium pr-4">{t('pv_shared_label')}</span>
-            <ToggleKnob on={settings.shared} />
+        <div className="border border-[#EAE7E1] rounded-xl bg-white">
+          <button type="button" onClick={toggleShared} role="switch" aria-checked={settings.shared} aria-describedby="pv-shared-desc" className="w-full flex items-center justify-between gap-3 px-4 py-2.5 min-h-[44px] text-left rounded-xl">
+            <span className="text-sm font-semibold text-[#1C1B1A] pr-4">{t('pv_shared_label')}</span>
+            <ToggleKnob on={settings.shared} compact />
           </button>
-          <p id="pv-shared-desc" className="px-5 pb-5 text-base text-[#4A4744]">{t('pv_shared_desc')}</p>
+          <p id="pv-shared-desc" className="px-4 pb-3 text-[13px] leading-5 text-[#4A4744]">{t('pv_shared_desc')}</p>
           {mode === 'setup' && (
-            <form onSubmit={savePin} className="px-5 pb-5 space-y-4 border-t border-[#EAE7E1] pt-5">
+            <form onSubmit={savePin} className="px-4 pb-4 space-y-3 border-t border-[#EAE7E1] pt-4">
               <div>
                 <label htmlFor="pv-pin-1" className="block text-base font-semibold mb-2">{t('pv_pin_create')}</label>
                 <input id="pv-pin-1" type="password" inputMode="numeric" autoComplete="off" maxLength={4} value={p1} onChange={e => { setP1(onlyDigits(e.target.value)); setErr(""); }} className={PIN_INPUT_CLASS} />
@@ -116,7 +116,7 @@ export function PrivacySection({ t, settings, setSettings, onSharedEnabled = () 
             </form>
           )}
           {mode === 'off' && (
-            <form onSubmit={turnOff} className="px-5 pb-5 space-y-4 border-t border-[#EAE7E1] pt-5">
+            <form onSubmit={turnOff} className="px-4 pb-4 space-y-3 border-t border-[#EAE7E1] pt-4">
               <div>
                 <label htmlFor="pv-pin-off" className="block text-base font-semibold mb-2">{t('pv_lock_title')}</label>
                 <input id="pv-pin-off" type="password" inputMode="numeric" autoComplete="off" maxLength={4} value={offPin} onChange={e => { setOffPin(onlyDigits(e.target.value)); setErr(""); }} className={PIN_INPUT_CLASS} />
@@ -131,21 +131,21 @@ export function PrivacySection({ t, settings, setSettings, onSharedEnabled = () 
         </div>
 
         {/* Low-Data / Simple Mode */}
-        <div className="border border-[#EAE7E1] rounded-[14px] bg-white">
-          <button type="button" onClick={() => setSettings({ ...settings, simple: !settings.simple })} role="switch" aria-checked={settings.simple} aria-describedby="pv-simple-desc" className="w-full flex items-center justify-between p-5 pb-3 min-h-[48px] text-left rounded-[14px]">
-            <span className="text-base font-medium pr-4">{t('pv_simple_label')}</span>
-            <ToggleKnob on={settings.simple} />
+        <div className="border border-[#EAE7E1] rounded-xl bg-white">
+          <button type="button" onClick={() => setSettings({ ...settings, simple: !settings.simple })} role="switch" aria-checked={settings.simple} aria-describedby="pv-simple-desc" className="w-full flex items-center justify-between gap-3 px-4 py-2.5 min-h-[44px] text-left rounded-xl">
+            <span className="text-sm font-semibold text-[#1C1B1A] pr-4">{t('pv_simple_label')}</span>
+            <ToggleKnob on={settings.simple} compact />
           </button>
-          <p id="pv-simple-desc" className="px-5 pb-5 text-base text-[#4A4744]">{t('pv_simple_desc')}</p>
+          <p id="pv-simple-desc" className="px-4 pb-3 text-[13px] leading-5 text-[#4A4744]">{t('pv_simple_desc')}</p>
         </div>
 
         {/* Low-Data Mode (real behaviour: compact text-first job cards) */}
-        <div className="border border-[#EAE7E1] rounded-[14px] bg-white">
-          <button type="button" onClick={() => setSettings({ ...settings, lowdata: !settings.lowdata })} role="switch" aria-checked={!!settings.lowdata} aria-describedby="pv-lowdata-desc" className="w-full flex items-center justify-between p-5 pb-3 min-h-[48px] text-left rounded-[14px]">
-            <span className="text-base font-medium pr-4">{t('ld_label')}</span>
-            <ToggleKnob on={!!settings.lowdata} />
+        <div className="border border-[#EAE7E1] rounded-xl bg-white">
+          <button type="button" onClick={() => setSettings({ ...settings, lowdata: !settings.lowdata })} role="switch" aria-checked={!!settings.lowdata} aria-describedby="pv-lowdata-desc" className="w-full flex items-center justify-between gap-3 px-4 py-2.5 min-h-[44px] text-left rounded-xl">
+            <span className="text-sm font-semibold text-[#1C1B1A] pr-4">{t('ld_label')}</span>
+            <ToggleKnob on={!!settings.lowdata} compact />
           </button>
-          <p id="pv-lowdata-desc" className="px-5 pb-5 text-base text-[#4A4744]">{t('ld_desc')}</p>
+          <p id="pv-lowdata-desc" className="px-4 pb-3 text-[13px] leading-5 text-[#4A4744]">{t('ld_desc')}</p>
         </div>
       </div>
     </div>
